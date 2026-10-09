@@ -1,9 +1,19 @@
 from pathlib import Path
 from datetime import datetime
+from ultralytics import YOLO
 import cv2
 
 
 def main():
+
+    workspace = Path(__file__).resolve().parents[1]
+    weights_path = (
+        workspace / 'runs' / 'detect'
+        / 'a_box_v2'
+        / 'weights' / 'best.pt'
+    )
+    model = YOLO(str(weights_path))
+
     image_path = (
         Path(__file__).resolve().parents[1]
         /'data'
@@ -34,7 +44,17 @@ def main():
                 print(f'首次帧尺寸:{frame.shape}')
                 first_frame = False
 
-            cv2.imshow('SO101 camera', frame)
+            result = model.predict(
+                source=frame,
+                conf=0.25,
+                imgsz=640,
+                device='cpu',
+                verbose=False,
+                save=False,
+            )[0]
+
+            display_frame = result.plot()
+            cv2.imshow('SO101 camera', display_frame)
 
             key = cv2.waitKey(1) & 0xFF
 

@@ -1,0 +1,6 @@
+path: /home/yu/so101_ws/datasets/a_box_v1
+train: images/train
+val: images/val
+
+names:
+  0: a_box
