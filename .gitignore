@@ -6,7 +6,7 @@ log/
 # Python 缓存与虚拟环境
 __pycache__/
 *.pyc
-.venv/
+.venv*/
 venv/
 
 # 编辑器缓存和配置
