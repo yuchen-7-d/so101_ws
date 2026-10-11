@@ -54,6 +54,26 @@ def main():
             )[0]
 
             display_frame = result.plot()
+
+            for box in result.boxes:
+                x1, y1, x2, y2 = box.xyxy[0].tolist()
+
+                u = (x1 + x2) / 2
+                v = (y1 + y2) / 2
+
+                center = (round(u), round(v))
+                cv2.circle(display_frame, center, 5, (0, 255, 0), -1)
+
+                cv2.putText(
+                    display_frame,
+                    f'({u:.6f}, {v:.6f})',
+                    (center[0] + 8, center[1] - 8),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (0, 255, 0),
+                    1,
+                )
+
             cv2.imshow('SO101 camera', display_frame)
 
             key = cv2.waitKey(1) & 0xFF
