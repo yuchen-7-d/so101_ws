@@ -22,6 +22,7 @@ def main():
     object_points = []
     image_points = []
     image_size = None
+    used_image_paths = []
 
     criteria = (
         cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_MAX_ITER,
@@ -58,11 +59,47 @@ def main():
 
         object_points.append(object_template.copy())
         image_points.append(refined_corners)
+        used_image_paths.append(image_path)
 
-    print(
-        f'有效照片:{len(image_points)}/{len(image_paths)},'
-        f'图像尺寸:{image_size}'
+    if not image_points:
+        raise RuntimeError('没有可用于标定的照片')
+
+    rms, camera_matrix, dist_coeffs, rvecs, tvecs = cv2.calibrateCamera(
+        object_points,
+        image_points,
+        current_size,
+        None,
+        None,
     )
+
+    per_view_errors = []
+
+    for i in range(len(image_points)):
+        projected, _ = cv2.projectPoints(
+            object_points[i],
+            rvecs[i],
+            tvecs[i],
+            camera_matrix,
+            dist_coeffs,
+        )
+
+        residual = (
+            image_points[i].reshape(-1,2)
+            - projected.reshape(-1,2)
+        )
+        error = float(
+            np.sqrt(np.mean(np.sum(residual ** 2, axis=1)))
+        )
+
+        per_view_errors.append(
+            (error, used_image_paths[i].name)
+        )
+
+    per_view_errors.sort(reverse=True)
+
+    print(f'逐图误差最高3张 (有效{len(per_view_errors)}张)')
+    for error, name in per_view_errors[:3]:
+        print(f'{name}:{error:.4f}像素')
 
     print(
         f'照片:{len(image_paths)},'
