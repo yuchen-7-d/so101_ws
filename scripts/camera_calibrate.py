@@ -72,6 +72,18 @@ def main():
         None,
     )
 
+    calibration_path = image_dir.parent / 'camera_calibration.npz'
+
+    np.savez(
+        calibration_path,
+        camera_matrix=camera_matrix,
+        dist_coeffs=dist_coeffs,
+        image_size=image_size,
+        rms=rms,
+    )
+
+    print(f'图像参数已保存:{calibration_path}')
+
     per_view_errors = []
 
     for i in range(len(image_points)):
@@ -100,6 +112,23 @@ def main():
     print(f'逐图误差最高3张 (有效{len(per_view_errors)}张)')
     for error, name in per_view_errors[:3]:
         print(f'{name}:{error:.4f}像素')
+
+    preview_path = image_dir / 'chessboard_20261011_193551_518069.png'
+    original = cv2.imread(str(preview_path))
+
+    if original is None:
+        raise RuntimeError('预览照片读取失败')
+
+    corrected = cv2.undistort(
+        original,
+        camera_matrix,
+        dist_coeffs,
+    )
+
+    comparison = np.hstack((original,corrected))
+    cv2.imshow('original | Undistorted', comparison)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     print(
         f'照片:{len(image_paths)},'
