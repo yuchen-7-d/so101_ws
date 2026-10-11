@@ -10,6 +10,10 @@ def main():
         / 'camera_calibration.npz'
     )
 
+    plane_pose_path = (
+        calibration_path.parent / 'table_plane_pose.npz'
+    )
+
     with np.load(calibration_path, allow_pickle=False) as calibration:
         camera_matrix = calibration['camera_matrix']
         dist_coeffs = calibration['dist_coeffs']
@@ -86,7 +90,7 @@ def main():
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):
                 break
-            elif key == ord('p'):
+            elif key in (ord('p'), ord('s')):
                 if not found or not pose_ok:
                     print('当前帧没有有效棋盘位姿')
                     continue
@@ -112,6 +116,25 @@ def main():
                     f'棋盘原点相机坐标(m):({x:.4f}, {y:.4f}, {z:.4f}),'
                     f'重投影RMS:{pose_rms:.4f}像素'
                 )
+
+                if key == ord('s'):
+                    if plane_pose_path.exists():
+                        print('参数位姿文件已存在，不覆盖')
+                        continue
+
+                np.savez(
+                    plane_pose_path,
+                    rvec=rvec,
+                    tvec=tvec,
+                    camera_matrix=camera_matrix,
+                    dist_coeffs=dist_coeffs,
+                    image_size=np.asanyarray(image_size),
+                    pattern_size=np.asanyarray(pattern_size),
+                    square_size_m=square_size_m,
+                    pose_rms=pose_rms,
+                    transform_direction='board_to_camera',
+                )
+                print(f'已保存桌面参考位姿:{plane_pose_path}')
 
     finally:
         cap.release()
