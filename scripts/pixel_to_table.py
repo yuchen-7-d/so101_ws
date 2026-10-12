@@ -88,6 +88,46 @@ def main():
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):
                 break
+            elif key == ord('v'):
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                found, corners = cv2.findChessboardCorners(gray, (6,9))
+
+                if not found:
+                    print('未找到棋盘')
+                    continue
+
+                criteria = (
+                    cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_MAX_ITER,
+                    30,
+                    0.001,
+                )
+                refined_corners = cv2.cornerSubPix(
+                    gray,corners,(5,5),(-1,-1),criteria
+                )
+
+                pixels = refined_corners.reshape(-1,2)
+                indices = (0,5,48)
+                points = []
+
+                for index in indices:
+                    u, v = pixels[index]
+                    point = pixel_to_table(
+                        u, v, camera_matrix, dist_coeffs,
+                        rotation, camera_origin_table,
+                    )
+                    if point is None:
+                        break
+                    points.append(point)
+
+                if len(points) != 3:
+                    print('桌面求交失败')
+                    continue
+
+                row_mm = np.linalg.norm(points[1]-points[0]) * 1000
+                col_mm = np.linalg.norm(points[2]-points[0]) * 1000
+
+                print(f'棋盘行方向跨度:{row_mm:.2f}毫米，参考135毫米')
+                print(f'棋盘列方向跨度:{col_mm:.2f}毫米，参考216毫米')
 
     finally:
         cv2.destroyAllWindows()
