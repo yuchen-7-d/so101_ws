@@ -122,19 +122,19 @@ def main():
                         print('参数位姿文件已存在，不覆盖')
                         continue
 
-                np.savez(
-                    plane_pose_path,
-                    rvec=rvec,
-                    tvec=tvec,
-                    camera_matrix=camera_matrix,
-                    dist_coeffs=dist_coeffs,
-                    image_size=np.asanyarray(image_size),
-                    pattern_size=np.asanyarray(pattern_size),
-                    square_size_m=square_size_m,
-                    pose_rms=pose_rms,
-                    transform_direction='board_to_camera',
-                )
-                print(f'已保存桌面参考位姿:{plane_pose_path}')
+                    np.savez(
+                        plane_pose_path,
+                        rvec=rvec,
+                        tvec=tvec,
+                        camera_matrix=camera_matrix,
+                        dist_coeffs=dist_coeffs,
+                        image_size=np.asanyarray(image_size),
+                        pattern_size=np.asanyarray(pattern_size),
+                        square_size_m=square_size_m,
+                        pose_rms=pose_rms,
+                        transform_direction='board_to_camera',
+                    )
+                    print(f'已保存桌面参考位姿:{plane_pose_path}')
 
     finally:
         cap.release()
