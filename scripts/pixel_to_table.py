@@ -2,27 +2,12 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-
-def main():
-    project_dir = Path(__file__).resolve().parents[1]
-    pose_path = (
-        project_dir / 'data' / 'calibration'
-        / 'table_plane_pose.npz'
-    )
-
-    with np.load(pose_path, allow_pickle=False) as pose:
-        camera_matrix = pose['camera_matrix']
-        dist_coeffs = pose['dist_coeffs']
-        rvec = pose['rvec']
-        tvec = pose['tvec'].reshape(3)
-        image_size = tuple(pose['image_size'].tolist())
-
-    rotation, _ = cv2.Rodrigues(rvec)
-    camera_origin_table = -rotation.T @ tvec
-
-    u, v = image_size[0] / 2, image_size[1] / 2
+def pixel_to_table(
+        u, v, camera_matrix, dist_coeffs,
+        rotation, camera_origin_table,
+):
     pixel = np.array([[[u, v]]], dtype=np.float64)
-
+    
     normalized = cv2.undistortPoints(
         pixel,
         camera_matrix,
@@ -44,8 +29,32 @@ def main():
         return
 
     point_table = camera_origin_table + scale * ray_table
+    return point_table
 
-    print(f'桌面交点:{point_table}')
+def main():
+    project_dir = Path(__file__).resolve().parents[1]
+    pose_path = (
+        project_dir / 'data' / 'calibration'
+        / 'table_plane_pose.npz'
+    )
+
+    with np.load(pose_path, allow_pickle=False) as pose:
+        camera_matrix = pose['camera_matrix']
+        dist_coeffs = pose['dist_coeffs']
+        rvec = pose['rvec']
+        tvec = pose['tvec'].reshape(3)
+        image_size = tuple(pose['image_size'].tolist())
+
+    rotation, _ = cv2.Rodrigues(rvec)
+    camera_origin_table = -rotation.T @ tvec
+
+    u, v = image_size[0] / 2, image_size[1] / 2
+    point_table = pixel_to_table(
+        u, v, camera_matrix, dist_coeffs,
+        rotation, camera_origin_table,
+    )
+    if point_table is not None:
+        print(f'桌面交点:{point_table}')
 
 
 if __name__ == '__main__':
