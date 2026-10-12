@@ -2,6 +2,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+
 def pixel_to_table(
         u, v, camera_matrix, dist_coeffs,
         rotation, camera_origin_table,
@@ -48,13 +49,49 @@ def main():
     rotation, _ = cv2.Rodrigues(rvec)
     camera_origin_table = -rotation.T @ tvec
 
-    u, v = image_size[0] / 2, image_size[1] / 2
-    point_table = pixel_to_table(
-        u, v, camera_matrix, dist_coeffs,
-        rotation, camera_origin_table,
-    )
-    if point_table is not None:
-        print(f'桌面交点:{point_table}')
+    def on_mouse(event, x, y, flags, param):
+        if event != cv2.EVENT_LBUTTONDOWN:
+            return
+
+        point_table = pixel_to_table(
+            x, y, camera_matrix, dist_coeffs,
+            rotation, camera_origin_table,
+        )
+        if point_table is not None:
+            print(f'像素:({x},{y})桌面交点:{point_table}')
+
+    cap = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L2)
+
+    try:
+        if not cap.isOpened():
+            raise RuntimeError('摄像头打开失败')
+
+        cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, image_size[0])
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, image_size[1])
+
+        window_name = 'SO101 TABLE CHECK'
+        cv2.namedWindow(window_name, cv2.WINDOW_AUTOSIZE)
+        cv2.setMouseCallback(window_name, on_mouse)
+
+        while True:
+            ok, frame = cap.read()
+
+            if not ok or frame is None:
+                raise RuntimeError('摄像头取帧失败')
+
+            if (frame.shape[1], frame.shape[0]) != image_size:
+                raise RuntimeError('实际画面尺寸与标定尺寸不一致')
+
+            cv2.imshow(window_name, frame)
+
+            key = cv2.waitKey(1) & 0xFF
+            if key == ord('q'):
+                break
+
+    finally:
+        cv2.destroyAllWindows()
+        cap.release()
 
 
 if __name__ == '__main__':
