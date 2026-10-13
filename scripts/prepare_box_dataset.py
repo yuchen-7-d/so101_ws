@@ -1,22 +1,23 @@
 from pathlib import Path
-import random
 import shutil
 
 
 def main():
     workspace = Path(__file__).resolve().parents[1]
-    samples_dir = workspace / 'data' / 'box_samples'
-    dataset_dir = workspace / 'datasets' / 'a_box_v1'
+    train_samples_dir = workspace / 'data' / 'box_samples_v3'
+    val_samples_dir = workspace / 'data' / 'box_samples_v3_val'
+    extra_samples_dir = workspace / 'data' / 'box_samples_v4'
+    dataset_dir = workspace / 'datasets' / 'a_box_v4'
 
     if dataset_dir.exists():
         raise FileExistsError(f'目录已存在:{dataset_dir}')
 
-    image_files = sorted(samples_dir.glob('*.jpg'))
-    random.Random(42).shuffle(image_files)
-
     splits = {
-        'train': image_files[4:],
-        'val': image_files[:4],
+        'train': (
+            sorted(train_samples_dir.glob('*.jpg'))
+            + sorted(extra_samples_dir.glob('*.jpg'))
+        ),
+        'val': sorted(val_samples_dir.glob('*.jpg')),
     }
 
     for split, files in splits.items():

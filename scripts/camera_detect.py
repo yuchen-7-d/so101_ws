@@ -9,7 +9,7 @@ def main():
     workspace = Path(__file__).resolve().parents[1]
     weights_path = (
         workspace / 'runs' / 'detect'
-        / 'a_box_v2'
+        / 'a_box_v4'
         / 'weights' / 'best.pt'
     )
     model = YOLO(str(weights_path))

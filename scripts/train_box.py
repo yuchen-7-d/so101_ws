@@ -6,7 +6,7 @@ def main():
     workspace = Path(__file__).resolve().parents[1]
 
     model_path = workspace / 'models' / 'yolo11n.pt'
-    data_path = workspace / 'datasets' / 'a_box_v1' / 'data.yaml'
+    data_path = workspace / 'datasets' / 'a_box_v4' / 'data.yaml'
 
     model = YOLO(str(model_path))
 
@@ -19,7 +19,7 @@ def main():
         workers=0,
         amp=False,
         project=str(workspace / 'runs' / 'detect'),
-        name='a_box_v2',
+        name='a_box_v4',
     )
 
 

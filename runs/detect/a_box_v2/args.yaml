@@ -1,7 +1,7 @@
 task: detect
 mode: train
 model: /home/yu/so101_ws/models/yolo11n.pt
-data: /home/yu/so101_ws/datasets/a_box_v1/data.yaml
+data: /home/yu/so101_ws/datasets/a_box_v3/data.yaml
 epochs: 100
 time: null
 patience: 100

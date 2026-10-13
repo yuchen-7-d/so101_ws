@@ -5,7 +5,7 @@ import numpy as np
 
 def pixel_to_table(
         u, v, camera_matrix, dist_coeffs,
-        rotation, camera_origin_table,
+        rotation, camera_origin_table,plant_z=0,
 ):
     pixel = np.array([[[u, v]]], dtype=np.float64)
     
@@ -23,7 +23,7 @@ def pixel_to_table(
         print('射线与桌面接近平行，无法稳定求交')
         return
 
-    scale = -camera_origin_table[2] / ray_table[2]
+    scale = (plant_z-camera_origin_table[2]) / ray_table[2]
 
     if scale <= 0:
         print('交点位于相机后方，检查坐标变换')
@@ -49,16 +49,19 @@ def main():
     rotation, _ = cv2.Rodrigues(rvec)
     camera_origin_table = -rotation.T @ tvec
 
+    clicked_pixels = []
+
     def on_mouse(event, x, y, flags, param):
         if event != cv2.EVENT_LBUTTONDOWN:
             return
 
         point_table = pixel_to_table(
             x, y, camera_matrix, dist_coeffs,
-            rotation, camera_origin_table,
+            rotation, camera_origin_table,plant_z=-0.074,
         )
         if point_table is not None:
-            print(f'像素:({x},{y})桌面交点:{point_table}')
+            clicked_pixels.append((x,y))
+            print(f'像素:({x},{y})顶面点:{point_table}')
 
     cap = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L2)
 
@@ -83,7 +86,20 @@ def main():
             if (frame.shape[1], frame.shape[0]) != image_size:
                 raise RuntimeError('实际画面尺寸与标定尺寸不一致')
 
-            cv2.imshow(window_name, frame)
+            display_frame = frame.copy()
+
+            for number, piexl in enumerate(clicked_pixels, start=1):
+                cv2.circle(display_frame, piexl, 3, (0,0,255),-1)
+                cv2.putText(
+                    display_frame,
+                    str(number),
+                    (piexl[0] + 5,piexl[1] - 5),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (0,0,0.255),
+                    1,
+                )
+            cv2.imshow(window_name, display_frame)
 
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):

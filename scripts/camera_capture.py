@@ -9,7 +9,7 @@ def main():
         /'data'
         /'box_test.jpg'
     )
-    samples_dir = image_path.parent / 'box_samples'
+    samples_dir = image_path.parent / 'box_samples_v4'
     samples_dir.mkdir(parents=True, exist_ok=True)
 
     cap = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L2)
