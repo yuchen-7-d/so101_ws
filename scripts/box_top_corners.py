@@ -3,6 +3,7 @@ from ultralytics import YOLO
 from pixel_to_table import pixel_to_table
 import cv2
 import numpy as np
+import json
 
 
 def main():
@@ -180,10 +181,16 @@ def main():
     refined_roi = cv2.cornerSubPix(
         gray,
         corners_roi.copy(),
-        (3,3),
+        (2,2),
         (-1,-1),
         criteria,
     ).reshape(4,2)
+
+    shift_px = np.linalg.norm(
+        refined_roi - corners_roi.reshape(4,2),
+        axis=1,
+    )
+    print(f'角点细化位移(px):{np.round(shift_px, 2)}')
 
     corners_image = refined_roi + (left, top)
 
@@ -202,21 +209,57 @@ def main():
 
     points_table = np.asarray(points_table)
     center_table = points_table.mean(axis=0)
-    print(f'顶面中心:{center_table}')
+
+    final_error_mm = []
 
     for i in range(4):
         j = (i + 1) % 4
-
         length_mm = np.linalg.norm(
             points_table[j] - points_table[i]
         ) * 1000
 
         error_mm = length_mm - 40.0
 
+        final_error_mm.append(abs(error_mm))
+
         print(
             f'边{i}-{j}:{length_mm:.2f}mm,'
             f'偏差:{error_mm:+.2f}mm'
         )
+
+    final_score = max(final_error_mm)
+
+    measurement = None
+
+    if final_score <= max_edges_error_mm:
+        print(f'顶面中心:{center_table}')
+
+        edge_table = points_table[1] - points_table[0]
+
+        edge_yaw_deg = np.degrees(
+            np.arctan2(edge_table[1], edge_table[0])
+        )
+
+        square_yaw_deg = (edge_yaw_deg + 45) % 90.0 - 45.0
+
+        print(f'顶面方向:{square_yaw_deg:.2f}')
+
+        measurement = {
+            'coordinate_system':'table',
+            'center_m':center_table.tolist(),
+            'square_yaw_deg':float(square_yaw_deg),
+            'max_edge_error_mm':float(final_score)
+        }
+
+    else:
+        print(f'细化后的尺寸未通过,最大偏差:{final_score:.2f}mm')
+
+    output_path = workspace / 'data' / 'box_top_measurement.json'
+
+    json_text = json.dumps(measurement, indent=2)
+    output_path.write_text(json_text + '\n', encoding='utf-8')
+
+    print(f'测试结果已保存至:{output_path}')
 
     contour_view = roi.copy()
     cv2.drawContours(
@@ -228,9 +271,35 @@ def main():
             contour_view, quadrilaterals, -1, (0,0,255), 1,
         )
 
-    for u, v in refined_roi:
-        point = (int(round(u)),int(round(v)))
+    for corner_index, (u,v) in enumerate(refined_roi):
+        point = (int(round(u)), int(round(v)))
         cv2.circle(contour_view, point, 2, (255,0,0), -1)
+
+        cv2.putText(
+            contour_view,
+            str(corner_index),
+            (point[0] - 8, point[1] - 8),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.35,(0,0,0),1,
+        )
+
+    if final_score <= max_edges_error_mm:
+        center_pixel, _ = cv2.projectPoints(
+            center_table.reshape(1,3),
+            rvec,tvec,
+            camera_matrix,dist_coeffs,
+        )
+
+        u_center, v_center = center_pixel.reshape(2)
+
+        center_roi = (
+            int(round(u_center - left)),
+            int(round(v_center - top)),
+        )
+
+        cv2.circle(
+            contour_view, center_roi, 3, (0,255,255), -1,
+        )
 
     display_roi = cv2.resize(contour_view, None, fx=3, fy=3)
     display_edges = cv2.resize(
