@@ -19,6 +19,14 @@ def main():
     print(f'顶面中心:{center_m}')
     print(f'顶面方向:{yaw_deg:.2f}')
 
+    x_table, y_table, z_table = center_m
+
+    center_sim_demo = [x_table,-y_table,-z_table]
+    yaw_sim_demo_deg = -yaw_deg
+
+    print(f'仿真演示中心:{center_sim_demo}')
+    print(f'仿真演示方向:{yaw_sim_demo_deg:.2f}')
+
 
 if __name__ == '__main__':
     main()
