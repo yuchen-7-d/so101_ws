@@ -6,6 +6,37 @@ import mujoco.viewer
 import numpy as np
 
 
+def orientation_error_world(current_rotation, target_rotation):
+    delta_rotation = target_rotation @ current_rotation.T
+
+    delta_quat = np.zeros(4)
+    mujoco.mju_mat2Quat(
+        delta_quat, delta_rotation.ravel()
+    )
+
+    error_world = np.zeros(3)
+    mujoco.mju_quat2Vel(
+        error_world, delta_quat, 1.0
+    )
+
+    return error_world
+
+def sample_joint_path(path, progress):
+    progress = np.clip(progress, 0.0, 1.0)
+
+    path_position = progress * (len(path) - 1)
+
+    left_index = min(int(path_position), len(path) - 2,)
+    fraction = path_position - left_index
+
+    q_left = path[left_index]
+    q_right = path[left_index + 1]
+
+    return(
+        (1 - fraction) * q_left
+        + fraction * q_right
+    )
+
 def main():
     workspase = Path(__file__).resolve().parents[1]
     input_path = workspase / 'data' / 'box_top_measurement.json'
@@ -44,6 +75,16 @@ def main():
     )
     if box_joint_id == -1:
         raise RuntimeError('找不到纸盒关节')
+
+    fixed_jaw_geom_id = mujoco.mj_name2id(
+        model,mujoco.mjtObj.mjOBJ_GEOM,'fixed_jaw_tip_collision'
+    )
+    moving_jaw_geom_id = mujoco.mj_name2id(
+        model,mujoco.mjtObj.mjOBJ_GEOM,'moving_jaw_collision'
+    )
+
+    if min(fixed_jaw_geom_id, moving_jaw_geom_id) < 0:
+        raise RuntimeError('找不到夹爪几何碰撞')
 
     box_qpos_adr = model.jnt_qposadr[box_joint_id]
     box_qvel_adr = model.jnt_dofadr[box_joint_id]
@@ -84,6 +125,20 @@ def main():
     pregrasp_target = np.asarray(center_sim_demo,dtype=float).copy()
     pregrasp_clearance = 0.01
     pregrasp_target[2] += pregrasp_clearance
+
+    grasp_depth = 0.010
+
+    grasp_target = np.asarray(
+        center_sim_demo, dtype=float
+    ).copy()
+
+    grasp_target[2] -= grasp_depth
+
+    entry_clearance = 0.001
+    entry_offset = -entry_clearance * box_rotation[:, 0]
+
+    pregrasp_target += entry_offset
+    grasp_target += entry_offset
 
     position_error = pregrasp_target - tcp_position
 
@@ -251,102 +306,127 @@ def main():
     max_combined_iterations = 200
     direction_tolerance_deg = 2.0
 
-    for iteration in range(max_combined_iterations):
-        mujoco.mj_forward(model,trial_data)
+    def solve_pose_ik(
+            ik_data,
+            target_position,
+            target_rotation,
+            position_tol,
+            rotation_tol_deg,
+    ):
 
-        position_error_now = (
-            pregrasp_target - trial_data.site_xpos[tcp_site_id]
+        for iteration in range(max_combined_iterations):
+            mujoco.mj_forward(model,ik_data)
+
+            position_error_now = (
+                target_position - ik_data.site_xpos[tcp_site_id]
+            )
+
+            current_rotation = (
+                ik_data.site_xmat[tcp_site_id].reshape(3,3)
+            )
+
+            rotation_error = orientation_error_world(
+                current_rotation, target_rotation
+            )
+
+            angle_deg = np.rad2deg(np.linalg.norm(rotation_error))
+
+            if(
+                np.linalg.norm(position_error_now) <= position_tol
+                and angle_deg <= rotation_tol_deg
+            ):
+                break
+
+            mujoco.mj_jacSite(
+                model,ik_data,jac_position,jac_rotation,tcp_site_id
+            )
+
+            J_position = jac_position[:, arm_dof_adrs]
+            J_angular = jac_rotation[:, arm_dof_adrs]
+
+            J_combined = np.vstack((
+                J_position,
+                direction_weight * J_angular,
+            ))
+
+            error_combined = np.concatenate((
+                position_error_now,
+                direction_weight * rotation_error
+            ))
+
+            combined_norm = np.linalg.norm(error_combined)
+
+            step_combined = error_combined * min(
+                1.0, max_cart_step / max(combined_norm, 1e-12)
+            )
+
+            combined_matrix = (
+                J_combined @ J_combined.T + damping**2 * np.eye(6)
+            )
+
+            delta_q_comdined = J_combined.T @ np.linalg.solve(
+                combined_matrix, step_combined
+            )
+
+            largest_change = np.max(np.abs(delta_q_comdined))
+            if largest_change > 0.05:
+                delta_q_comdined *= 0.05 / largest_change
+
+            ik_data.qpos[arm_qpos_adrs] = np.clip(
+                ik_data.qpos[arm_qpos_adrs] + delta_q_comdined,
+                joint_limits[:,0],
+                joint_limits[:,1],
+            )
+
+        mujoco.mj_forward(model, ik_data)
+
+        final_position_error = np.linalg.norm(
+            target_position - ik_data.site_xpos[tcp_site_id]
         )
 
-        approach_direction = (
-            trial_data.site_xmat[tcp_site_id].reshape(3,3)[:,0].copy()
-        )
-        direction_error = target_direction - approach_direction
-
-        cos_angle = np.clip(
-            np.dot(approach_direction,target_direction),-1.0,1.0
+        final_rotation = (
+            ik_data.site_xmat[tcp_site_id].reshape(3,3)
         )
 
-        angle_deg = np.rad2deg(np.arccos(cos_angle))
-
-        if(
-            np.linalg.norm(position_error_now) <= position_tolerance
-            and angle_deg <= direction_tolerance_deg
-        ):
-            break
-
-        mujoco.mj_jacSite(
-            model,trial_data,jac_position,jac_rotation,tcp_site_id
+        final_rotation_error = orientation_error_world(
+            final_rotation, target_rotation
         )
 
-        J_angular = jac_rotation[:, arm_dof_adrs]
-
-        J_direction = np.cross(J_angular.T, approach_direction).T
-
-        direction_error = target_direction - approach_direction
-
-        position_error_now = (
-            pregrasp_target - trial_data.site_xpos[tcp_site_id]
-        )
-        J_position = jac_position[:, arm_dof_adrs]
-
-        J_combined = np.vstack((
-            J_position,
-            direction_weight * J_direction,
-        ))
-
-        error_combined = np.concatenate((
-            position_error_now,
-            direction_weight * direction_error,
-        ))
-
-        combined_norm = np.linalg.norm(error_combined)
-
-        step_combined = error_combined * min(
-            1.0, max_cart_step / max(combined_norm, 1e-12)
+        final_rotation_error_deg = np.rad2deg(
+            np.linalg.norm(final_rotation_error)
         )
 
-        combined_matrix = (
-            J_combined @ J_combined.T + damping**2 * np.eye(6)
+        ok = (
+            final_position_error <= position_tol
+            and final_rotation_error_deg <= rotation_tol_deg
         )
 
-        delta_q_comdined = J_combined.T @ np.linalg.solve(
-            combined_matrix, step_combined
-        )
+        return ok, final_position_error, final_rotation_error_deg
 
-        largest_change = np.max(np.abs(delta_q_comdined))
-        if largest_change > 0.05:
-            delta_q_comdined *= 0.05 / largest_change
-
-        trial_data.qpos[arm_qpos_adrs] = np.clip(
-            trial_data.qpos[arm_qpos_adrs] + delta_q_comdined,
-            joint_limits[:,0],
-            joint_limits[:,1],
-        )
-
-    mujoco.mj_forward(model, trial_data)
-
-    new_position_error = np.linalg.norm(
-        pregrasp_target - trial_data.site_xpos[tcp_site_id]
-    )
-
-    new_direction = (
-        trial_data.site_xmat[tcp_site_id].reshape(3,3)[:,0]
-    )
-
-    new_cos = np.clip(
-        np.dot(new_direction, target_direction), -1.0, 1.0
-    )
-    new_angle_deg = np.rad2deg(np.arccos(new_cos))
-
-    combined_ok = (
-        new_position_error <= position_tolerance
-        and new_angle_deg <= direction_tolerance_deg
+    combined_ok, new_position_error, new_angle_deg = solve_pose_ik(
+        trial_data,
+        pregrasp_target,
+        target_rotation,
+        position_tolerance,
+        direction_tolerance_deg,
     )
 
     print(f'联合更新后位置误差:{new_position_error * 1000:.3f} mm')
-    print(f'联合更新后的方向夹角:{new_angle_deg:.2f}')
+    print(f'联合更新后完整姿态误差:{new_angle_deg:.2f}')
     print(f'联合求解通过:{combined_ok}')
+
+    current_rotation = (
+        trial_data.site_xmat[tcp_site_id].reshape(3,3)
+    )
+
+    full_orientation_error = orientation_error_world(
+        current_rotation,target_rotation
+    )
+
+    print(
+        f'完整姿态误差:'
+        f'{np.rad2deg(np.linalg.norm(full_orientation_error)):.2f}'
+    )
 
     start_q = data.qpos[arm_qpos_adrs].copy()
     goal_q = trial_data.qpos[arm_qpos_adrs].copy()
@@ -394,10 +474,121 @@ def main():
     print(f'路径采样数:{num_path_samples}')
     print(f'有接触记录的采样数:{len(contact_sample_ids)}')
 
+    num_descent_samples = 21
+
+    descent_targets = np.linspace(
+        pregrasp_target,
+        grasp_target,
+        num_descent_samples,
+    )
+
+    print(f'下降路径形状:{descent_targets.shape}')
+    print(f'下降起点:{descent_targets[0]}')
+    print(f'下降终点:{descent_targets[-1]}')
+
+    descent_data = mujoco.MjData(model)
+    descent_data.qpos[:] = trial_data.qpos
+
+    gripper_joint_id = mujoco.mj_name2id(
+        model,mujoco.mjtObj.mjOBJ_JOINT,'gripper'
+    )
+
+    if gripper_joint_id == -1:
+        raise RuntimeError('找不到夹爪关节')
+
+    gripper_qpos_adr = model.jnt_qposadr[gripper_joint_id]
+    descent_data.qpos[gripper_qpos_adr] = 0.6
+
+    descent_joint_path = []
+    descent_errors = []
+
+    for index, target_position in enumerate(descent_targets):
+        ok, pos_error, rot_error = solve_pose_ik(
+            descent_data,
+            target_position,
+            target_rotation,
+            0.0002,
+            0.5,
+        )
+
+        if not ok:
+            raise RuntimeError(
+                f'下降采样{index}求解失败'
+                f'位置误差{pos_error * 1000:.3f}mm'
+                f'姿态误差{rot_error:.3f}度'
+            )
+
+        descent_joint_path.append(descent_data.qpos[arm_qpos_adrs].copy())
+        descent_errors.append([pos_error, rot_error])
+
+    descent_joint_path = np.asarray(descent_joint_path)
+    descent_errors = np.asarray(descent_errors)
+
+    print(
+        f'下降关节路径形状:{descent_joint_path.shape}'
+        f'下降最大位置误差:{descent_errors[:, 0].max() * 1000:.3f}mm'
+        f'下降最大姿态误差:{descent_errors[:, 1].max():.3f}'
+    )
+
+    descent_in_ctrl_range = np.all(
+        (descent_joint_path >= ctrl_limits[:, 0])
+        & (descent_joint_path <= ctrl_limits[:, 1])
+    )
+
+    joint_steps = np.diff(
+        descent_joint_path, axis=0
+    )
+
+    max_joint_step_deg = np.rad2deg(
+        np.max(np.abs(joint_steps))
+    )
+
+    print(f'下降角度在控制范围内:{descent_in_ctrl_range}')
+    print(f'下降相邻最大角度变化:{max_joint_step_deg:.3f}度')
+
+    check_data = mujoco.MjData(model)
+    check_data.qpos[:] = descent_data.qpos
+    descent_contacts = []
+
+    for index,joint_angles in enumerate(descent_joint_path):
+        check_data.qpos[arm_qpos_adrs] = joint_angles
+        mujoco.mj_forward(model,check_data)
+
+        for contact_index in range(check_data.ncon):
+            contact = check_data.contact[contact_index]
+
+            names = [
+                mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_GEOM,int(g))
+                or f'geom_{int(g)}'
+                for g in contact.geom
+            ]
+
+            if set(names) == {'a_box_geom', 'floor'}:
+                continue
+
+            descent_contacts.append((
+                index,
+                names[0],
+                names[1],
+                float(contact.dist) * 1000,
+            ))
+
+    print(f'下降额外接触记录:{len(descent_contacts)}')
+
+    if descent_contacts:
+        worst = min(descent_contacts, key=lambda item: item[3])
+        print(f'下降最小接触记录:{worst}')
+
     path_data.qpos[arm_qpos_adrs] = start_q
     mujoco.mj_forward(model,path_data)
 
-    if not combined_ok or not goal_in_ctrl_range or contact_sample_ids:
+    if (
+        not combined_ok 
+        or not goal_in_ctrl_range 
+        or contact_sample_ids
+        or not descent_in_ctrl_range
+        or descent_contacts
+    ):
         raise RuntimeError('求解、控制范围或路径检查未通过')
 
     sim_data = mujoco.MjData(model)
@@ -435,11 +626,44 @@ def main():
     if not low <= gripper_open_angle <= high:
         raise RuntimeError('超出夹爪张开范围')
 
+    probe_data = mujoco.MjData(model)
+    probe_data.qpos[:] = descent_data.qpos
+
+    first_touch_angle = None
+
+    for angule in np.linspace(gripper_open_angle, 0.0, 61):
+        probe_data.qpos[gripper_qpos_adr] = angule
+        mujoco.mj_forward(model, probe_data)
+
+        for contact_index in range(probe_data.ncon):
+            contact = probe_data.contact[contact_index]
+
+            if(
+                set(contact.geom)
+                == {moving_jaw_geom_id, box_geom_id}
+                and contact.dist <= 0.0
+            ):
+                first_touch_angle = float(angule)
+                break
+
+        if first_touch_angle is not None:
+            break
+
+    if first_touch_angle is None:
+        print('采集区间内没有检测到活动爪与纸盒接触')
+    else:
+        print(f'首次活动爪接触角度:{first_touch_angle:.3f}rad')
+
+    return
+
     with mujoco.viewer.launch_passive(model,sim_data) as viewer:
         with viewer.lock():
 
             #viewer.opt.sitegroup[3] = 1
             #viewer.opt.frame = mujoco.mjtFrame.mjFRAME_SITE
+            viewer.opt.geomgroup[2] = 0
+            viewer.opt.geomgroup[3] = 1
+            viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONVEXHULL] = 1
 
             mujoco.mjv_initGeom(
                 viewer.user_scn.geoms[0],
@@ -455,6 +679,10 @@ def main():
         steps_per_frame = 10
         open_start_time = duration + 1
         open_duration = 1
+        descent_start_time = (
+            open_start_time + open_duration + 1
+        )
+        descent_duration = 3
 
         while viewer.is_running():
             frame_start = time.monotonic()
@@ -466,6 +694,17 @@ def main():
                     target_q = (
                         (1.0 - alpha) * start_q + alpha *goal_q
                     )
+
+                    if sim_data.time >= descent_start_time:
+                        descent_progress = (
+                            (sim_data.time - descent_start_time)
+                            / descent_duration
+                        )
+
+                        target_q = sample_joint_path(
+                            descent_joint_path, descent_progress
+                        )
+
                     sim_data.ctrl[arm_actuator_ids] = target_q
 
                     open_alpha = np.clip(
@@ -501,34 +740,34 @@ def main():
     print(f'额外接触对数量:{len(unexpected_pairs)}')
     print(f'额外接触数对:{sorted(unexpected_pairs)}')
 
-    if sim_data.time < open_duration + open_start_time + 1:
+    if sim_data.time < descent_start_time + descent_duration + 1:
         print('保持时间不足，请运行更久后关闭窗口')
         return
 
     mujoco.mj_forward(model,sim_data)
 
     actual_q = sim_data.qpos[arm_qpos_adrs].copy()
-    joint_error_deg = np.rad2deg(goal_q - actual_q)
+    joint_error_deg = np.rad2deg(descent_joint_path[-1] - actual_q)
     max_joint_error_deg = np.max(np.abs(joint_error_deg))
 
     actual_tcp = sim_data.site_xpos[tcp_site_id].copy()
     tcp_error_mm = np.linalg.norm(
-        pregrasp_target - actual_tcp
+        grasp_target - actual_tcp
     ) * 1000
 
     print(f'最大关节角度误差:{max_joint_error_deg:.3f}')
     print(f'动力学末端位置误差:{tcp_error_mm:.3f}')
 
-    actual_direction =(
-        sim_data.site_xmat[tcp_site_id].reshape(3,3)[:,0]
+    actual_rotation = (
+        sim_data.site_xmat[tcp_site_id].reshape(3, 3)
     )
 
-    direction_cos = np.clip(
-        np.dot(actual_direction,target_direction),-1.0,1.0
+    actual_rotation_error = orientation_error_world(
+        actual_rotation, target_rotation
     )
 
-    direction_error_deg = np.rad2deg(
-        np.arccos(direction_cos)
+    actual_rotation_error_deg = np.rad2deg(
+        np.linalg.norm(actual_rotation_error)
     )
 
     actual_joint_speed = sim_data.qvel[arm_dof_adrs]
@@ -536,7 +775,7 @@ def main():
         np.abs(np.rad2deg(actual_joint_speed))
     )
 
-    print(f'动力学方向夹角:{direction_error_deg:.3f}')
+    print(f'动力学完整姿态误差:{actual_rotation_error_deg:.3f}')
     print(f'最大关节速度:{max_joint_speed_deg_s:.3f}')
 
     gripper_joint_id = mujoco.mj_name2id(

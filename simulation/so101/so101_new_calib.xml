@@ -106,7 +106,9 @@
                 <geom type="mesh" class="collision" pos="0.0077 0.0001 -0.0234" quat="0.707107 -0.707107 1.66015e-15 6.45094e-15" mesh="sts3215_03a_v1" material="sts3215_03a_v1_material"/>
                 <!-- Part wrist_roll_follower_so101_v1 -->
                 <geom type="mesh" class="visual" pos="8.32667e-17 -0.000218214 0.000949706" quat="0 1 0 0" mesh="wrist_roll_follower_so101_v1" material="wrist_roll_follower_so101_v1_material"/>
-                <geom type="mesh" class="collision" pos="8.32667e-17 -0.000218214 0.000949706" quat="0 1 0 0" mesh="wrist_roll_follower_so101_v1" material="wrist_roll_follower_so101_v1_material"/>
+                <geom name="fixed_jaw_mount_collision" class="collision" type="box" pos="-0.0026 -0.002 -0.018564" size="0.0326 0.026 0.019564" rgba="0 0.8 0.8 0.45"/>
+                <geom name="fixed_jaw_stem_collision" class="collision" type="box" pos="-0.0234 -0.0002085 -0.0581275" size="0.0118 0.0153195 0.0200005" rgba="0 0.8 0.8 0.45"/>
+                <geom name="fixed_jaw_tip_collision" class="collision" type="box" pos="-0.015186 -0.0002185 -0.0912765" size="0.007286 0.0076835 0.0131495" rgba="0 0.8 0.8 0.45"/>
                 <!-- Frame gripperframe -->
                 <site group="3" name="gripperframe" pos="-0.0079 -0.000218121 -0.0981274" quat="0.707107 -0 0.707107 -2.37788e-17"/>
                 <site name="grasp_center_40mm" group="4" type="sphere" size="0.004" pos="0.0121 -0.000218121 -0.0981274" quat="0.707107 -0 0.707107 -2.37788e-17" rgba="0 1 0 1"/>
@@ -117,7 +119,7 @@
                   <inertial pos="-0.00157495 -0.0300244 0.0192755" mass="0.012" fullinertia="6.61427e-06 1.89032e-06 5.28738e-06 -3.19807e-07 -5.90717e-09 -1.09945e-07"/>
                   <!-- Part moving_jaw_so101_v1 -->
                   <geom type="mesh" class="visual" pos="-5.55112e-17 -5.55112e-17 0.0189" quat="1 -0 3.00524e-16 -2.00834e-17" mesh="moving_jaw_so101_v1" material="moving_jaw_so101_v1_material"/>
-                  <geom type="mesh" class="collision" pos="-5.55112e-17 -5.55112e-17 0.0189" quat="1 -0 3.00524e-16 -2.00834e-17" mesh="moving_jaw_so101_v1" material="moving_jaw_so101_v1_material"/>
+                  <geom name="moving_jaw_collision" type="mesh" class="collision" pos="-5.55112e-17 -5.55112e-17 0.0189" quat="1 -0 3.00524e-16 -2.00834e-17" mesh="moving_jaw_so101_v1" material="moving_jaw_so101_v1_material"/>
                 </body>
               </body>
             </body>
