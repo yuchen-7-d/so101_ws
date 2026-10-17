@@ -524,6 +524,11 @@ def main():
     descent_joint_path = np.asarray(descent_joint_path)
     descent_errors = np.asarray(descent_errors)
 
+    lift_joint_path = descent_joint_path[::-1].copy()
+    lift_target = pregrasp_target.copy()
+
+    print(f'抬起关节路径形状:{lift_joint_path.shape}')
+
     print(
         f'下降关节路径形状:{descent_joint_path.shape}'
         f'下降最大位置误差:{descent_errors[:, 0].max() * 1000:.3f}mm'
@@ -614,6 +619,11 @@ def main():
     allowed_pair = {box_geom_id, floor_geom_id}
     unexpected_pairs = set()
 
+    grasp_pairs = {
+        tuple(sorted((fixed_jaw_geom_id, box_geom_id))),
+        tuple(sorted((moving_jaw_geom_id, box_geom_id)))
+    }
+
     gripper_actuator_id = mujoco.mj_name2id(
         model,mujoco.mjtObj.mjOBJ_ACTUATOR,'gripper'
     )
@@ -654,8 +664,6 @@ def main():
     else:
         print(f'首次活动爪接触角度:{first_touch_angle:.3f}rad')
 
-    return
-
     with mujoco.viewer.launch_passive(model,sim_data) as viewer:
         with viewer.lock():
 
@@ -684,6 +692,24 @@ def main():
         )
         descent_duration = 3
 
+        close_start_time = (
+            descent_start_time + descent_duration + 2.0
+        )
+        close_duration = 2.0
+
+        lift_start_time = (
+            close_start_time + close_duration + 2.0
+        )
+        lift_duration = 3.0
+
+        box_height_before_lift = None
+
+        gripper_close_angle = 0.0
+        close_torque_limit = 0.15
+
+        if not low <= gripper_close_angle <= high:
+            raise RuntimeError('闭合目标超出夹爪控制范围')
+
         while viewer.is_running():
             frame_start = time.monotonic()
 
@@ -705,6 +731,38 @@ def main():
                             descent_joint_path, descent_progress
                         )
 
+                    if sim_data.time >= lift_start_time:
+                        if box_height_before_lift is None:
+                            box_height_before_lift = float(
+                                sim_data.qpos[box_qpos_adr + 2 ]
+                            )
+                            box_height_peak = box_height_before_lift
+
+                            snapshot_path = (
+                                workspase / 'data' / 'grasp_before_lift.npz'
+                            )
+
+                            np.savez(
+                                snapshot_path,
+                                qpos=sim_data.qpos.copy(),
+                                qvel=sim_data.qvel.copy(),
+                                ctrl=sim_data.ctrl.copy(),
+                                actuator_force=sim_data.actuator_force.copy(),
+                                actuator_forcerange=model.actuator_forcerange.copy(),
+                                sim_time=sim_data.time,
+                            )
+
+                            print(f'状态已保存至:{snapshot_path}')
+
+                        lift_progress = (
+                            (sim_data.time - lift_start_time)
+                            / lift_duration
+                        )
+
+                        target_q = sample_joint_path(
+                            lift_joint_path, lift_progress
+                        )
+
                     sim_data.ctrl[arm_actuator_ids] = target_q
 
                     open_alpha = np.clip(
@@ -712,11 +770,38 @@ def main():
                         open_duration,0.0,1.0
                     )
 
-                    sim_data.ctrl[gripper_actuator_id] = (
+                    gripper_target_angle = (
                         open_alpha * gripper_open_angle
                     )
 
+                    if sim_data.time >= close_start_time:
+                        close_alpha = np.clip(
+                            (sim_data.time - close_start_time)
+                            / close_duration,
+                            0.0,
+                            1.0,
+                        )
+
+                        gripper_target_angle = (
+                            (1.0 - close_alpha) * gripper_open_angle
+                            + close_alpha * gripper_close_angle
+                        )
+
+                        model.actuator_forcerange[
+                            gripper_actuator_id
+                        ] = [-close_torque_limit, close_torque_limit]
+
+                    sim_data.ctrl[gripper_actuator_id] = (
+                        gripper_target_angle
+                    )
+
                     mujoco.mj_step(model,sim_data)
+
+                    if box_height_before_lift is not None:
+                        box_height_peak = max(
+                            box_height_peak,
+                            float(sim_data.qpos[box_qpos_adr + 2])
+                        )
 
                     for contact_index in range(sim_data.ncon):
                         contact = sim_data.contact[contact_index]
@@ -725,6 +810,13 @@ def main():
                             continue
 
                         pair = tuple(sorted(int(g) for g in contact.geom))
+
+                        if(
+                            sim_data.time >= close_start_time
+                            and pair in grasp_pairs
+                        ):
+                            continue
+
                         unexpected_pairs.add(pair)
 
             viewer.sync()
@@ -740,19 +832,19 @@ def main():
     print(f'额外接触对数量:{len(unexpected_pairs)}')
     print(f'额外接触数对:{sorted(unexpected_pairs)}')
 
-    if sim_data.time < descent_start_time + descent_duration + 1:
+    if sim_data.time < lift_start_time + lift_duration + 2:
         print('保持时间不足，请运行更久后关闭窗口')
         return
 
     mujoco.mj_forward(model,sim_data)
 
     actual_q = sim_data.qpos[arm_qpos_adrs].copy()
-    joint_error_deg = np.rad2deg(descent_joint_path[-1] - actual_q)
+    joint_error_deg = np.rad2deg(lift_joint_path[-1] - actual_q)
     max_joint_error_deg = np.max(np.abs(joint_error_deg))
 
     actual_tcp = sim_data.site_xpos[tcp_site_id].copy()
     tcp_error_mm = np.linalg.norm(
-        grasp_target - actual_tcp
+        lift_target - actual_tcp
     ) * 1000
 
     print(f'最大关节角度误差:{max_joint_error_deg:.3f}')
@@ -789,11 +881,61 @@ def main():
     actual_gripper_angle = sim_data.qpos[gripper_qpos_adr]
 
     gripper_error_deg = abs(np.rad2deg(
-        gripper_open_angle - actual_gripper_angle
+        gripper_close_angle - actual_gripper_angle
     ))
 
     print(f'实际夹爪角度:{actual_gripper_angle:.4f} rad')
     print(f'夹爪角度误差:{gripper_error_deg:.3f}')
+
+    fixed_count = 0
+    moving_count = 0
+    fixed_normal_force = 0
+    moving_normal_force = 0
+
+    for contact_index in range(sim_data.ncon):
+        contact = sim_data.contact[contact_index]
+        pair = tuple(sorted(int(g) for g in contact.geom))
+
+        if pair not in grasp_pairs:
+            continue
+
+        force = np.zeros(6)
+        mujoco.mj_contactForce(
+            model,sim_data,contact_index,force
+        )
+        normal_force = float(force[0])
+
+        if fixed_jaw_geom_id in pair:
+            fixed_count += 1
+            fixed_normal_force += normal_force
+        else:
+            moving_count += 1
+            moving_normal_force += normal_force
+
+    print(
+        f'固定夹爪接触点:{fixed_count},'
+        f'法力向合计:{fixed_normal_force:.3f}N'
+    )
+
+    print(
+        f'活动爪接触点:{moving_count},'
+        f'法向力合计:{moving_normal_force:.3f}N'
+    )
+
+    final_box_height = float(
+        sim_data.qpos[box_qpos_adr + 2]
+    )
+
+    peak_lift_mm = (
+        box_height_peak - box_height_before_lift
+    ) * 1000
+
+    final_lift_mm =(
+        final_box_height - box_height_before_lift
+    ) * 1000
+
+    print(f'纸盒最大升高:{peak_lift_mm}')
+    print(f'最终升高:{final_lift_mm}')
 
     return
 
