@@ -118,8 +118,11 @@
                   <joint axis="0 0 1" name="gripper" type="hinge" range="-0.17453297762778586 1.7453291995659765" class="sts3215"/>
                   <inertial pos="-0.00157495 -0.0300244 0.0192755" mass="0.012" fullinertia="6.61427e-06 1.89032e-06 5.28738e-06 -3.19807e-07 -5.90717e-09 -1.09945e-07"/>
                   <!-- Part moving_jaw_so101_v1 -->
-                  <geom type="mesh" class="visual" pos="-5.55112e-17 -5.55112e-17 0.0189" quat="1 -0 3.00524e-16 -2.00834e-17" mesh="moving_jaw_so101_v1" material="moving_jaw_so101_v1_material"/>
-                  <geom name="moving_jaw_collision" type="mesh" class="collision" pos="-5.55112e-17 -5.55112e-17 0.0189" quat="1 -0 3.00524e-16 -2.00834e-17" mesh="moving_jaw_so101_v1" material="moving_jaw_so101_v1_material"/>
+                  <geom name="moving_jaw_visual" type="mesh" class="visual" pos="-5.55112e-17 -5.55112e-17 0.0189" quat="1 -0 3.00524e-16 -2.00834e-17" mesh="moving_jaw_so101_v1" material="moving_jaw_so101_v1_material"/>
+                  <geom name="moving_jaw_collision_0" type="mesh" class="collision" pos="0 0 0" quat="1 0 0 0" mesh="moving_jaw_collision_part_0"/>
+                  <geom name="moving_jaw_collision_1" type="mesh" class="collision" pos="0 0 0" quat="1 0 0 0" mesh="moving_jaw_collision_part_1"/>
+                  <geom name="moving_jaw_collision_2" type="mesh" class="collision" pos="0 0 0" quat="1 0 0 0" mesh="moving_jaw_collision_part_2"/>
+                  <geom name="moving_jaw_collision_3" type="mesh" class="collision" pos="0 0 0" quat="1 0 0 0" mesh="moving_jaw_collision_part_3"/>
                 </body>
               </body>
             </body>
@@ -129,6 +132,7 @@
     </body>
   </worldbody>
   <asset>
+    <include file="moving_jaw_collision_assets.xml"/>
     <mesh file="waveshare_mounting_plate_so101_v2.stl"/>
     <mesh file="sts3215_03a_v1.stl"/>
     <mesh file="motor_holder_so101_base_v1.stl"/>

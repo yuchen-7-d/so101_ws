@@ -89,11 +89,14 @@ def main():
     fixed_jaw_geom_id = mujoco.mj_name2id(
         model,mujoco.mjtObj.mjOBJ_GEOM,'fixed_jaw_tip_collision'
     )
-    moving_jaw_geom_id = mujoco.mj_name2id(
-        model,mujoco.mjtObj.mjOBJ_GEOM,'moving_jaw_collision'
-    )
+    moving_jaw_geom_ids = {
+        mujoco.mj_name2id(
+        model,mujoco.mjtObj.mjOBJ_GEOM,f'moving_jaw_collision_{i}',
+        )
+        for i in range(4)
+    }
 
-    if min(fixed_jaw_geom_id, moving_jaw_geom_id) < 0:
+    if fixed_jaw_geom_id < 0 or -1 in moving_jaw_geom_ids:
         raise RuntimeError('找不到夹爪几何碰撞')
 
     box_qpos_adr = model.jnt_qposadr[box_joint_id]
@@ -661,9 +664,13 @@ def main():
     allowed_pair = {box_geom_id, floor_geom_id}
     unexpected_pairs = set()
 
-    grasp_pairs = {
-        tuple(sorted((fixed_jaw_geom_id, box_geom_id))),
-        tuple(sorted((moving_jaw_geom_id, box_geom_id)))
+    moving_grasp_pairs = {
+        tuple(sorted((geom_id, box_geom_id)))
+        for geom_id in moving_jaw_geom_ids
+    }
+
+    grasp_pairs = moving_grasp_pairs | {
+        tuple(sorted((fixed_jaw_geom_id, box_geom_id)))
     }
 
     gripper_actuator_id = mujoco.mj_name2id(
@@ -690,11 +697,8 @@ def main():
         for contact_index in range(probe_data.ncon):
             contact = probe_data.contact[contact_index]
 
-            if(
-                set(contact.geom)
-                == {moving_jaw_geom_id, box_geom_id}
-                and contact.dist <= 0.0
-            ):
+            pair = tuple(sorted(int(g)for g in contact.geom))
+            if pair in moving_grasp_pairs and contact.dist <= 0.0:
                 first_touch_angle = float(angule)
                 break
 
