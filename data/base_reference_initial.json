@@ -1,0 +1,12 @@
+{
+  "coordinate_system": "table",
+  "reference_frame": "base_edge_initial",
+  "assumed_base_width_m": 0.065,
+  "measured_span_on_table_m": 0.05246142,
+  "origin_table_m": [0.263487365, 0.14472783, 0.0],
+  "x_axis_table": [-0.9992298716, -0.0392385475, 0.0],
+  "y_axis_table": [-0.0392385475, 0.9992298716, 0.0],
+  "z_axis_table": [0.0, 0.0, -1.0],
+  "status": "approximate",
+  "model_mapping_verified": false
+}

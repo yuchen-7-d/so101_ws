@@ -1,0 +1,210 @@
+{
+  "schema_version": 4,
+  "source": "controller_feedback",
+  "test": "joint_local_step_and_return",
+  "moving_id": 2,
+  "start_pose_window": {
+    "1": [
+      0,
+      52
+    ],
+    "2": [
+      704,
+      736
+    ],
+    "3": [
+      3153,
+      3185
+    ],
+    "4": [
+      1990,
+      2054
+    ],
+    "5": [
+      3217,
+      3281
+    ]
+  },
+  "probe_negative": false,
+  "probe_hold_complete": false,
+  "outcome": "failed",
+  "stop_reason": "ID2 测试起姿检查：ID2=687 不在 704–736 内；未发送任何控制写入，请反馈读数，不要按数值盲目摆动机械臂",
+  "anchor": 687,
+  "delta_counts": 8,
+  "start_range": [
+    704,
+    736
+  ],
+  "planned_path": [],
+  "output_limit": 100,
+  "outbound_complete": false,
+  "return_complete": false,
+  "final_anchor_hold_complete": false,
+  "touched_ids": [],
+  "release_unconfirmed_ids": null,
+  "reached": [],
+  "samples": [],
+  "feedback_reads": [
+    {
+      "elapsed_s": 0.004994674993213266,
+      "phase": "preflight",
+      "servo_id": 1,
+      "expected_target": null,
+      "raw_hex": "200000000000441c0000",
+      "position": 32,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.012330471989116631,
+      "phase": "preflight",
+      "servo_id": 2,
+      "expected_target": null,
+      "raw_hex": "af0200000000431c0000",
+      "position": 687,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.01963284600060433,
+      "phase": "preflight",
+      "servo_id": 3,
+      "expected_target": null,
+      "raw_hex": "840c00000000441c0000",
+      "position": 3204,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.027071124000940472,
+      "phase": "preflight",
+      "servo_id": 4,
+      "expected_target": null,
+      "raw_hex": "a30700000000431d0000",
+      "position": 1955,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.03454528099973686,
+      "phase": "preflight",
+      "servo_id": 5,
+      "expected_target": null,
+      "raw_hex": "b30c00000000431d0000",
+      "position": 3251,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.042039672000100836,
+      "phase": "preflight",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "b20f00000000431e0000",
+      "position": 4018,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.24739716199110262,
+      "phase": "preflight",
+      "servo_id": 1,
+      "expected_target": null,
+      "raw_hex": "200000000000431c0000",
+      "position": 32,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.25268992499331944,
+      "phase": "preflight",
+      "servo_id": 2,
+      "expected_target": null,
+      "raw_hex": "af0200000000441c0000",
+      "position": 687,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.2582099430001108,
+      "phase": "preflight",
+      "servo_id": 3,
+      "expected_target": null,
+      "raw_hex": "840c00000000441c0000",
+      "position": 3204,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.2636093239998445,
+      "phase": "preflight",
+      "servo_id": 4,
+      "expected_target": null,
+      "raw_hex": "a30700000000431d0000",
+      "position": 1955,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.26906175799376797,
+      "phase": "preflight",
+      "servo_id": 5,
+      "expected_target": null,
+      "raw_hex": "b30c00000000431d0000",
+      "position": 3251,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.2745233659952646,
+      "phase": "preflight",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "b20f00000000431e0000",
+      "position": 4018,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    }
+  ],
+  "control_reads": [],
+  "fault_context": null,
+  "model_mapping_verified": false,
+  "note": "Local encoder motion only. Complete monitor cycles are in samples; successful raw feedback READs, including position-fault samples, are in feedback_reads. A failed communication cannot provide a valid physical sample. Mechanical ranges and automatic grasp are not validated.",
+  "saved_at_utc": "2026-10-20T18:45:59.664522+00:00"
+}

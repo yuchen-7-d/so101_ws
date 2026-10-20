@@ -1,0 +1,371 @@
+{
+  "schema_version": 1,
+  "source": "user_pasted_terminal_output_and_physical_observation",
+  "scope": "one_10_second_current_pose_hold",
+  "controlled_ids": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "initial_position_counts": {
+    "1": 76,
+    "2": 3694,
+    "3": 4077,
+    "4": 2879,
+    "5": 3302,
+    "6": 3951
+  },
+  "hold_target_counts": {
+    "1": 76,
+    "2": 3694,
+    "3": 4077,
+    "4": 2879,
+    "5": 3302
+  },
+  "duration_seconds_reported": 10,
+  "output_limit_reported": 100,
+  "printed_samples": [
+    {
+      "remaining_s": 10.0,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 9.4,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 8.8,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 8.3,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 7.7,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 7.1,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 6.6,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 6.0,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 5.5,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 4.9,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 4.3,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 3.8,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 3.2,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 2.7,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 2.1,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 1.5,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 1.0,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "remaining_s": 0.4,
+      "position_counts": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "output_feedback": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    }
+  ],
+  "raw_continuous_feedback_available": false,
+  "user_observation_zh": "没有外部支撑，也没有接触桌面",
+  "unsupported_static_hold_user_confirmed": true,
+  "active_torque_magnitude_verified": false,
+  "program_reported_normal_completion": true,
+  "release_readback_user_reported": {
+    "1": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "2": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "3": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "4": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "5": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    }
+  },
+  "joint2_motion_at_this_pose_verified": false,
+  "repeatability_verified": false,
+  "model_mapping_verified": false,
+  "full_mechanical_limits_verified": false,
+  "automatic_grasp_verified": false,
+  "note": "This is a transcription of the user report, not a new hardware measurement. Zero printed output feedback does not indicate that the torque-enable register was off. Original baseline is not updated.",
+  "recorded_at_utc": "2026-10-20T18:52:27.374520+00:00"
+}

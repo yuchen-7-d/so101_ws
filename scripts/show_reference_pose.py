@@ -4,6 +4,7 @@ from pathlib import Path
 
 import mujoco
 import mujoco.viewer
+import numpy as np
 
 
 def main():
@@ -53,6 +54,37 @@ def main():
             viewer.cam.azimuth = 90
             viewer.cam.elevation = 0
             viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_JOINT] = True
+
+            # 纸盒尺寸为 40 × 40 × 74 mm，size 使用半尺寸
+            box_half_size = np.array([0.020, 0.020, 0.037])
+
+            # 检测结果给出的是顶面中心
+            box_top_center = np.array([
+                0.25140174, 0.00404917, 0.074,
+            ])
+
+            # 显示纸盒需要使用整个盒子的中心
+            box_center = box_top_center.copy()
+            box_center[2] -= box_half_size[2]
+
+            angle_rad = math.radians(-30.67)
+            c, s = math.cos(angle_rad), math.sin(angle_rad)
+
+            box_rotation = np.array([
+                [c, -s, 0.0],
+                [s,  c, 0.0],
+                [0.0, 0.0, 1.0],
+            ])
+
+            mujoco.mjv_initGeom(
+                viewer.user_scn.geoms[0],
+                type=mujoco.mjtGeom.mjGEOM_BOX,
+                size=box_half_size,
+                pos=box_center,
+                mat=box_rotation.ravel(),
+                rgba=[0.1, 0.4, 1.0, 0.6],
+            )
+            viewer.user_scn.ngeom = 1
 
         while viewer.is_running():
             with viewer.lock():

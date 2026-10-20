@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "scope": "one_local_ID1_roundtrip_at_the_recorded_pose",
+  "source_report": "data/real_control_runs/pan_20261020T183320_518406Z.json",
+  "source_report_sha256": "a8ad28aa70809935c607837c246fd17d81fe575dbe172577686269df6bc77c1a",
+  "program_outcome": "completed_and_released",
+  "moving_id": 1,
+  "anchor": 20,
+  "commanded_path": [
+    24,
+    28,
+    24,
+    20
+  ],
+  "observed_position_range": [
+    18,
+    26
+  ],
+  "arrival_tolerance_counts": 2,
+  "final_pre_release_target": 20,
+  "final_pre_release_position": 20,
+  "final_anchor_hold_complete": true,
+  "release_unconfirmed_ids": [],
+  "physical_roundtrip_user_confirmed": true,
+  "physical_observation_source": "User replied 是的 to the actual movement confirmation after posting the successful run.",
+  "repeatability_verified": false,
+  "high_count_pan_overshoot_resolved": false,
+  "model_mapping_verified": false,
+  "full_mechanical_limits_verified": false,
+  "automatic_grasp_verified": false,
+  "next_step": "Local ID2 +8-count roundtrip from fresh feedback near the recorded hold pose; first real run pending."
+}

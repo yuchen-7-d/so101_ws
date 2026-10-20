@@ -57,11 +57,11 @@ def main():
 
         point_table = pixel_to_table(
             x, y, camera_matrix, dist_coeffs,
-            rotation, camera_origin_table,plant_z=-0.074,
+            rotation, camera_origin_table,plant_z=0,
         )
         if point_table is not None:
             clicked_pixels.append((x,y))
-            print(f'像素:({x},{y})顶面点:{point_table}')
+            print(f'像素:({x},{y})桌面点:{point_table}')
 
     cap = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L2)
 
@@ -87,6 +87,10 @@ def main():
                 raise RuntimeError('实际画面尺寸与标定尺寸不一致')
 
             display_frame = frame.copy()
+            cv2.drawFrameAxes(
+                display_frame, camera_matrix, dist_coeffs,
+                rvec,tvec,0.10,
+            )
 
             for number, piexl in enumerate(clicked_pixels, start=1):
                 cv2.circle(display_frame, piexl, 3, (0,0,255),-1)

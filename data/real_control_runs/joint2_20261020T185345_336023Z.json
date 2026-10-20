@@ -1,0 +1,3306 @@
+{
+  "schema_version": 5,
+  "source": "controller_feedback",
+  "test": "joint_local_step_and_return",
+  "moving_id": 2,
+  "start_pose_window": null,
+  "start_pose_source": "fresh_stable_feedback",
+  "start_position_counts": {
+    "1": 76,
+    "2": 3694,
+    "3": 4077,
+    "4": 2879,
+    "5": 3302
+  },
+  "probe_negative": false,
+  "probe_hold_complete": false,
+  "outcome": "failed",
+  "stop_reason": "ID2 当前小步反馈越界：目标=3698, 实际=3701, 允许=3692–3700；停止，不执行故障回程",
+  "anchor": 3694,
+  "delta_counts": 8,
+  "start_range": null,
+  "planned_path": [
+    3698,
+    3702,
+    3698,
+    3694
+  ],
+  "output_limit": 100,
+  "outbound_complete": false,
+  "return_complete": false,
+  "final_anchor_hold_complete": false,
+  "touched_ids": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "release_unconfirmed_ids": [],
+  "reached": [
+    {
+      "target": 3694,
+      "actual": 3694,
+      "elapsed_s": 1.6068719330069143
+    }
+  ],
+  "samples": [
+    {
+      "elapsed_s": 0.46246079400589224,
+      "phase": "preflight",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 0.5278741479996825,
+      "phase": "preflight",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 0.5716865360009251,
+      "phase": "ramp",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 0.6396528360055527,
+      "phase": "ramp",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 0.7817510099994252,
+      "phase": "ramp",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 0.8485734720015898,
+      "phase": "ramp",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 0.993101141997613,
+      "phase": "ramp",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 1.0613609300053213,
+      "phase": "ramp",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 1.2058825599960983,
+      "phase": "ramp",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 1.2742192779987818,
+      "phase": "ramp",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 1.4186734190006973,
+      "phase": "settle_anchor",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 1.5129398860008223,
+      "phase": "settle_anchor",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 1.6066800419939682,
+      "phase": "settle_anchor",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 1.6508097879996058,
+      "phase": "outbound",
+      "targets": {
+        "1": 76,
+        "2": 3694,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 1.6993749579996802,
+      "phase": "outbound",
+      "targets": {
+        "1": 76,
+        "2": 3698,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.6,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    },
+    {
+      "elapsed_s": 1.792000058994745,
+      "phase": "outbound",
+      "targets": {
+        "1": 76,
+        "2": 3698,
+        "3": 4077,
+        "4": 2879,
+        "5": 3302
+      },
+      "feedback": {
+        "1": {
+          "position": 76,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 3694,
+          "load": 60,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 4077,
+          "load": 0,
+          "voltage": 6.8,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 2879,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3302,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        }
+      }
+    }
+  ],
+  "feedback_reads": [
+    {
+      "elapsed_s": 0.0052476879936875775,
+      "phase": "preflight",
+      "servo_id": 1,
+      "expected_target": null,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.012340850007603876,
+      "phase": "preflight",
+      "servo_id": 2,
+      "expected_target": null,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.019715026995982043,
+      "phase": "preflight",
+      "servo_id": 3,
+      "expected_target": null,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.02705178500036709,
+      "phase": "preflight",
+      "servo_id": 4,
+      "expected_target": null,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.03436195899848826,
+      "phase": "preflight",
+      "servo_id": 5,
+      "expected_target": null,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.041701907000970095,
+      "phase": "preflight",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000441e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.24679384200135246,
+      "phase": "preflight",
+      "servo_id": 1,
+      "expected_target": null,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.2518975400016643,
+      "phase": "preflight",
+      "servo_id": 2,
+      "expected_target": null,
+      "raw_hex": "6e0e00000000431c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.2572111329936888,
+      "phase": "preflight",
+      "servo_id": 3,
+      "expected_target": null,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.2624785429943586,
+      "phase": "preflight",
+      "servo_id": 4,
+      "expected_target": null,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.2677605180069804,
+      "phase": "preflight",
+      "servo_id": 5,
+      "expected_target": null,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.27278201800072566,
+      "phase": "preflight",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.32763657699979376,
+      "phase": "preflight",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.34898082799918484,
+      "phase": "preflight",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.36977250600466505,
+      "phase": "preflight",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000431c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.3905880700040143,
+      "phase": "preflight",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.4116058539948426,
+      "phase": "preflight",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.4231176530010998,
+      "phase": "preflight",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000441c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.43025663499429356,
+      "phase": "preflight",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.4372574589942815,
+      "phase": "preflight",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.4445507829950657,
+      "phase": "preflight",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.45222592700156383,
+      "phase": "preflight",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.45988649199716747,
+      "phase": "preflight",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.48839243600377813,
+      "phase": "preflight",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000441c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.4955160200042883,
+      "phase": "preflight",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000431c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5028141520015197,
+      "phase": "preflight",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5103248109953711,
+      "phase": "preflight",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5179858199990122,
+      "phase": "preflight",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5255374940024922,
+      "phase": "preflight",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.530586125998525,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000441c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5384301080048317,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000431c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5461198889970547,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5537635090004187,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5614576450025197,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5691323689970886,
+      "phase": "ramp",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.5989479889976792,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000441c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.6065919819957344,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.6142400700045982,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.621769064993714,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.629460159005248,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.6371200029971078,
+      "phase": "ramp",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.7426461540017044,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000441c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.7502282130008098,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.7576507199992193,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.764776523996261,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.7719603440054925,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.7793230039969785,
+      "phase": "ramp",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.8078341840009671,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.8154844960081391,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.8230367520009167,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.8306409479991999,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.8383523429947672,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.8459938949963544,
+      "phase": "ramp",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.9516167900001165,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000441c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.959760223995545,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.9674826200061943,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.9751232620037626,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.9828408440080239,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.9904843830008758,
+      "phase": "ramp",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000441e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.020453503006138,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000441c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.028135332002421,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.0358182820054935,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.0434772220032755,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.0511302890081424,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.0588383270078339,
+      "phase": "ramp",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.1644347260007635,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.1724104699969757,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.1801956090057502,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.187966387005872,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.1956259919970762,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.2033072880003601,
+      "phase": "ramp",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.2333128869940992,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.240967671998078,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000431c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.248608651003451,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.2563366120011779,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.263956387003418,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.2716137300012633,
+      "phase": "ramp",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.3773844829993322,
+      "phase": "settle_anchor",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000441c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.3852545730042038,
+      "phase": "settle_anchor",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.3929742210020777,
+      "phase": "settle_anchor",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.4006282670015935,
+      "phase": "settle_anchor",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.4084643090027384,
+      "phase": "settle_anchor",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.416110635997029,
+      "phase": "settle_anchor",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.4717708509997465,
+      "phase": "settle_anchor",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.4797691569983726,
+      "phase": "settle_anchor",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000431c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.4873663549951743,
+      "phase": "settle_anchor",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.4950267179956427,
+      "phase": "settle_anchor",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.5026811090065166,
+      "phase": "settle_anchor",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.5103641019959468,
+      "phase": "settle_anchor",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.5658591289975448,
+      "phase": "settle_anchor",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.5736220670078183,
+      "phase": "settle_anchor",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.5812587050022557,
+      "phase": "settle_anchor",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.5888766959978966,
+      "phase": "settle_anchor",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.5964082440041238,
+      "phase": "settle_anchor",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.604116361006163,
+      "phase": "settle_anchor",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6095417420001468,
+      "phase": "outbound",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6172375159949297,
+      "phase": "outbound",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6251227900065714,
+      "phase": "outbound",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6327277539967326,
+      "phase": "outbound",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6405538359977072,
+      "phase": "outbound",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6482567439961713,
+      "phase": "outbound",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6583051380002871,
+      "phase": "outbound",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6659753709973302,
+      "phase": "outbound",
+      "servo_id": 2,
+      "expected_target": 3698,
+      "raw_hex": "6e0e00000000441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6738031830027467,
+      "phase": "outbound",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000431c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.68146380399412,
+      "phase": "outbound",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000421d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.6,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6891850079991855,
+      "phase": "outbound",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.6967978909960948,
+      "phase": "outbound",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.752489845996024,
+      "phase": "outbound",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.7603264360077446,
+      "phase": "outbound",
+      "servo_id": 2,
+      "expected_target": 3698,
+      "raw_hex": "6e0e00003c04441c0000",
+      "position": 3694,
+      "speed_raw_signed": 0,
+      "output_raw_signed": -60,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.7679741549945902,
+      "phase": "outbound",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "ed0f00000000441c0000",
+      "position": 4077,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.775268600002164,
+      "phase": "outbound",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "3f0b00000000431d0000",
+      "position": 2879,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.7823936979984865,
+      "phase": "outbound",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "e60c00000000431d0000",
+      "position": 3302,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 29,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.7895565810031258,
+      "phase": "outbound",
+      "servo_id": 6,
+      "expected_target": null,
+      "raw_hex": "6f0f00000000431e0000",
+      "position": 3951,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 30,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.8449640229955548,
+      "phase": "outbound",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "4c0000000000431c0000",
+      "position": 76,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 1.8528179739951156,
+      "phase": "outbound",
+      "servo_id": 2,
+      "expected_target": 3698,
+      "raw_hex": "750e64001c04431c0000",
+      "position": 3701,
+      "speed_raw_signed": 100,
+      "output_raw_signed": -28,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    }
+  ],
+  "control_reads": [
+    {
+      "elapsed_s": 0.42795180100074504,
+      "phase": "preflight",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032000000",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.4348547819972737,
+      "phase": "preflight",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032000000",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.4419968440051889,
+      "phase": "preflight",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032000000",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.4496701760072028,
+      "phase": "preflight",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032000000",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.4573461529944325,
+      "phase": "preflight",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032000000",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.4931763759959722,
+      "phase": "preflight",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032000000",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.5002951700007543,
+      "phase": "preflight",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032000000",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.5077796039986424,
+      "phase": "preflight",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032000000",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.5154229949985165,
+      "phase": "preflight",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032000000",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.5231201620044885,
+      "phase": "preflight",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032000000",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.535729794006329,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032000000",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.5435551700065844,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032000000",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.5512238890078152,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032000000",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.558907131999149,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032000000",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.566548304996104,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032000000",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 0
+    },
+    {
+      "elapsed_s": 0.6040505609998945,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032001900",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.6116953000018839,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032001900",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.6192329409968806,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032001900",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.6268687050032895,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032001900",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.634550988994306,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032001900",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.747665307004354,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032001900",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.7551714410074055,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032001900",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.7623996360052843,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032001900",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.7695659089949913,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032001900",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.7767910740076331,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032001900",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 25
+    },
+    {
+      "elapsed_s": 0.8129564080009004,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032003200",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 0.8204894869995769,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032003200",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 0.8280899749952368,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032003200",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 0.8357828730077017,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032003200",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 0.8434258829947794,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032003200",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 0.9570387510029832,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032003200",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 0.9649362030031625,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032003200",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 0.9725638189993333,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032003200",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 0.980265373000293,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032003200",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 0.9879094689968042,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032003200",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 50
+    },
+    {
+      "elapsed_s": 1.025566965006874,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032004b00",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.0332555759960087,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032004b00",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.0409118990064599,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032004b00",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.0485856129962485,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032004b00",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.0562607720057713,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032004b00",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.16968456300674,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032004b00",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.177512491995003,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032004b00",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.185313986003166,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032004b00",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.1931014590081759,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032004b00",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.2007420379959513,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032004b00",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 75
+    },
+    {
+      "elapsed_s": 1.2383998480072478,
+      "phase": "ramp",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032006400",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.2461001740011852,
+      "phase": "ramp",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032006400",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.2537586050020764,
+      "phase": "ramp",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032006400",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.2614103819942102,
+      "phase": "ramp",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032006400",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.2691129870072473,
+      "phase": "ramp",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032006400",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.3824767110054381,
+      "phase": "settle_anchor",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032006400",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.3904177880031057,
+      "phase": "settle_anchor",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032006400",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.3980995809979504,
+      "phase": "settle_anchor",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032006400",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.4057474739965983,
+      "phase": "settle_anchor",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032006400",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.413591008997173,
+      "phase": "settle_anchor",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032006400",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.4770791780028958,
+      "phase": "settle_anchor",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032006400",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.484841798999696,
+      "phase": "settle_anchor",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032006400",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.492485006005154,
+      "phase": "settle_anchor",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032006400",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.5001785649947124,
+      "phase": "settle_anchor",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032006400",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.5078188750048866,
+      "phase": "settle_anchor",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032006400",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.571029400001862,
+      "phase": "settle_anchor",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032006400",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.5787046220066259,
+      "phase": "settle_anchor",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032006400",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.5863833549956325,
+      "phase": "settle_anchor",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032006400",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.5938621910026995,
+      "phase": "settle_anchor",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032006400",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6015514239988988,
+      "phase": "settle_anchor",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032006400",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.614685238993843,
+      "phase": "outbound",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032006400",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6224991869967198,
+      "phase": "outbound",
+      "servo_id": 2,
+      "expected_target": 3694,
+      "raw_hex": "016e0e000032006400",
+      "acceleration": 1,
+      "goal_readback": 3694,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6301842120010406,
+      "phase": "outbound",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032006400",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6380241669976385,
+      "phase": "outbound",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032006400",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6456834800046636,
+      "phase": "outbound",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032006400",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6634383799973875,
+      "phase": "outbound",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032006400",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6711383640067652,
+      "phase": "outbound",
+      "servo_id": 2,
+      "expected_target": 3698,
+      "raw_hex": "01720e000032006400",
+      "acceleration": 1,
+      "goal_readback": 3698,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6788918929960346,
+      "phase": "outbound",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032006400",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6865998760040384,
+      "phase": "outbound",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032006400",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.6942577690060716,
+      "phase": "outbound",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032006400",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.7575599120027618,
+      "phase": "outbound",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032006400",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.7654812289983965,
+      "phase": "outbound",
+      "servo_id": 2,
+      "expected_target": 3698,
+      "raw_hex": "01720e000032006400",
+      "acceleration": 1,
+      "goal_readback": 3698,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.7728812330024084,
+      "phase": "outbound",
+      "servo_id": 3,
+      "expected_target": 4077,
+      "raw_hex": "01ed0f000032006400",
+      "acceleration": 1,
+      "goal_readback": 4077,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.779996912999195,
+      "phase": "outbound",
+      "servo_id": 4,
+      "expected_target": 2879,
+      "raw_hex": "013f0b000032006400",
+      "acceleration": 1,
+      "goal_readback": 2879,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.7871731189952698,
+      "phase": "outbound",
+      "servo_id": 5,
+      "expected_target": 3302,
+      "raw_hex": "01e60c000032006400",
+      "acceleration": 1,
+      "goal_readback": 3302,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    },
+    {
+      "elapsed_s": 1.8500855040038005,
+      "phase": "outbound",
+      "servo_id": 1,
+      "expected_target": 76,
+      "raw_hex": "014c00000032006400",
+      "acceleration": 1,
+      "goal_readback": 76,
+      "speed_readback": 50,
+      "output_limit_readback": 100
+    }
+  ],
+  "fault_context": {
+    "elapsed_s": 1.853023610994569,
+    "phase": "outbound",
+    "reason": "ID2 当前小步反馈越界：目标=3698, 实际=3701, 允许=3692–3700；停止，不执行故障回程",
+    "targets": {
+      "1": 76,
+      "2": 3698,
+      "3": 4077,
+      "4": 2879,
+      "5": 3302
+    },
+    "step_corridor": [
+      3692,
+      3700
+    ],
+    "last_feedback_by_id": {
+      "1": {
+        "elapsed_s": 1.8449640229955548,
+        "phase": "outbound",
+        "servo_id": 1,
+        "expected_target": 76,
+        "raw_hex": "4c0000000000431c0000",
+        "position": 76,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.7,
+        "temperature": 28,
+        "status": 0
+      },
+      "2": {
+        "elapsed_s": 1.8528179739951156,
+        "phase": "outbound",
+        "servo_id": 2,
+        "expected_target": 3698,
+        "raw_hex": "750e64001c04431c0000",
+        "position": 3701,
+        "speed_raw_signed": 100,
+        "output_raw_signed": -28,
+        "voltage": 6.7,
+        "temperature": 28,
+        "status": 0
+      },
+      "3": {
+        "elapsed_s": 1.7679741549945902,
+        "phase": "outbound",
+        "servo_id": 3,
+        "expected_target": 4077,
+        "raw_hex": "ed0f00000000441c0000",
+        "position": 4077,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.8,
+        "temperature": 28,
+        "status": 0
+      },
+      "4": {
+        "elapsed_s": 1.775268600002164,
+        "phase": "outbound",
+        "servo_id": 4,
+        "expected_target": 2879,
+        "raw_hex": "3f0b00000000431d0000",
+        "position": 2879,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.7,
+        "temperature": 29,
+        "status": 0
+      },
+      "5": {
+        "elapsed_s": 1.7823936979984865,
+        "phase": "outbound",
+        "servo_id": 5,
+        "expected_target": 3302,
+        "raw_hex": "e60c00000000431d0000",
+        "position": 3302,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.7,
+        "temperature": 29,
+        "status": 0
+      },
+      "6": {
+        "elapsed_s": 1.7895565810031258,
+        "phase": "outbound",
+        "servo_id": 6,
+        "expected_target": null,
+        "raw_hex": "6f0f00000000431e0000",
+        "position": 3951,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.7,
+        "temperature": 30,
+        "status": 0
+      }
+    }
+  },
+  "model_mapping_verified": false,
+  "note": "Local encoder motion only. Complete monitor cycles are in samples; successful raw feedback READs, including position-fault samples, are in feedback_reads. A failed communication cannot provide a valid physical sample. Mechanical ranges and automatic grasp are not validated.",
+  "saved_at_utc": "2026-10-20T18:53:45.336023+00:00"
+}

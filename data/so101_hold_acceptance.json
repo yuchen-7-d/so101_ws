@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "scope": "short_duration_static_hold_at_the_tested_pose",
+  "source": "user_supplied_terminal_tail_and_physical_observation",
+  "user_observation_zh": "没用手托独立保持",
+  "independent_hold_user_confirmed": true,
+  "program_reported_normal_completion": true,
+  "release_readback_user_reported": {
+    "1": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "2": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "3": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "4": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "5": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    }
+  },
+  "actual_start_counts": null,
+  "intermediate_feedback": null,
+  "invocation_parameters_in_pasted_log": false,
+  "preceding_suggested_command": {
+    "script": "scripts/so101_hold_current.py",
+    "enable": true,
+    "seconds": 10,
+    "limit": 100
+  },
+  "model_mapping_verified": false,
+  "full_mechanical_limits_verified": false,
+  "automatic_grasp_verified": false,
+  "next_step": "Bounded ID1 encoder step and return from a new live anchor with other joints held; physical run still pending."
+}

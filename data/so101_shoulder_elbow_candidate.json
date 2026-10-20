@@ -1,0 +1,184 @@
+{
+  "status": "candidate_not_for_motion",
+  "model_mapping_verified": false,
+  "observation_date": "2026-10-21",
+  "evidence": "User supplied these readings after being asked to align shoulder-to-elbow vertically and elbow-to-wrist horizontally. Physical alignment and direction signs are not independently verified.",
+  "reference_position_counts": {
+    "1": 29,
+    "2": 841,
+    "3": 3030,
+    "4": 1982,
+    "5": 3254,
+    "6": 4013
+  },
+  "reported_mode": 0,
+  "reported_torque_enabled": false,
+  "official_model": {
+    "repository": "TheRobotStudio/SO-ARM100",
+    "path": "Simulation/SO101/so101_new_calib.xml",
+    "commit": "aec17bbc256d1a7342d53aaa4950595d4c30b40d"
+  },
+  "unverified_assumptions": [
+    "The shoulder-to-elbow axis-center line is vertical.",
+    "The elbow-to-wrist axis-center line is horizontal.",
+    "The reference pose was stable when the counts were read.",
+    "Directions +1 for shoulder_lift and elbow_flex match the physical model coordinates."
+  ],
+  "candidate_shoulder_elbow_references": {
+    "2": {
+      "joint_name": "shoulder_lift",
+      "reference_count": 841,
+      "assumed_model_angle_deg": -13.97,
+      "candidate_direction": 1,
+      "direction_verified": false,
+      "reference_angle_verified": false
+    },
+    "3": {
+      "joint_name": "elbow_flex",
+      "reference_count": 3030,
+      "assumed_model_angle_deg": 16.18,
+      "candidate_direction": 1,
+      "direction_verified": false,
+      "reference_angle_verified": false
+    }
+  },
+  "baseline_position_counts": {
+    "1": 64,
+    "2": 3692,
+    "3": 4059,
+    "4": 1982,
+    "5": 3250,
+    "6": 3949
+  },
+  "baseline_check_under_candidate_assumptions": {
+    "2": {
+      "signed_count_delta": -1245,
+      "candidate_angle_deg": -123.393828125,
+      "official_limits_deg": [
+        -99.99999999999959,
+        100.00000000000041
+      ],
+      "within_official_limits": false
+    },
+    "3": {
+      "signed_count_delta": 1029,
+      "candidate_angle_deg": 106.619453125,
+      "official_limits_deg": [
+        -96.82986737710912,
+        96.82986737710912
+      ],
+      "within_official_limits": false
+    }
+  },
+  "next_required_check": "One unpowered shoulder-direction check near the supported reference: read ID2 and ID3 before and after a small shoulder lean toward the reference forearm extension direction, keeping the elbow relative angle unchanged. Candidate predicts ID2 increases while ID3 stays approximately unchanged. This verifies direction only, not reference accuracy or motion limits.",
+  "preserved_files_sha256": {
+    "data/so101_initial_pose.json": "f91f9601f769ee23a489d7f50abfb00e872d22e82a373a1f8c3709db4aa44148",
+    "data/so101_joint_mapping.json": "544e5c54fd7e0ac49feda2b560fd250ac558a745f2375b822b42812a48e9a13d"
+  },
+  "baseline_limit_result_is_conditional": true,
+  "previous_observations": [
+    {
+      "reference_position_counts": {
+        "1": 44,
+        "2": 663,
+        "3": 3243,
+        "4": 1981,
+        "5": 3250,
+        "6": 4016
+      },
+      "candidate_shoulder_elbow_references": {
+        "2": {
+          "joint_name": "shoulder_lift",
+          "reference_count": 663,
+          "assumed_model_angle_deg": -13.97,
+          "candidate_direction": 1
+        },
+        "3": {
+          "joint_name": "elbow_flex",
+          "reference_count": 3243,
+          "assumed_model_angle_deg": 16.18,
+          "candidate_direction": 1
+        }
+      },
+      "baseline_check_under_candidate_assumptions": {
+        "2": {
+          "signed_count_delta": -1067,
+          "candidate_angle_deg": -107.749296875,
+          "official_limits_deg": [
+            -99.99999999999959,
+            100.00000000000041
+          ],
+          "within_official_limits": false
+        },
+        "3": {
+          "signed_count_delta": 816,
+          "candidate_angle_deg": 87.89875,
+          "official_limits_deg": [
+            -96.82986737710912,
+            96.82986737710912
+          ],
+          "within_official_limits": true
+        }
+      },
+      "evidence": "User supplied position readings and a photo of the hand-supported arm; counts and photo synchronization were not independently verified."
+    }
+  ],
+  "static_fk_positions_m": {
+    "reference": {
+      "upper_arm": [
+        0.06923450000000009,
+        -0.01827780897656997,
+        0.11659999999999995
+      ],
+      "lower_arm": [
+        0.06923037001372177,
+        -0.018277808976569897,
+        0.2326000210471671
+      ],
+      "wrist": [
+        0.20423055506940552,
+        -0.018277808976569505,
+        0.23259411078942516
+      ]
+    },
+    "baseline_candidate": {
+      "upper_arm": [
+        0.06923450000000009,
+        -0.01827780897656997,
+        0.11659999999999995
+      ],
+      "lower_arm": [
+        -0.04016194115446815,
+        -0.01827780897657003,
+        0.07801990717044643
+      ],
+      "wrist": [
+        0.0874971454295851,
+        -0.018277808976569707,
+        0.12193126802985481
+      ]
+    }
+  },
+  "static_image": "data/so101_reference_comparison_841_3030.png",
+  "static_image_notes": "Only shoulder and elbow vary. Pan is zero and wrist/gripper use illustrative reference angles. Out-of-range baseline is displayed using forward kinematics only, never a commanded target.",
+  "qualitative_pose_check": {
+    "source": "user statements about original baseline pose",
+    "user_observations": [
+      {
+        "landmarks": "wrist relative to shoulder",
+        "statement_zh": "蓝点高于红点",
+        "height_order": "above"
+      },
+      {
+        "landmarks": "elbow relative to shoulder",
+        "statement_zh": "绿点稍低于红点",
+        "height_order": "below"
+      }
+    ],
+    "height_order_matches_candidate": true,
+    "candidate_predicted_wrist_minus_shoulder_mm": 5.331268029854855,
+    "candidate_predicted_elbow_minus_shoulder_mm": -38.58009282955352,
+    "height_differences_measured": false,
+    "conclusion": "Qualitative consistency only. Does not independently verify direction signs, reference angles, or executable limits."
+  }
+}

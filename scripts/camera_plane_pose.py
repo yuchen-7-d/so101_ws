@@ -112,6 +112,8 @@ def main():
                 )
 
                 x, y, z = tvec.ravel()
+                print('当前rvec:', rvec.ravel())
+                print('当前tvec:', tvec.ravel())
                 print(
                     f'棋盘原点相机坐标(m):({x:.4f}, {y:.4f}, {z:.4f}),'
                     f'重投影RMS:{pose_rms:.4f}像素'

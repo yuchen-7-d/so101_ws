@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "source": "controller_feedback",
+  "test": "pan_local_step_and_return",
+  "outcome": "failed",
+  "stop_reason": "ID 1: 电压 7.5V 不在 6.0–7.4V 内",
+  "anchor": null,
+  "delta_counts": 16,
+  "planned_path": [],
+  "output_limit": 100,
+  "outbound_complete": false,
+  "return_complete": false,
+  "final_anchor_hold_complete": false,
+  "touched_ids": [],
+  "release_unconfirmed_ids": null,
+  "reached": [],
+  "samples": [],
+  "model_mapping_verified": false,
+  "note": "Local encoder motion only. Mechanical ranges and automatic grasp are not validated. Feedback samples contain complete monitor cycles only; an exception may interrupt the failing cycle.",
+  "saved_at_utc": "2026-10-20T18:12:07.109659+00:00"
+}

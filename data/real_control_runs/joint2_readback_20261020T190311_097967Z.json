@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "test": "joint_read_only_diagnostics",
+  "servo_id": 2,
+  "writes_sent": 0,
+  "register_reference": "https://docs.waveshare.com/Memory_Map_Explanation/ST_Servo_Memory_Map_Explanation",
+  "firmware_version_bytes": [
+    3,
+    10
+  ],
+  "model_version_bytes": [
+    9,
+    3
+  ],
+  "mode": 0,
+  "phase": 12,
+  "resolution": 1,
+  "position_limits": [
+    0,
+    4095
+  ],
+  "offset_raw": 0,
+  "P": 32,
+  "D": 32,
+  "I": 0,
+  "minimum_starting_output": 16,
+  "integral_limit": 0,
+  "positive_dead_zone": 1,
+  "negative_dead_zone": 1,
+  "maximum_output": 1000,
+  "torque_enabled": 0,
+  "acceleration": 1,
+  "goal_position_raw": 3698,
+  "speed_raw": 50,
+  "output_limit": 0,
+  "configuration_raw_hex": "030a000903020000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c8",
+  "control_raw_hex": "0001720e000032000000",
+  "feedback": [
+    {
+      "elapsed_s": 0.002413515991065651,
+      "raw_hex": "720e00000000441c0000",
+      "position": 3698,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.10533802698773798,
+      "raw_hex": "720e00000000441c0000",
+      "position": 3698,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.20813444699160755,
+      "raw_hex": "720e00000000431c0000",
+      "position": 3698,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.31109857799310703,
+      "raw_hex": "720e00000000431c0000",
+      "position": 3698,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.7,
+      "temperature": 28,
+      "status": 0
+    },
+    {
+      "elapsed_s": 0.4140491349971853,
+      "raw_hex": "720e00000000441c0000",
+      "position": 3698,
+      "speed_raw_signed": 0,
+      "output_raw_signed": 0,
+      "voltage": 6.8,
+      "temperature": 28,
+      "status": 0
+    }
+  ],
+  "note": "Post-stop readback only. Current registers do not prove their values throughout the previous movement.",
+  "saved_at_utc": "2026-10-20T19:03:11.097967+00:00"
+}

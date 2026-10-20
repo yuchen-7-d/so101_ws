@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "source": "controller_feedback",
+  "test": "pan_local_step_and_return",
+  "outcome": "failed",
+  "stop_reason": "ID 5: 电压 5.1V 不在 6.0–7.4V 内",
+  "anchor": 4017,
+  "delta_counts": 16,
+  "planned_path": [
+    4021,
+    4025,
+    4029,
+    4033,
+    4029,
+    4025,
+    4021,
+    4017
+  ],
+  "output_limit": 100,
+  "outbound_complete": false,
+  "return_complete": false,
+  "final_anchor_hold_complete": false,
+  "touched_ids": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "release_unconfirmed_ids": [],
+  "reached": [],
+  "samples": [
+    {
+      "elapsed_s": 0.4698176539968699,
+      "phase": "preflight",
+      "targets": {
+        "1": 4017,
+        "2": 794,
+        "3": 3104,
+        "4": 1932,
+        "5": 3254
+      },
+      "feedback": {
+        "1": {
+          "position": 4017,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "2": {
+          "position": 794,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "3": {
+          "position": 3104,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        },
+        "4": {
+          "position": 1932,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 29,
+          "status": 0
+        },
+        "5": {
+          "position": 3254,
+          "load": 0,
+          "voltage": 6.7,
+          "temperature": 28,
+          "status": 0
+        }
+      }
+    }
+  ],
+  "model_mapping_verified": false,
+  "note": "Local encoder motion only. Mechanical ranges and automatic grasp are not validated. Feedback samples contain complete monitor cycles only; an exception may interrupt the failing cycle.",
+  "saved_at_utc": "2026-10-20T18:07:23.370118+00:00"
+}

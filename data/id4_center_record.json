@@ -1,0 +1,29 @@
+{
+  "before": {
+    "position": 3869,
+    "mode": 0,
+    "torque": 0,
+    "reply_level": 1,
+    "offset_raw": 0,
+    "output_limit": 1000,
+    "minimum": 0,
+    "maximum": 4095,
+    "phase": 12,
+    "resolution": 1
+  },
+  "calibration_attempted": true,
+  "position_before": 3869,
+  "after": {
+    "position": 2047,
+    "mode": 0,
+    "torque": 0,
+    "reply_level": 1,
+    "offset_raw": 1822,
+    "output_limit": 0,
+    "minimum": 0,
+    "maximum": 4095,
+    "phase": 12,
+    "resolution": 1
+  },
+  "shift": -1822
+}
