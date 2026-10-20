@@ -1,0 +1,18 @@
+{
+  "servo_id": 6,
+  "scope": "empty_gripper_small_range",
+  "open_target_counts": 4022,
+  "open_actual_counts": 4021,
+  "open_motion_confirmed": true,
+  "precontact_target_counts": 3970,
+  "precontact_actual_counts": 3972,
+  "precontact_gap_confirmed": true,
+  "observed_contact_counts": 3961,
+  "acceleration_raw": 1,
+  "speed_raw": 50,
+  "torque_limit_raw": 100,
+  "position_tolerance_counts": 2,
+  "settled_samples_required": 3,
+  "timeout_seconds": 3.0,
+  "torque_off_on_exit": true
+}
