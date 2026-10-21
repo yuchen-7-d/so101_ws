@@ -1,0 +1,207 @@
+{
+  "kind": "offline_id3_negative8_local_review",
+  "hardware_writes_sent": 0,
+  "not_for_motion": true,
+  "mapping_source": "candidate photo gamma90, not active validated map",
+  "support_box_modeled": false,
+  "model_gripper_q": 0.6,
+  "historical_box_top_model_m": [
+    0.2019433580075976,
+    0.009074850283549329,
+    0.07400000000000001
+  ],
+  "cases": [
+    {
+      "label": "F_raw",
+      "start_counts": [
+        67,
+        113,
+        3961,
+        967,
+        3299
+      ],
+      "end_counts": [
+        67,
+        113,
+        3953,
+        967,
+        3299
+      ],
+      "start_q_deg": [
+        -1.9335937500000002,
+        -66.30980970524115,
+        80.82268744880703,
+        -94.40545586856588,
+        0.50484375
+      ],
+      "end_q_deg": [
+        -1.9335937500000002,
+        -66.30980970524115,
+        80.11956244880703,
+        -94.40545586856588,
+        0.50484375
+      ],
+      "status": "no_sampled_penetration",
+      "sample_count": 9,
+      "colliding_sample_count": 0,
+      "maximum_sampled_penetration_mm": 0,
+      "start": {
+        "W_m": [
+          0.10987598631547946,
+          -0.015889860580276822,
+          0.15869855091377003
+        ],
+        "R_m": [
+          0.11998186453042471,
+          0.002561629787843297,
+          0.2188503067376848
+        ],
+        "TCP_m": [
+          0.1253290641150842,
+          0.0020415277538614303,
+          0.3175750815310805
+        ],
+        "SW_mm": 58.11612262483667,
+        "gamma_deg": 79.8925781249999
+      },
+      "end": {
+        "W_m": [
+          0.11021893027560725,
+          -0.015878282656765857,
+          0.1603193164381123
+        ],
+        "R_m": [
+          0.1195862672780826,
+          0.0025482742683961453,
+          0.22059812695529005
+        ],
+        "TCP_m": [
+          0.1237222509791957,
+          0.0019872811079172693,
+          0.31938083360492914
+        ],
+        "SW_mm": 59.533081366330116,
+        "gamma_deg": 80.5957031249999
+      },
+      "delta_W_mm": [
+        0.34294396012779504,
+        0.011577923510964344,
+        1.620765524342288
+      ],
+      "delta_R_mm": [
+        -0.39559725234211696,
+        -0.013355519447151576,
+        1.7478202176052504
+      ],
+      "delta_TCP_mm": [
+        -1.6068131358885074,
+        -0.05424664594416099,
+        1.8057520738486432
+      ],
+      "min_delta_W_z_per_count_mm": 0.2023637351686869,
+      "min_delta_TCP_z_per_count_mm": 0.22463817543566522
+    },
+    {
+      "label": "F_loaded",
+      "start_counts": [
+        68,
+        117,
+        3966,
+        967,
+        3299
+      ],
+      "end_counts": [
+        68,
+        117,
+        3958,
+        967,
+        3299
+      ],
+      "start_q_deg": [
+        -1.845703125,
+        -65.95824720524115,
+        81.26214057380703,
+        -94.40545586856588,
+        0.50484375
+      ],
+      "end_q_deg": [
+        -1.845703125,
+        -65.95824720524115,
+        80.55901557380703,
+        -94.40545586856588,
+        0.50484375
+      ],
+      "status": "no_sampled_penetration",
+      "sample_count": 9,
+      "colliding_sample_count": 0,
+      "maximum_sampled_penetration_mm": 0,
+      "start": {
+        "W_m": [
+          0.10987832146209744,
+          -0.015997953478357793,
+          0.15744252808419554
+        ],
+        "R_m": [
+          0.12084145820410941,
+          0.0024647261872336387,
+          0.2174405204867893
+        ],
+        "TCP_m": [
+          0.12754957308039575,
+          0.001980303326354146,
+          0.3160823510498371
+        ],
+        "SW_mm": 57.23160496185075,
+        "gamma_deg": 79.10156249999989
+      },
+      "end": {
+        "W_m": [
+          0.11024361378437861,
+          -0.01598618202677779,
+          0.1590584019794014
+        ],
+        "R_m": [
+          0.12046999545056883,
+          0.0024527558950857703,
+          0.2191936386242427
+        ],
+        "TCP_m": [
+          0.12596774793244056,
+          0.0019293294158681492,
+          0.31791012635501414
+        ],
+        "SW_mm": 58.647246885885245,
+        "gamma_deg": 79.8046874999999
+      },
+      "delta_W_mm": [
+        0.36529232228116326,
+        0.011771451580003256,
+        1.6158738952058715
+      ],
+      "delta_R_mm": [
+        -0.3714627535405801,
+        -0.011970292147868433,
+        1.7531181374534077
+      ],
+      "delta_TCP_mm": [
+        -1.5818251479551848,
+        -0.05097391048599687,
+        1.8277753051770262
+      ],
+      "min_delta_W_z_per_count_mm": 0.20173729205433255,
+      "min_delta_TCP_z_per_count_mm": 0.2274078898659715
+    }
+  ],
+  "source_sha256": {
+    "scripts/so101_hold_current.py": "6888f895dcf069791e8f9b2db19a172e73d8697ac6656c439f8b72dbea60f0a3",
+    "scripts/so101_pan_step.py": "3f3b4d626df0c9b59cabaf97e4e5813f5a691fa7f40f22bf699cdf3d684fc4f7",
+    "data/so101_joint_mapping.json": "716caa4a722dc165d870a8122efe68131a045e365e68dda7df05fc08cf24b150",
+    "data/pose_mapping_checks/pose_f_supported_start_glgoy1eh.json": "d6a48b74a65233099c55750f9d415e9ae70b0c5a2925ca98d0848f126b716454",
+    "data/pose_mapping_checks/wrist_model_e_ebbd4505/wrist_candidate_mapping.json": "4940a7707f41d0725c97faa48ddd95d236e26d582518ba869779e5ee9c6cc2dd",
+    "data/pose_mapping_checks/pose_alignment_e_a7974824/audit_approach.py": "2a6e16de873af369137a2f6a6ada2af2f42cc4157d785c53f0390b67f428af71",
+    "simulation/so101/scene_grasp.xml": "657b0387a443b26ba225d826e845a380e86773e5342cd7617187ad0ac67fde73",
+    "simulation/so101/so101_new_calib.xml": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02"
+  },
+  "auditor": "data/pose_mapping_checks/pose_alignment_e_a7974824/audit_approach.py",
+  "scope": "Qualitative direction check for a local encoder probe; unverified model wrist zero, historical small target, uncalibrated real gripper opening, support box absent; no hardware execution."
+}

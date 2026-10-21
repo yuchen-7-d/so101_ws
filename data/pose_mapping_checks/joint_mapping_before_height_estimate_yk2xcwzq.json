@@ -1,0 +1,57 @@
+{
+  "joint_directions": {
+    "1": {
+      "joint_name": "shoulder_pan",
+      "direction": 1,
+      "direction_verified": true
+    },
+    "2": {
+      "joint_name": "shoulder_lift",
+      "direction": 1,
+      "direction_verified": true
+    },
+    "3": {
+      "joint_name": "elbow_flex",
+      "direction": 1,
+      "direction_verified": true,
+      "direction_evidence": {
+        "path": "data/pose_mapping_checks/pose_b_4mfmwcx_.json",
+        "basis": "user_confirmed_manual_elbow_opening_A_to_B_with_decreasing_ID3_count",
+        "scope": "direction_only_reference_angle_not_revalidated"
+      }
+    },
+    "4": {
+      "joint_name": "wrist_flex",
+      "direction": 1,
+      "direction_verified": true
+    },
+    "5": {
+      "joint_name": "wrist_roll",
+      "direction": 1,
+      "direction_verified": true
+    }
+  },
+  "joint_references": {
+    "1": {
+      "position_count": 89,
+      "model_angle_deg": 0.0
+    },
+    "2": {
+      "position_count": 824,
+      "model_angle_deg": -13.97
+    },
+    "3": {
+      "position_count": 3092,
+      "model_angle_deg": 16.79
+    },
+    "4": {
+      "position_count": 2046,
+      "model_angle_deg": -9.41
+    },
+    "5": {
+      "position_count": 3325,
+      "model_angle_deg": 2.79
+    }
+  },
+  "model_mapping_verified": false
+}

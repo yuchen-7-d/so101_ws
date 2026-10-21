@@ -1,0 +1,9 @@
+{
+  "archive": "/home/yu/so101_ws/data/real_control_runs/id6_center_review_y6020jh5",
+  "installed": [
+    "scripts/so101_gripper_cycle.py",
+    "tests/test_so101_gripper_cycle.py"
+  ],
+  "real_serial_access": false,
+  "hardware_writes_sent": 0
+}

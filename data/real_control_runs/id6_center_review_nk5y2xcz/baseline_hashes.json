@@ -1,0 +1,19 @@
+{
+  "project": "/home/yu/so101_ws",
+  "created_at_utc": "2026-10-21T00:24:21.125814+00:00",
+  "files": {
+    "scripts/so101_verify_gripper_center.py": {
+      "baseline": "absent",
+      "stage_sha256": "78dfb0ea0f5187df61ba3f554b02316f3745c3b13fa676c3762e8fdd1e860f75"
+    },
+    "tests/test_so101_verify_gripper_center.py": {
+      "baseline": "absent",
+      "stage_sha256": "9c1706ef27a136c78cbf2a03503052ae016337e7e690972f27673e75ac4db61e"
+    }
+  },
+  "readonly_dependencies": {
+    "scripts/so101_center_gripper.py": "aed92daf1e1d27d07307bfdca3c6d2acf0c0255efd36615efc11503d9c817205",
+    "tests/test_so101_center_gripper.py": "4f0fd36f09a48ee0b6f5776be842ff6ea1877719d96a06f194ffae666c3be1ff",
+    "data/real_control_runs/gripper_center_20261021T001712_uikl4heg.jsonl": "e32253ed5ac0d735e79ab8aa614e7fdf9c9684a78f39d1e0f6651544e9c65fb6"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "existing_sha256": {
+    "scripts/so101_elbow_probe.py": "ec2737869c0f1722f5204878b6522b6c7d0a70dc4cba754282850634da8a5b5c",
+    "tests/test_so101_elbow_probe.py": "d256f9943701e53837e4ab50340a444faaf8741d2f8007f61105e74b8d554f96",
+    "tests/test_so101_elbow_single_step.py": "6d0f905697a686991b82f1068db6abca4ab7b794b4e981fb1015d82c0b2c34dd",
+    "scripts/so101_relative_probe.py": null,
+    "scripts/so101_shoulder_probe.py": null,
+    "tests/test_so101_shoulder_relative_probe.py": null,
+    "scripts/so101_hold_current.py": "6888f895dcf069791e8f9b2db19a172e73d8697ac6656c439f8b72dbea60f0a3",
+    "scripts/so101_pan_step.py": "3f3b4d626df0c9b59cabaf97e4e5813f5a691fa7f40f22bf699cdf3d684fc4f7",
+    "data/so101_joint_mapping.json": "716caa4a722dc165d870a8122efe68131a045e365e68dda7df05fc08cf24b150",
+    "data/real_control_runs/elbow_probe_20261020T231233_i24tkjxk.json": "a256e54acc8cc130e673bb7d2e5d9882923e65259b4f86aa400aa49816313dbc"
+  },
+  "candidate_sha256": {
+    "scripts/so101_relative_probe.py": "539d0735c7816caafe6cf707fe1bf5a16b0460939fd72c4d1adaee458e354877",
+    "scripts/so101_elbow_probe.py": "a543c5f89a08f89662fc4d7c1920632857d901e824b50be2a1bdaa965fe1ced8",
+    "scripts/so101_shoulder_probe.py": "f43eb45321f1cd6646482efc226d527369a46cb21f396470e031c8ad177a18f4",
+    "tests/test_so101_shoulder_relative_probe.py": "ebfb8bbe0c7591f4258404e889885e3d801a2b2ddb5d0d275eda8593ffdc3649"
+  },
+  "evidence_sha256": {
+    "id3_success_evidence.json": "aac87435a5807799bde299291bcf33fbd347142991af8fe9287d647e7adb8671",
+    "local_geometry_comparison.json": "91ce958f486b3d69a16582b737eea2605f4bb4b8a5c9defae6362258a30bca38",
+    "test_results.txt": "b68309e36f727ffae29cb2b0148b84f199e40c7d30c87d8741b430462137c19b",
+    "review.patch": "7f1c9ab94e41fe73e78cf18aec62823723a137e47ee63d723d5056d293f1c1bb"
+  },
+  "offline_tests": {
+    "count": 50,
+    "result": "passed",
+    "real_serial_access": false
+  },
+  "scope": "Fixed ID2 positive-eight relative response with steady light support; no automatic grasp.",
+  "feedback_change": "Final support-restoration range is the endpoint command/expected-feedback envelope with two-count margin. Single-step profiles reject return to G0/P0; legacy two-step large-bias boundaries may include them.",
+  "installed_at_utc": "2026-10-20T23:22:14.059354+00:00",
+  "real_serial_opened": false,
+  "real_motion_executed": false
+}

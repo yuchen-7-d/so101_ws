@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "kind": "so101_grasp_vision_diagnostic",
+  "saved_at_unix_s": 1792527834.9187264,
+  "raw_image": "raw.png",
+  "annotated_image": "annotated.png",
+  "target_record": {
+    "schema_version": 1,
+    "kind": "so101_box_grasp_target",
+    "source_mode": "live",
+    "session_id": "f64e4e66-45f8-4f24-b630-fdba04fbe82c",
+    "source": {
+      "camera_device": "/dev/video0",
+      "buffer_size_one_requested": true,
+      "timestamp_kind": "host_read_return_not_hardware_exposure"
+    },
+    "weights": {
+      "path": "/home/yu/so101_ws/runs/detect/a_box_v4/weights/best.pt",
+      "sha256": "e83b231938b1ea05618b691c5a209e927e62d5703488453835089272db809deb",
+      "class_id": 0,
+      "class_name": "a_box"
+    },
+    "calibration": {
+      "path": "/home/yu/so101_ws/data/calibration/table_plane_pose.npz",
+      "sha256": "79b3bc87c32610e7d99d7ec4b416919d50649d3b8cff3f720094e7daf70fcb7e",
+      "image_size": [
+        640,
+        480
+      ],
+      "transform_direction": "board_to_camera",
+      "pose_rms_px": 0.24714232981204987
+    },
+    "frame_id": 493,
+    "captured_at_unix_s": 1792527834.805586,
+    "published_at_unix_s": 1792527834.8385422,
+    "valid": false,
+    "reason": "顶面几何未通过40毫米方形尺寸检查",
+    "coordinate_system": "table",
+    "size_m": [
+      0.04,
+      0.04,
+      0.074
+    ],
+    "diagnostics": {
+      "target_box_count": 1,
+      "detection_confidence": 0.9803281426429749,
+      "stage": "refined_geometry",
+      "method": "otsu",
+      "bbox_xyxy": [
+        317.45263671875,
+        133.11151123046875,
+        388.6732177734375,
+        248.93048095703125
+      ],
+      "brightness_threshold": 150.0,
+      "roi_xyxy": [
+        309,
+        125,
+        396,
+        256
+      ],
+      "contour_count": 3,
+      "large_contour_count": 1,
+      "convex_quad_count": 1,
+      "geometry_reject_count": 0,
+      "candidates": [
+        {
+          "contour_index": 2,
+          "stage": "accepted",
+          "valid": true,
+          "corners_image_px": [
+            [
+              386.0,
+              158.0
+            ],
+            [
+              329.0,
+              167.0
+            ],
+            [
+              321.0,
+              138.0
+            ],
+            [
+              372.0,
+              132.0
+            ]
+          ],
+          "side_lengths_mm": [
+            42.980392053771624,
+            39.39016823901124,
+            40.306868109003034,
+            37.0455844932103
+          ],
+          "side_errors_mm": [
+            2.9803920537716238,
+            -0.6098317609887616,
+            0.30686810900303385,
+            -2.954415506789701
+          ],
+          "diagonal_lengths_mm": [
+            54.28692319315008,
+            58.626698577610206
+          ],
+          "diagonal_errors_mm": [
+            -2.2816193017737234,
+            2.058156082686402
+          ],
+          "edge_yaw_deg": [
+            -13.094283967811648,
+            -5.425856795788235,
+            -10.138063133931695,
+            -9.179714646649188
+          ],
+          "direction_consistency": 0.9818188815898846
+        }
+      ],
+      "candidate_records_limit": 12,
+      "selected_coarse": {
+        "contour_index": 2,
+        "stage": "accepted",
+        "valid": true,
+        "corners_image_px": [
+          [
+            386.0,
+            158.0
+          ],
+          [
+            329.0,
+            167.0
+          ],
+          [
+            321.0,
+            138.0
+          ],
+          [
+            372.0,
+            132.0
+          ]
+        ],
+        "side_lengths_mm": [
+          42.980392053771624,
+          39.39016823901124,
+          40.306868109003034,
+          37.0455844932103
+        ],
+        "side_errors_mm": [
+          2.9803920537716238,
+          -0.6098317609887616,
+          0.30686810900303385,
+          -2.954415506789701
+        ],
+        "diagonal_lengths_mm": [
+          54.28692319315008,
+          58.626698577610206
+        ],
+        "diagonal_errors_mm": [
+          -2.2816193017737234,
+          2.058156082686402
+        ],
+        "edge_yaw_deg": [
+          -13.094283967811648,
+          -5.425856795788235,
+          -10.138063133931695,
+          -9.179714646649188
+        ],
+        "direction_consistency": 0.9818188815898846
+      },
+      "candidate_count": 1,
+      "corner_shift_px": [
+        0.5430639982223511,
+        0.0,
+        1.539868950843811,
+        0.6443049311637878
+      ],
+      "refined": {
+        "stage": "geometry",
+        "valid": false,
+        "corners_image_px": [
+          [
+            385.8766326904297,
+            157.47113418579102
+          ],
+          [
+            329.0,
+            167.0
+          ],
+          [
+            319.50068378448486,
+            137.64893436431885
+          ],
+          [
+            372.46738052368164,
+            131.55650901794434
+          ]
+        ],
+        "side_lengths_mm": [
+          43.14669701655898,
+          40.05405736851322,
+          41.84783294141754,
+          36.92312140950418
+        ],
+        "side_errors_mm": [
+          3.1466970165589814,
+          0.05405736851322018,
+          1.8478329414175434,
+          -3.0768785904958165
+        ],
+        "diagonal_lengths_mm": [
+          55.14991993622013,
+          59.397479293723435
+        ],
+        "diagonal_errors_mm": [
+          -1.4186225587036745,
+          2.8289367987996314
+        ]
+      },
+      "reason": "顶面几何未通过40毫米方形尺寸检查",
+      "previous_attempts": [
+        {
+          "stage": "candidate_filter",
+          "method": "edges",
+          "bbox_xyxy": [
+            317.45263671875,
+            133.11151123046875,
+            388.6732177734375,
+            248.93048095703125
+          ],
+          "roi_xyxy": [
+            309,
+            125,
+            396,
+            256
+          ],
+          "contour_count": 22,
+          "large_contour_count": 3,
+          "convex_quad_count": 1,
+          "geometry_reject_count": 1,
+          "candidates": [
+            {
+              "contour_index": 5,
+              "stage": "geometry",
+              "valid": false,
+              "corners_image_px": [
+                [
+                  365.0,
+                  196.0
+                ],
+                [
+                  375.0,
+                  222.0
+                ],
+                [
+                  336.0,
+                  227.0
+                ],
+                [
+                  349.0,
+                  199.0
+                ]
+              ],
+              "side_lengths_mm": [
+                27.67493798253528,
+                25.124583934968282,
+                30.423375524779896,
+                11.261803374930487
+              ],
+              "side_errors_mm": [
+                -12.32506201746472,
+                -14.875416065031718,
+                -9.576624475220104,
+                -28.738196625069513
+              ],
+              "diagonal_lengths_mm": [
+                38.01660946884385,
+                28.448406720562062
+              ],
+              "diagonal_errors_mm": [
+                -18.55193302607995,
+                -28.120135774361742
+              ],
+              "reason": "顶面几何未通过40毫米方形尺寸检查"
+            }
+          ],
+          "candidate_records_limit": 12,
+          "candidate_count": 0,
+          "reason": "合格顶面候选数量=0，需要唯一顶面"
+        }
+      ]
+    }
+  }
+}

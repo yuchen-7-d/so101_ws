@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "so101_static_mesh_pose_comparison",
+  "source": "data/pose_mapping_checks/wrist_model_e_ebbd4505/wrist_model_review.json",
+  "source_sha256": "ebbd4505ec1402e4c37dd045a82f4bf81b3c149709e0411555af8d8ead7e9a9e",
+  "model_sha256": "657b0387a443b26ba225d826e845a380e86773e5342cd7617187ad0ac67fde73",
+  "source_model_sha256": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02",
+  "camera": {
+    "lookat": [
+      0.055,
+      0.0,
+      0.18
+    ],
+    "distance": 0.57,
+    "azimuth": 271.85,
+    "elevation": -3.0,
+    "fitted_to_photo": false
+  },
+  "gripper_model_angle_rad": 0.05,
+  "gripper_count_calibrated": false,
+  "gamma_scenarios_deg": [
+    80,
+    90,
+    100
+  ],
+  "estimated_closest_from_user_photo": "B_qualitative_only",
+  "photo_registration_performed": false,
+  "model_mapping_verified": false,
+  "physics_steps": 0,
+  "hardware_writes_sent": 0,
+  "execution_available": false,
+  "scope": "model-only static rendering; no user photo editing, no pixel measurement, no calibration or motion acceptance"
+}

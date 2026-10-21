@@ -1,0 +1,19 @@
+test_config_or_control_changes_during_window_are_rejected (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_current_offset_change_refuses_without_sampling_or_writes (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_help_never_imports_serial_and_apply_option_is_absent (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_invalid_source_cli_saves_failure_with_sha_before_serial_import (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_late_nonzero_speed_or_output_is_preserved_and_all_samples_collected (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_nonzero_health_preserved_for_full_window (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_position_window_and_anchor_deviation_are_checked_over_all_samples (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_read_failure_keeps_partial_frames_attempts_final_reads_and_never_cleans_up (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_readonly_bus_cannot_gain_or_use_write_capability (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_same_frame_torque_or_output_limit_cannot_hide_between_end_reads (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_source_requires_complete_final_record_no_bad_tail_fallback (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_source_wrong_ack_duplicate_128_or_unconfirmed_release_is_rejected (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_success_keeps_21_full_frames_and_distinguishes_historical_predictions (test_so101_verify_gripper_center.VerifyTests) ... ok
+test_transient_control_change_cannot_hide_between_identical_end_states (test_so101_verify_gripper_center.VerifyTests) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.216s
+
+OK

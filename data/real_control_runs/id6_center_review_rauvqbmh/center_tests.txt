@@ -1,0 +1,31 @@
+test_actual_anchor_does_not_overwrite_historical_open_observation (test_so101_center_gripper.CenterTests) ... ok
+test_after_center_outside_two_counts_rejected_and_not_restored (test_so101_center_gripper.CenterTests) ... ok
+test_apply_success_only_translates_offset_and_historical_endpoints (test_so101_center_gripper.CenterTests) ... ok
+test_bad_response_checks_are_zero_write (test_so101_center_gripper.CenterTests) ... ok
+test_bus_rejects_all_unlisted_write_capabilities_and_double_128 (test_so101_center_gripper.CenterTests) ... ok
+test_changed_non_offset_configuration_is_rejected (test_so101_center_gripper.CenterTests) ... ok
+test_cleanup_attempts_both_writes_and_reads_after_first_failure (test_so101_center_gripper.CenterTests) ... ok
+test_cli_preview_uses_exclusive_bounded_serial_and_prints_before (test_so101_center_gripper.CenterTests) ... ok
+test_durable_before_state_and_intent_exist_when_128_is_transmitted (test_so101_center_gripper.CenterTests) ... ok
+test_fsync_before_128_blocks_128_but_cleanup_runs (test_so101_center_gripper.CenterTests) ... ok
+test_fsync_failure_after_effect_never_prevents_cleanup_or_retries (test_so101_center_gripper.CenterTests) ... ok
+test_help_never_imports_pyserial_and_cli_has_no_motion_options (test_so101_center_gripper.CenterTests) ... ok
+test_initial_fsync_failure_never_enables_or_writes (test_so101_center_gripper.CenterTests) ... ok
+test_interrupt_after_mutation_always_cleans_up (test_so101_center_gripper.CenterTests) ... ok
+test_lost_128_ack_is_uncertain_even_if_after_readback_matches (test_so101_center_gripper.CenterTests) ... ok
+test_lost_first_mutation_ack_still_cleans_up_and_never_centers (test_so101_center_gripper.CenterTests) ... ok
+test_preflight_configuration_rejections_are_zero_write (test_so101_center_gripper.CenterTests) ... ok
+test_preflight_health_speed_output_and_open_window_rejections (test_so101_center_gripper.CenterTests) ... ok
+test_preflight_rejects_every_existing_enabled_joint_without_writes (test_so101_center_gripper.CenterTests) ... ok
+test_preview_is_zero_writes_and_preserves_all_registers (test_so101_center_gripper.CenterTests) ... ok
+test_quantized_center_and_translation_within_two_counts_are_allowed (test_so101_center_gripper.CenterTests) ... ok
+test_recheck_detects_prepare_drift_before_128 (test_so101_center_gripper.CenterTests) ... ok
+test_rerun_nonzero_offset_rejects_without_any_new_write (test_so101_center_gripper.CenterTests) ... ok
+test_stability_range_over_two_refuses_without_writes (test_so101_center_gripper.CenterTests) ... ok
+test_stable_open_window_boundaries_allowed (test_so101_center_gripper.CenterTests) ... ok
+test_wrong_offset_translation_or_no_offset_is_rejected (test_so101_center_gripper.CenterTests) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.275s
+
+OK

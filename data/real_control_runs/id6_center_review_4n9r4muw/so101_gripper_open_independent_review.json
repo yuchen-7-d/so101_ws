@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "reviewer": "review_gripper_open_only",
+  "approved_for_user_executed_empty_gripper_open_only": true,
+  "hardware_access": false,
+  "candidate_sha256": {
+    "scripts/so101_gripper_cycle.py": "ad2df28ca9cbb65d322b020073dbec4de0759790d291b0b868ab2d61673ff8aa",
+    "tests/test_so101_gripper_cycle.py": "50b31e89595fd5cfcee3d68a95fc315c91916fb2dd8b83d104db2f982504049e"
+  },
+  "tests": {
+    "count": 32,
+    "passed": true,
+    "output": "/tmp/so101_gripper_open_independent_tests.txt"
+  },
+  "actual_source_proof_validated_offline": true,
+  "actual_source_sha256": "24d6b910bbb634ba37d423757421e2510f10c85e9ecacd23c20a87d80e435008",
+  "independently_mocked_start_counts": [
+    1888,
+    1891,
+    1937,
+    2047,
+    2048,
+    2049,
+    2050
+  ],
+  "confirmed_properties": [
+    "fixed increasing path to 2048, max 16 counts per step",
+    "2048 through 2050 do not receive a closing target",
+    "only ID6 writes; passive axis torque and drift guards preserved",
+    "ID5 5.8V fails before write or aborts active motion",
+    "fresh goal preload at output zero before enabling torque and output",
+    "global feedback bounds include entire opening path, while per-step corridor remains tight",
+    "fault, timeout, overshoot and source mismatch prevent further motion goals",
+    "independent cleanup preserves torque zero and output zero readback",
+    "ordinary cycle retains original 22 passing regression tests",
+    "status distinguishes opening-only from full cycle and grasp"
+  ],
+  "limitations": [
+    "actual opening and remaining gap require user observation",
+    "no claim of whole-arm model mapping, mechanical limit or grasp validation"
+  ]
+}

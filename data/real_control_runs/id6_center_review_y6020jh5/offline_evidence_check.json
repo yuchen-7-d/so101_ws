@@ -1,0 +1,43 @@
+{
+  "calibration": {
+    "path": "/home/yu/so101_ws/data/real_control_runs/gripper_center_20261021T001712_uikl4heg.jsonl",
+    "sha256": "e32253ed5ac0d735e79ab8aa614e7fdf9c9684a78f39d1e0f6651544e9c65fb6",
+    "last_valid_stage": "final_readback_and_cleanup",
+    "parse_notes": [],
+    "historical_status": "centering_readback_failed",
+    "after_config": {
+      "raw_hex": "030a000903060000010000ff0f465028e8030c2c2f20200010000101f401013d0f0014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 6,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 3901,
+      "offset_signed": -1853
+    },
+    "anchor_before": 195,
+    "expected_anchor_after": 2048,
+    "offset_signed": -1853,
+    "center_command_count": 1,
+    "source_validated": true
+  },
+  "verification_path": "/home/yu/so101_ws/data/real_control_runs/gripper_center_readonly_20261021T002549_eaikzm_j.json",
+  "verification_sha256": "946c77051a23355d482bea7a3f8186e456d34de3257f5381a78e258999a850f8",
+  "gap_record_path": "/home/yu/so101_ws/data/so101_gripper_test_result.json",
+  "gap_record_sha256": "cf3d0a44450cf0ddd3693e6a6503f2457c1426067d8a59aa083128aeba32267b",
+  "historical_precontact_target": 3970,
+  "translated_precontact_target": 1727,
+  "translated_historical_actual": 1729,
+  "historical_closed_prediction_not_a_target": 1710
+}

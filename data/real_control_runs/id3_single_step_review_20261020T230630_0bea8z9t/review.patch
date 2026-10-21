@@ -1,0 +1,424 @@
+--- a/scripts/so101_elbow_probe.py
++++ b/scripts/so101_elbow_probe.py
+@@ -1,7 +1,9 @@
+ """Fixed ID3 -8-count probe; raw live feedback only, no calibrated model motion.
+ 
+ G0 is the initial (unpowered) command reference. P0 is a separately measured,
+-fixed loaded feedback reference. Commands are G0-4 and G0-8, never P0-4/P0-8.
++fixed loaded feedback reference. The default commands are G0-4 and G0-8.
++Explicit single-step mode commands G0-8 only, with a stricter +/-2 loaded
++baseline and fresh pre-command gate. Commands never incorporate the P0 bias.
+ Acceptance checks relative feedback displacement from P0, not absolute arrival
+ at the command. No EEPROM writes, wrap, retargeting, or automatic return.
+ """
+@@ -70,10 +72,17 @@
+ class ElbowProbeController(HoldController):
+     """Limited standalone diagnostic. Parameters intentionally are not tunable."""
+ 
+-    def __init__(self, bus, *, ready_check=None, emit=print,
++    def __init__(self, bus, *, single_step_eight=False, ready_check=None, emit=print,
+                  clock=time.monotonic, sleep=time.sleep):
++        if type(single_step_eight) is not bool:
++            raise ValueError("single_step_eight 必须为布尔值")
+         super().__init__(bus, limit=100, seconds=5, emit=emit,
+                          clock=clock, sleep=sleep)
++        self.single_step_eight = single_step_eight
++        self.offsets = (-8,) if single_step_eight else OFFSETS
++        self.baseline_bias = 2 if single_step_eight else BASELINE_BIAS
++        self.mode = "single_step_eight" if single_step_eight else "two_steps_four"
++        self.step_description = "单步" if single_step_eight else "两步"
+         self.started = self.clock()
+         self.phase = "preflight"
+         self.initial_targets = {}
+@@ -84,6 +93,7 @@
+         self.step_corridor = None
+         self.reads, self.writes, self.steps = [], [], []
+         self.baseline_samples = []
++        self.precommand_checks = []
+         self.fault = None
+         self.release_result = None
+         self.status = "not_started"
+@@ -132,15 +142,16 @@
+         super().preflight()
+         self.initial_targets = dict(self.targets)
+         g0 = self.initial_targets[3]
+-        # Before any writes, include every permissible loaded baseline (+/-6),
+-        # both command steps, their +/-2 feedback bands and other axes' guards.
++        # Before any writes, include every permitted loaded baseline, command,
++        # +/-2 feedback band, ramp/handover guard and other axes' guards.
+         # Enforce device limits AND single-turn limits, with an extra 16 counts.
+         self.preflight_corridors = {}
+         for sid, initial in self.initial_targets.items():
+             if sid == 3:
+-                corridor = (g0 - BASELINE_BIAS + OFFSETS[-1] - RELATIVE_TOLERANCE,
++                corridor = (min(g0 - HOLD_TOLERANCE,
++                                g0 - self.baseline_bias + self.offsets[-1] - RELATIVE_TOLERANCE),
+                             g0 + max(HOLD_TOLERANCE,
+-                                     BASELINE_BIAS + RELATIVE_TOLERANCE))
++                                     self.baseline_bias + RELATIVE_TOLERANCE))
+             else:
+                 tolerance = WRIST_TOLERANCE if sid == 4 else HOLD_TOLERANCE
+                 corridor = (initial - tolerance, initial + tolerance)
+@@ -152,8 +163,11 @@
+                     f"ID{sid} 完整反馈走廊 {corridor} 距设备/单圈边界不足 "
+                     f"{BOUNDARY_MARGIN} 计数，未发送写入")
+             self.preflight_corridors[sid] = corridor
+-        self.emit(f"ID3 固定计划：G0={g0} → {g0-4} → {g0-8}，单程不返回；"
++        path = " → ".join(str(g0 + offset) for offset in (0, *self.offsets))
++        self.emit(f"ID3 固定{self.step_description}计划：{path}，单程不返回；"
+                   "其余关节保持本次反馈目标，ID6 不使能。")
++        self.emit(f"模式={self.mode}；有载基线相对 G0 偏差上限="
++                  f"±{self.baseline_bias} 计数，输出上限仍为 100/1000。")
+         self.emit("有载基线 P0 只用于核验真实相对位移；不会加到目标或修改零位。")
+ 
+     def prepare(self):
+@@ -191,7 +205,7 @@
+     def collect_baseline(self):
+         self.phase = "loaded_baseline"
+         self.emit("开始采集有载基线 P0；手在下方保持承接，不主动推拉。"
+-                  "稳定后自动执行两步，异常立即停止，不回程。")
++                  f"稳定后自动执行{self.step_description}，异常立即停止，不回程。")
+         g0 = self.initial_targets[3]
+         deadline = self.clock() + 3.0
+         window = deque()
+@@ -202,8 +216,9 @@
+                 break
+             self.baseline_samples.append({"elapsed_s": now-self.started,
+                                           "position": position})
+-            if abs(position - g0) > BASELINE_BIAS:
+-                raise ControlError("ID3 有载基线相对 G0 偏差超过 6 计数，停止")
++            if abs(position - g0) > self.baseline_bias:
++                raise ControlError(f"ID3 有载基线相对 G0 偏差超过 "
++                                   f"{self.baseline_bias} 计数，停止")
+             window.append((now, position))
+             while window and now - window[0][0] > .6:
+                 window.popleft()
+@@ -231,7 +246,24 @@
+         self.step_corridor = (min(previous_expected, expected) - 2,
+                               max(previous_expected, expected) + 2)
+         # Check the current state under the old target before sending a new one.
+-        self.monitor(1, HOLD_TOLERANCE, self.limit)
++        states = self.monitor(1, HOLD_TOLERANCE, self.limit)
++        if self.single_step_eight:
++            # P0 alone cannot rule out drift after the stable window. Use the
++            # latest full-axis monitor, before changing the target register.
++            current = states[3].position
++            delta_from_g0 = current - self.initial_targets[3]
++            command_gap = current - goal
++            accepted = (abs(delta_from_g0) <= self.baseline_bias
++                        and abs(command_gap) <= HOLD_TOLERANCE)
++            self.precommand_checks.append({**self.context(), "position": current,
++                                           "goal": goal, "delta_from_g0": delta_from_g0,
++                                           "command_gap": command_gap, "accepted": accepted})
++            if not accepted:
++                raise ControlError(
++                    "ID3 单步 8 计数写前检查未通过："
++                    f"实际相对 G0={delta_from_g0:+d}（允许 ±2），"
++                    f"相对新目标={command_gap:+d}（允许 ±{HOLD_TOLERANCE}）；"
++                    "未发送运动目标，不更新基线")
+         self.targets[3] = goal
+         self.expected_position = expected
+         self.bus.set_checked(3, GOAL, goal)
+@@ -274,7 +306,7 @@
+             self.ready_check.begin()
+         self.emit("15 秒内完成承重交接：从下方承接前臂，让纸箱脱离接触，"
+                   "逐渐减到本次运动要保持的托力，稳定后按 Enter。"
+-                  "按 Enter 后直到两步运动完成，不再改变托力、不主动推拉。"
++                  f"按 Enter 后直到{self.step_description}运动完成，不再改变托力、不主动推拉。"
+                   "等待期间持续监测；超时、EOF 或异常会释放扭矩。")
+         end = self.clock()+15.0
+         while self.clock() < end:
+@@ -293,7 +325,7 @@
+         self.ramp()
+         self.wait_for_handover()
+         self.collect_baseline()
+-        for offset in OFFSETS:
++        for offset in self.offsets:
+             self.move_step(offset)
+         self.motion_response_complete = True
+         self.phase = "final_monitor"
+@@ -301,7 +333,7 @@
+         # load bias, so keep the fixed GLOBAL guard, not the relative-arrival
+         # band. The completed movement evidence remains separate in the log.
+         self.step_corridor = None
+-        self.emit("两步相对位移达标；继续承托，监测 5 秒后释放扭矩，不返回起点。")
++        self.emit(f"{self.step_description}相对位移达标；继续承托，监测 5 秒后释放扭矩，不返回起点。")
+         end, next_print = self.clock()+5.0, self.clock()
+         while self.clock() < end:
+             states = self.monitor(1, HOLD_TOLERANCE, self.limit)
+@@ -338,7 +370,7 @@
+             else:
+                 self.preflight()
+                 self.emit("只读预览完成，未发送写入；--enable 才会实际使能，"
+-                          "并在承重交接就绪后执行 ID3 固定负向两步诊断。")
++                          f"并在承重交接就绪后执行 ID3 固定负向{self.step_description}诊断。")
+         except BaseException as error:
+             self.status = "failed"
+             self.capture_fault(error)
+@@ -349,12 +381,14 @@
+     def report(self):
+         return {"schema_version": 1, "test": "elbow_relative_negative_probe",
+                 "status": self.status, "joint_mapping_used": False,
++                "mode": self.mode, "baseline_bias_limit": self.baseline_bias,
+                 "automatic_return": False, "limit": self.limit,
+                 "original_targets": self.initial_targets,
+                 "last_command_targets": dict(self.targets),
+                 "loaded_baseline": self.baseline,
+                 "motion_response_complete": self.motion_response_complete,
+-                "command_offsets": list(OFFSETS),
++                "command_offsets": list(self.offsets),
++                "precommand_checks": self.precommand_checks,
+                 "preflight_corridors": getattr(self, "preflight_corridors", {}),
+                 "total_feedback_corridor": self.total_corridor,
+                 "baseline_samples": self.baseline_samples,
+@@ -409,7 +443,9 @@
+ def main(argv=None):
+     parser = argparse.ArgumentParser(description="ID3 固定负向 8 计数单程诊断；默认只读预览。")
+     parser.add_argument("--port", default="/dev/ttyUSB0")
+-    parser.add_argument("--enable", action="store_true", help="实际使能并运行固定两步诊断")
++    parser.add_argument("--enable", action="store_true", help="实际使能并运行所选固定诊断")
++    parser.add_argument("--single-step-eight", action="store_true",
++                        help="显式选择单次 -8 计数；仅允许有载基线及写前反馈偏差 ≤2，仍需 --enable 才运动")
+     parser.add_argument("--log-dir", type=Path,
+                         default=Path(__file__).resolve().parents[1]/"data"/"real_control_runs")
+     args = parser.parse_args(argv)
+@@ -431,13 +467,15 @@
+     previous = signal.signal(signal.SIGTERM, stop)
+     try:
+         if args.enable:
+-            print("ID3 向计数减小方向两步共 8 计数，不自动返回；手从下方保持承接，"
++            steps = "单次 8 计数" if args.single_step_eight else "两步共 8 计数"
++            print(f"ID3 向计数减小方向{steps}，不自动返回；手从下方保持承接，"
+                   "不推拉、不夹紧连杆。退出或异常会释放扭矩。关闭其他串口控制程序。", flush=True)
+         else:
+             print("只读预览：不改变目标、扭矩、限位或 PID；不会使机械臂运动。", flush=True)
+         with serial.Serial(args.port, baudrate=1_000_000, timeout=.15,
+                            write_timeout=.15, exclusive=True) as port:
+             controller = ElbowProbeController(Bus(port), ready_check=ready,
++                                              single_step_eight=args.single_step_eight,
+                                               emit=lambda msg: print(msg, flush=True))
+             controller.run(args.enable)
+     except KeyboardInterrupt:
+--- a/tests/test_so101_elbow_probe.py
++++ b/tests/test_so101_elbow_probe.py
+@@ -23,7 +23,7 @@
+ 
+ class ProbeTests(unittest.TestCase):
+     def setup_control(self, *, response="follow", ready_check=lambda: True,
+-                      extra_hook=None, bias=5):
++                      extra_hook=None, bias=5, single_step_eight=False):
+         clock, messages = Clock(), []
+         def hook(port, instruction, sid, address, params):
+             value = int.from_bytes(params, "little")
+@@ -51,6 +51,7 @@
+         for sid, position in START.items():
+             port.put(sid, 56, position)
+         controller = ElbowProbeController(Bus(port), ready_check=ready_check,
++                                          single_step_eight=single_step_eight,
+                                           emit=messages.append, clock=clock.time,
+                                           sleep=clock.sleep)
+         return port, controller, clock, messages
+--- a/tests/test_so101_elbow_single_step.py
++++ b/tests/test_so101_elbow_single_step.py
+@@ -0,0 +1,201 @@
++"""Explicit single-step probe: protocol fakes only, no real serial device."""
++
++from contextlib import nullcontext
++import json
++from pathlib import Path
++import tempfile
++from types import SimpleNamespace
++import unittest
++from unittest.mock import patch
++
++from so101_elbow_probe import main
++from so101_hold_current import GOAL, OUTPUT, ControlError
++import test_so101_elbow_probe as probe_tests
++
++
++START = probe_tests.START
++
++
++class SingleStepTests(unittest.TestCase):
++    def make(self, **kwargs):
++        return probe_tests.ProbeTests().setup_control(single_step_eight=True, bias=kwargs.pop("bias", 1), **kwargs)
++
++    def goals(self, port):
++        return probe_tests.ProbeTests().goals(port)
++
++    def released(self, port):
++        probe_tests.ProbeTests().assert_released(port)
++
++    def test_single_step_plus_one_bias_moves_negative_eight(self):
++        port, control, _, messages = self.make()
++        control.run(True)
++        self.released(port)
++        self.assertEqual(control.baseline, START[3]+1)
++        self.assertEqual(self.goals(port), [START[3], START[3]-8])
++        self.assertEqual(len(control.steps), 1)
++        self.assertEqual(control.steps[0]["position"]-control.baseline, -8)
++        self.assertEqual(control.steps[0]["absolute_error"], 1)
++        self.assertEqual(control.report()["command_offsets"], [-8])
++        self.assertEqual(control.report()["mode"], "single_step_eight")
++        self.assertEqual(control.report()["baseline_bias_limit"], 2)
++        self.assertEqual(control.precommand_checks[0]["command_gap"], 9)
++        self.assertTrue(control.precommand_checks[0]["accepted"])
++        self.assertTrue(any("单步相对位移达标" in msg for msg in messages))
++        self.assertFalse(any(sid == 6 for sid, _, _ in port.writes))
++        self.assertEqual(max(v for _, addr, v in port.writes if addr == OUTPUT), 100)
++
++    def test_one_count_or_zero_motion_cannot_pass(self):
++        for displacement in (-1, 0):
++            with self.subTest(displacement=displacement):
++                def insufficient(port, instruction, sid, address, params):
++                    if instruction == 3 and sid == 3 and address == GOAL and port.get(3, OUTPUT) == 100:
++                        port.put(3, 56, START[3]+1+displacement)
++                port, control, _, _ = self.make(extra_hook=insufficient)
++                with self.assertRaisesRegex(ControlError, "相对位移未在 3 秒内达标"):
++                    control.run(True)
++                self.released(port)
++                self.assertEqual(self.goals(port), [START[3], START[3]-8])
++                self.assertEqual(control.steps, [])
++                self.assertFalse(control.motion_response_complete)
++                self.assertEqual(control.fault["phase"], "step_-8")
++
++    def test_baseline_plus_three_or_six_rejected_before_motion(self):
++        for bias in (3, 6, -3, -6):
++            with self.subTest(bias=bias):
++                port, control, _, _ = self.make(bias=bias)
++                with self.assertRaisesRegex(ControlError, "偏差超过 2"):
++                    control.run(True)
++                self.released(port)
++                self.assertEqual(self.goals(port), [START[3]])
++                self.assertEqual(control.precommand_checks, [])
++
++    def test_old_two_step_mode_still_allows_six_count_bias(self):
++        port, control, _, _ = probe_tests.ProbeTests().setup_control(bias=6)
++        control.run(True)
++        self.released(port)
++        self.assertEqual(self.goals(port), [START[3], START[3]-4, START[3]-8])
++        self.assertEqual(control.report()["command_offsets"], [-4, -8])
++        self.assertEqual(control.report()["baseline_bias_limit"], 6)
++        self.assertEqual(control.report()["mode"], "two_steps_four")
++
++    def test_fresh_three_count_drift_rejected_before_new_goal(self):
++        for drift in (3, -3):
++            with self.subTest(drift=drift):
++                port, control, _, _ = self.make()
++                old_monitor = control.monitor
++                def monitor(*args):
++                    if control.phase == "step_-8" and control.targets[3] == START[3]:
++                        port.put(3, 56, START[3]+drift)
++                    return old_monitor(*args)
++                control.monitor = monitor
++                with self.assertRaisesRegex(ControlError, "写前检查未通过"):
++                    control.run(True)
++                self.released(port)
++                self.assertEqual(self.goals(port), [START[3]])
++                self.assertEqual(control.baseline, START[3]+1)
++                self.assertFalse(control.precommand_checks[0]["accepted"])
++                self.assertEqual(control.precommand_checks[0]["delta_from_g0"], drift)
++
++    def test_two_count_baseline_and_fresh_feedback_boundaries_are_inclusive(self):
++        for bias, fresh_delta in ((2, 2), (-2, -2), (0, 2), (0, -2)):
++            with self.subTest(bias=bias, fresh_delta=fresh_delta):
++                port, control, _, _ = self.make(bias=bias)
++                old_monitor = control.monitor
++                def monitor(*args):
++                    if control.phase == "step_-8" and control.targets[3] == START[3]:
++                        port.put(3, 56, START[3]+fresh_delta)
++                    return old_monitor(*args)
++                control.monitor = monitor
++                control.run(True)
++                self.released(port)
++                self.assertEqual(control.baseline, START[3]+bias)
++                self.assertEqual(self.goals(port), [START[3], START[3]-8])
++                self.assertTrue(control.motion_response_complete)
++                self.assertEqual(control.steps[0]["position"]-control.baseline, -8)
++                self.assertEqual(len(control.precommand_checks), 1)
++                check = control.precommand_checks[0]
++                self.assertTrue(check["accepted"])
++                self.assertEqual(check["position"], START[3]+fresh_delta)
++                self.assertEqual(check["delta_from_g0"], fresh_delta)
++                self.assertEqual(check["goal"], START[3]-8)
++                self.assertEqual(check["command_gap"], 8+fresh_delta)
++
++    def test_acceptance_requires_at_least_six_counts_of_real_motion(self):
++        for displacement, succeeds in ((-6, True), (-5, False)):
++            with self.subTest(displacement=displacement):
++                def move(port, instruction, sid, address, params):
++                    if instruction == 3 and sid == 3 and address == GOAL and port.get(3, OUTPUT) == 100:
++                        port.put(3, 56, START[3]+1+displacement)
++                port, control, _, _ = self.make(extra_hook=move)
++                if succeeds:
++                    control.run(True)
++                    self.assertEqual(control.steps[0]["position"]-control.baseline, -6)
++                else:
++                    with self.assertRaisesRegex(ControlError, "相对位移未在"):
++                        control.run(True)
++                self.released(port)
++                self.assertEqual(control.motion_response_complete, succeeds)
++                self.assertEqual(self.goals(port), [START[3], START[3]-8])
++
++    def test_wrist_four_count_drift_stops_on_its_feedback_reply(self):
++        def wrist(port, instruction, sid, address, params):
++            if instruction == 3 and sid == 3 and address == GOAL and port.get(3, OUTPUT) == 100:
++                port.put(4, 56, START[4]+4)
++        port, control, _, _ = self.make(extra_hook=wrist)
++        with self.assertRaisesRegex(ControlError, "ID4.*3 计数"):
++            control.run(True)
++        self.released(port)
++        last = [r for r in control.reads if r["phase"] == "step_-8"][-1]
++        self.assertEqual((last["servo_id"], last["address"]), (4, 56))
++        self.assertEqual(self.goals(port), [START[3], START[3]-8])
++
++    def test_saturation_and_corridor_violations_still_release(self):
++        for fault in ("saturation", "overshoot", "support_loss"):
++            with self.subTest(fault=fault):
++                def inject(port, instruction, sid, address, params):
++                    if instruction == 3 and sid == 3 and address == GOAL and port.get(3, OUTPUT) == 100:
++                        if fault == "saturation":
++                            port.put(3, 60, 100)
++                        elif fault == "overshoot":
++                            port.put(3, 56, START[3]+1-11)
++                        else:
++                            port.put(3, 56, START[3]+13)
++                port, control, _, _ = self.make(extra_hook=inject)
++                pattern = "输出持续接近" if fault == "saturation" else "越界"
++                with self.assertRaisesRegex(ControlError, pattern):
++                    control.run(True)
++                self.released(port)
++                self.assertEqual(self.goals(port), [START[3], START[3]-8])
++                self.assertLessEqual(max(v for _, addr, v in port.writes if addr == OUTPUT), 100)
++
++    def test_restore_support_is_allowed_after_single_step(self):
++        port, control, _, _ = self.make()
++        old_sleep = control.sleep
++        def restore(seconds):
++            old_sleep(seconds)
++            if control.phase == "final_monitor":
++                port.put(3, 56, START[3]-8)
++        control.sleep = restore
++        control.run(True)
++        self.released(port)
++        self.assertTrue(control.motion_response_complete)
++        self.assertEqual(self.goals(port), [START[3], START[3]-8])
++
++    def test_cli_mode_without_enable_is_only_read_only_preview(self):
++        port, control, _, _ = self.make()
++        fake_serial = SimpleNamespace(Serial=lambda *a, **kw: nullcontext(port))
++        with tempfile.TemporaryDirectory() as folder:
++            with (patch.dict("sys.modules", {"serial": fake_serial}),
++                  patch("so101_elbow_probe.ElbowProbeController", return_value=control) as create,
++                  patch("builtins.print")):
++                result = main(["--single-step-eight", "--log-dir", folder])
++            self.assertEqual(result, 0)
++            self.assertTrue(create.call_args.kwargs["single_step_eight"])
++            self.assertEqual(port.writes, [])
++            record = json.loads(next(Path(folder).glob("*.json")).read_text())
++            self.assertEqual(record["status"], "read_only_preview")
++            self.assertEqual(record["command_offsets"], [-8])
++
++
++if __name__ == "__main__":
++    unittest.main()

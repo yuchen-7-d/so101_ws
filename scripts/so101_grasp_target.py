@@ -19,6 +19,8 @@ import numpy as np
 BOX_SIZE_M = [0.04, 0.04, 0.074]
 TARGET_CLASS = "a_box"
 MAX_EDGE_ERROR_MM = 3.0
+SUBPIX_WINDOW_RADIUS = 3  # 7x7 pixels: include both sides of a blurred corner.
+MAX_CORNER_SHIFT_PX = 5.0
 
 
 class MeasurementError(ValueError):
@@ -118,17 +120,24 @@ def measure_top_corners(corners_image, calibration, diagnostics=None):
     if (not np.isfinite(points).all() or max_error > MAX_EDGE_ERROR_MM
             or np.max(np.abs(diagonals_mm - np.sqrt(2) * 40)) > np.sqrt(2) * MAX_EDGE_ERROR_MM):
         raise MeasurementError("顶面几何未通过40毫米方形尺寸检查")
-    edge = points[1] - points[0]
+    # 正方形方向以90度为周期。联合四条边，消除轮廓起点/顺逆序对结果的影响。
+    edges = np.roll(points, -1, axis=0) - points
+    edge_angles = np.arctan2(edges[:, 1], edges[:, 0])
+    direction = np.mean(np.exp(4j * edge_angles))
+    if not np.isfinite(direction) or abs(direction) < 1e-6:
+        raise MeasurementError("顶面四边无法给出一致的方形方向")
+    detail.update(edge_yaw_deg=diagnostic_numbers((np.degrees(edge_angles)+45) % 90-45),
+                  direction_consistency=float(abs(direction)))
     detail.update(stage="accepted", valid=True)
-    yaw = float((np.degrees(np.arctan2(edge[1], edge[0])) + 45) % 90 - 45)
+    yaw = float((np.degrees(np.angle(direction)) / 4 + 45) % 90 - 45)
     return {"center_m": points.mean(axis=0).tolist(), "square_yaw_deg": yaw,
             "max_edge_error_mm": max_error}
 
 
-def extract_topface(image, bbox, calibration, diagnostics=None):
-    """Reuse the existing ROI/contour/subpixel procedure without files or GUI."""
+def _extract_topface(image, bbox, calibration, diagnostics, method):
+    """Apply the same geometric acceptance checks to one segmentation method."""
     detail = {} if diagnostics is None else diagnostics
-    detail["stage"] = "frame"
+    detail.update(stage="frame", method=method)
     if (not isinstance(image, np.ndarray) or image.ndim != 3 or image.shape[2] != 3
             or image.dtype != np.uint8
             or (image.shape[1], image.shape[0]) != calibration["image_size"]):
@@ -141,18 +150,31 @@ def extract_topface(image, bbox, calibration, diagnostics=None):
     height, width = image.shape[:2]
     left, top = max(0, int(x1)-8), max(0, int(y1)-8)
     right, bottom = min(width, int(x2)+8), min(height, int(y2)+8)
-    if right-left < 6 or bottom-top < 6:
+    # OpenCV needs this minimum image size in addition to corner-to-border margin.
+    minimum_roi_size = 2 * SUBPIX_WINDOW_RADIUS + 5
+    if right-left < minimum_roi_size or bottom-top < minimum_roi_size:
         raise MeasurementError("纸盒裁剪区域过小或为空")
     roi = image[top:bottom, left:right]
     gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    edges = cv2.Canny(cv2.GaussianBlur(gray, (3, 3), 0), 50, 150)
-    closed = cv2.morphologyEx(edges, cv2.MORPH_CLOSE,
-                             cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))
-    contours, _ = cv2.findContours(closed, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    blurred = cv2.GaussianBlur(gray, (3, 3), 0)
+    if method == "edges":
+        edges = cv2.Canny(blurred, 50, 150)
+        binary = cv2.morphologyEx(edges, cv2.MORPH_CLOSE,
+                                 cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))
+    elif method == "otsu":
+        threshold, binary = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        detail["brightness_threshold"] = float(threshold)
+    else:
+        raise ValueError(f"Unknown segmentation method: {method}")
+    contours, _ = cv2.findContours(binary, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     detail.update(stage="candidate_filter", roi_xyxy=[left, top, right, bottom],
                   contour_count=len(contours), large_contour_count=0, convex_quad_count=0,
-                  geometry_reject_count=0, candidates=[], candidate_records_limit=12)
+                  coarse_geometry_reject_count=0, geometry_reject_count=0,
+                  candidates=[], candidate_records_limit=12,
+                  subpixel_window_radius=SUBPIX_WINDOW_RADIUS,
+                  max_corner_shift_px=MAX_CORNER_SHIFT_PX)
     candidates = []
+    last_rejected = None
     for contour_index, contour in enumerate(contours):
         if cv2.contourArea(contour) < roi.shape[0] * roi.shape[1] * .03:
             continue
@@ -162,33 +184,83 @@ def extract_topface(image, bbox, calibration, diagnostics=None):
         if len(approx) != 4 or not cv2.isContourConvex(approx):
             continue
         detail["convex_quad_count"] += 1
-        candidate_detail = {"contour_index": contour_index}
+        candidate_detail = {"contour_index": contour_index, "final_valid": False}
         if len(detail["candidates"]) < 12:
             detail["candidates"].append(candidate_detail)
         try:
             measure_top_corners(approx.reshape(4, 2) + (left, top), calibration, candidate_detail)
         except MeasurementError as error:
             candidate_detail["reason"] = str(error)
+            detail["coarse_geometry_reject_count"] += 1
+        # Integer contour vertices are only an initial guess. Do not reject them
+        # by physical size before subpixel localization has had a chance to run.
+        corners_roi = approx.astype(np.float32)
+        candidate_detail["refined"] = {"stage": "refinement", "valid": False}
+        try:
+            margin = SUBPIX_WINDOW_RADIUS + 1
+            if (np.any(corners_roi[:, 0, 0] < margin) or np.any(corners_roi[:, 0, 1] < margin)
+                    or np.any(corners_roi[:, 0, 0] >= roi.shape[1]-margin)
+                    or np.any(corners_roi[:, 0, 1] >= roi.shape[0]-margin)):
+                raise MeasurementError("顶面角点太靠近裁剪边缘")
+            refined = cv2.cornerSubPix(
+                gray, corners_roi.copy(), (SUBPIX_WINDOW_RADIUS, SUBPIX_WINDOW_RADIUS), (-1, -1),
+                (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_MAX_ITER, 30, .01))
+            shifts = np.linalg.norm(refined.reshape(4, 2)-corners_roi.reshape(4, 2), axis=1)
+            candidate_detail["corner_shift_px"] = diagnostic_numbers(shifts)
+            if not np.isfinite(shifts).all() or np.any(shifts > MAX_CORNER_SHIFT_PX):
+                raise MeasurementError("顶面角点细化位移超过5像素或无效")
+            measurement = measure_top_corners(
+                refined.reshape(4, 2) + (left, top), calibration, candidate_detail["refined"])
+        except MeasurementError as error:
+            candidate_detail["refinement_reason"] = str(error)
             detail["geometry_reject_count"] += 1
+            last_rejected = candidate_detail
             continue
-        candidates.append(approx)
-        detail["selected_coarse"] = candidate_detail
+        candidate_detail["final_valid"] = True
+        candidates.append((candidate_detail, measurement))
     detail["candidate_count"] = len(candidates)
     if len(candidates) != 1:
+        if len(candidates) == 0 and last_rejected is not None:
+            detail.update(stage="refined_geometry", selected_coarse=last_rejected,
+                          refined=last_rejected["refined"],
+                          corner_shift_px=last_rejected.get("corner_shift_px", []))
+            raise MeasurementError(last_rejected["refinement_reason"])
         raise MeasurementError(f"合格顶面候选数量={len(candidates)}，需要唯一顶面")
-    corners_roi = candidates[0].astype(np.float32)
-    detail["stage"] = "refinement"
-    if (np.any(corners_roi[:, 0, 0] < 3) or np.any(corners_roi[:, 0, 1] < 3)
-            or np.any(corners_roi[:, 0, 0] >= roi.shape[1]-3)
-            or np.any(corners_roi[:, 0, 1] >= roi.shape[0]-3)):
-        raise MeasurementError("顶面角点太靠近裁剪边缘")
-    refined = cv2.cornerSubPix(gray, corners_roi.copy(), (2, 2), (-1, -1),
-                              (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_MAX_ITER, 30, .01))
-    # Revalidate the refined geometry; accepting the coarse candidate is insufficient.
-    detail.update(stage="refined_geometry", corner_shift_px=diagnostic_numbers(
-        np.linalg.norm(refined.reshape(4, 2)-corners_roi.reshape(4, 2), axis=1)), refined={})
-    measurement = measure_top_corners(refined.reshape(4, 2) + (left, top), calibration, detail["refined"])
-    detail["stage"] = "accepted"
+    selected, measurement = candidates[0]
+    detail.update(stage="accepted", selected_coarse=selected,
+                  corner_shift_px=selected["corner_shift_px"], refined=selected["refined"])
+    return measurement
+
+
+def extract_topface(image, bbox, calibration, diagnostics=None):
+    """Prefer existing edges; try a bright-region contour only after a missing/failed top."""
+    detail = {} if diagnostics is None else diagnostics
+    edge_detail = {}
+    try:
+        measurement = _extract_topface(image, bbox, calibration, edge_detail, "edges")
+    except MeasurementError as error:
+        edge_detail["reason"] = str(error)
+        detail.update(edge_detail)
+        # Multiple plausible faces remain ambiguous. Do not choose one via another mask.
+        missing = (edge_detail.get("stage") in ("candidate_filter", "refined_geometry")
+                   and edge_detail.get("candidate_count") == 0)
+        if not missing:
+            raise
+        fallback_detail = {}
+        try:
+            measurement = _extract_topface(image, bbox, calibration, fallback_detail, "otsu")
+        except MeasurementError as fallback_error:
+            fallback_detail["reason"] = str(fallback_error)
+            # Replace segmentation fields but preserve upstream YOLO metadata.
+            for key in edge_detail:
+                detail.pop(key, None)
+            detail.update(fallback_detail, previous_attempts=[edge_detail])
+            raise
+        for key in edge_detail:
+            detail.pop(key, None)
+        detail.update(fallback_detail, previous_attempts=[edge_detail])
+        return measurement
+    detail.update(edge_detail)
     return measurement
 
 
@@ -252,7 +324,7 @@ def annotate_frame(frame, record):
         if points.shape != (4, 2) or not np.isfinite(points).all():
             continue
         points = np.rint(points).astype(np.int32)
-        color = (0, 210, 0) if item.get("valid") else (0, 80, 255)
+        color = (0, 210, 0) if item.get("final_valid", item.get("valid")) else (0, 80, 255)
         cv2.polylines(display, [points], True, color, 1)
         cv2.putText(display, name, tuple(points[0]), cv2.FONT_HERSHEY_SIMPLEX, .4, color, 1)
         if name == "refined":
@@ -261,7 +333,7 @@ def annotate_frame(frame, record):
     label = "VALID top 40x40 mm / height 74 mm" if record["valid"] else "NO VALID TARGET"
     cv2.putText(display, label, (8, 22), cv2.FONT_HERSHEY_SIMPLEX, .5,
                 (0, 220, 0) if record["valid"] else (0, 0, 255), 1)
-    cv2.putText(display, f"stage={detail.get('stage', 'unknown')}  s: save  q: stop",
+    cv2.putText(display, f"stage={detail.get('stage', 'unknown')}  s: save  f: last failure  q: stop",
                 (8, 43), cv2.FONT_HERSHEY_SIMPLEX, .45, (255, 100, 0), 1)
     return display
 
@@ -354,6 +426,7 @@ def main(argv=None):
             frames = captured_frames()
         previous_status = None
         last_print = 0.0
+        last_failed_frame = None
         for frame, captured_at in frames:
             frame_id += 1
             diagnostics = {"stage": "frame"}
@@ -369,6 +442,9 @@ def main(argv=None):
             except MeasurementError as error:
                 record = make_record(context, frame_id, captured_at, reason=str(error))
             record["diagnostics"] = diagnostics
+            if not record["valid"]:
+                # Keep one failure only, with its original frame ID and capture time.
+                last_failed_frame = (frame.copy(), record)
             atomic_write_json(output, record)
             now = time.monotonic()
             status = (record["valid"], record["reason"])
@@ -377,7 +453,8 @@ def main(argv=None):
                       (f"顶面中心(m)={np.round(record['center_m'], 4)}, 方向={record['square_yaw_deg']:.2f}°, "
                        f"边长最大误差={record['max_edge_error_mm']:.2f}mm" if record["valid"] else record["reason"]), flush=True)
                 previous_status, last_print = status, now
-                print(f"  stage={diagnostics['stage']} contours={diagnostics.get('contour_count', '-')} "
+                print(f"  method={diagnostics.get('method', '-')} stage={diagnostics['stage']} "
+                      f"contours={diagnostics.get('contour_count', '-')} "
                       f"quads={diagnostics.get('convex_quad_count', '-')} "
                       f"accepted={diagnostics.get('candidate_count', '-')}", flush=True)
             if args.image:
@@ -395,6 +472,18 @@ def main(argv=None):
                         print(f"同帧诊断已保存: {path}", flush=True)
                     except (OSError, cv2.error) as error:
                         print(f"诊断保存失败: {error}", file=sys.stderr, flush=True)
+                if key == ord("f"):
+                    if last_failed_frame is None:
+                        print("本次运行尚无失败帧可保存。", flush=True)
+                    else:
+                        failed_image, failed_record = last_failed_frame
+                        try:
+                            path = save_vision_diagnostic(
+                                failed_image, annotate_frame(failed_image, failed_record), failed_record,
+                                workspace/"data"/"grasp_vision_debug")
+                            print(f"最近失败帧 {failed_record['frame_id']} 已保存: {path}", flush=True)
+                        except (OSError, cv2.error) as error:
+                            print(f"诊断保存失败: {error}", file=sys.stderr, flush=True)
         return 0
     except KeyboardInterrupt:
         exit_reason = "interrupted"

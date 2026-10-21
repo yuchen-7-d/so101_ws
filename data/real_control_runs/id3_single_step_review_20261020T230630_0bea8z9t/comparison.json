@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "kind": "offline_comparison_of_id3_loaded_and_partly_supported_probes",
+  "assistant_serial_access": false,
+  "cases": [
+    {
+      "run": "data/real_control_runs/elbow_probe_20261020T225204_rltw_nqz.json",
+      "source_sha256": "ed2c47032183a02a00c2bd81cd07b784a688cea9404bba26ad8089a9db1a9f3d",
+      "g0": 3945,
+      "p0": 3951,
+      "baseline_bias": 6,
+      "goal": 3941,
+      "baseline_output_values": [
+        56
+      ],
+      "after_command_sample_count": 32,
+      "sample_span_s": [
+        7.164557031006552,
+        10.083747965007205
+      ],
+      "position_values": [
+        3951
+      ],
+      "first_position": 3951,
+      "last_position": 3951,
+      "last_relative_displacement": 0,
+      "output_values": [
+        68,
+        88
+      ],
+      "last_output": 88,
+      "speed_values": [
+        0
+      ],
+      "expected_feedback_interval": [
+        3945,
+        3949
+      ],
+      "samples_in_arrival_band": 0,
+      "control_readbacks": 32,
+      "control_readbacks_expected": true,
+      "id4_positions": [
+        968
+      ],
+      "status_values": [
+        0
+      ],
+      "device_config": {
+        "P": 32,
+        "D": 32,
+        "I": 0,
+        "minimum_starting_output": 16,
+        "dead_zones": [
+          1,
+          1
+        ]
+      },
+      "release": {
+        "attempted_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "unconfirmed_ids": [],
+        "confirmed": true
+      }
+    },
+    {
+      "run": "data/real_control_runs/elbow_probe_20261020T225702__du71an6.json",
+      "source_sha256": "fda93c1dc640b7d6dd5f578b5dcaf367ff2647c3a2e3a9373b9331428c7bb875",
+      "g0": 3941,
+      "p0": 3942,
+      "baseline_bias": 1,
+      "goal": 3937,
+      "baseline_output_values": [
+        0
+      ],
+      "after_command_sample_count": 32,
+      "sample_span_s": [
+        9.138081085999147,
+        12.058260669000447
+      ],
+      "position_values": [
+        3941,
+        3942
+      ],
+      "first_position": 3942,
+      "last_position": 3941,
+      "last_relative_displacement": -1,
+      "output_values": [
+        28,
+        40,
+        48
+      ],
+      "last_output": 40,
+      "speed_values": [
+        0
+      ],
+      "expected_feedback_interval": [
+        3936,
+        3940
+      ],
+      "samples_in_arrival_band": 0,
+      "control_readbacks": 32,
+      "control_readbacks_expected": true,
+      "id4_positions": [
+        967
+      ],
+      "status_values": [
+        0
+      ],
+      "device_config": {
+        "P": 32,
+        "D": 32,
+        "I": 0,
+        "minimum_starting_output": 16,
+        "dead_zones": [
+          1,
+          1
+        ]
+      },
+      "release": {
+        "attempted_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "unconfirmed_ids": [],
+        "confirmed": true
+      }
+    }
+  ],
+  "observations": [
+    "The first test has zero sampled displacement; the second has only -1 count relative to its fixed loaded baseline.",
+    "Both first steps correctly timed out without issuing the second motion target, and all controlled IDs reported torque/output off.",
+    "Both control readbacks match their intended parameters; the second output settles at 40 below the fixed cap of 100."
+  ],
+  "hypothesis_not_diagnosis": "Small-step response may be limited by breakaway/friction/load characteristics; these records do not isolate the physical cause.",
+  "next_diagnostic": {
+    "single_step_total_counts": -8,
+    "baseline_bias_max_abs_counts": 2,
+    "fresh_prewrite_position_minus_g0_max_abs_counts": 2,
+    "output_cap": 100,
+    "timeout_s": 3,
+    "final_relative_feedback_interval_counts": [
+      -10,
+      -6
+    ],
+    "wrist_drift_limit_counts": 3,
+    "automatic_return": false,
+    "pid_or_eeprom_changes": false,
+    "scope": "One attended partly-supported response test; full joint mapping and grasp remain unverified."
+  },
+  "register_reference": "https://docs.waveshare.com/Memory_Map_Explanation/ST_Servo_Memory_Map_Explanation",
+  "output_units_note": "The documented load feedback is motor drive PWM duty cycle, not calibrated mechanical torque."
+}

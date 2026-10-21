@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "kind": "so101_pose_f_model_route_artifacts",
+  "created_at_utc": "2026-10-20T22:28:50.798188+00:00",
+  "execution_available": false,
+  "hardware_writes_sent": 0,
+  "active_mapping_modified": false,
+  "model_mapping_verified": false,
+  "file_sha256": {
+    "search_route.py": "fbc1fce3deaa11209c777e1a1adc3ab934e7ffabc8cd9cc7e200c45daa23c09f",
+    "test_search_route.py": "930b4c9f8fffbf36f624010faadc412603be68249d095d317f7a7d36e44f975a",
+    "route_review.json": "461c12599347f9b1ef8ea60ee765a6fd8ca33b53a8ae89c7a1b061a22e292d0c",
+    "render_route.py": "bdbf66768195d4298d9e9ad4843c3060dc72bf11506d79dba45c898d1fcf109c",
+    "route_keyframes.png": "0e6dbde18224cc6840477b2412620eb7e27727e01c07f5e454188b3ac057d943"
+  },
+  "validation": {
+    "focused_new_tests_passed": 6,
+    "final_joint_sample_step_max_deg": 0.25,
+    "unique_model_samples": 983,
+    "sampled_penetrating_contacts": 0,
+    "static_keyframes_visually_reviewed": true
+  },
+  "pose_source": "data/pose_mapping_checks/pose_f_supported_start_glgoy1eh.json",
+  "scope": "offline unverified model candidate; supporting cardboard and gripper opening transition are absent"
+}

@@ -1,0 +1,59 @@
+PYTHONPATH=/tmp/so101_shoulder_relative_stage/scripts:/tmp/so101_shoulder_relative_stage/tests:/home/yu/so101_ws/scripts:/home/yu/so101_ws/tests /home/yu/so101_ws/.venv_vision/bin/python -m unittest discover -s /tmp/so101_shoulder_relative_stage/tests -p 'test_so101_*.py' -v
+
+test_baseline_bias_over_six_fails_without_motion (test_so101_elbow_probe.ProbeTests) ... ok
+test_cli_enable_requires_tty_before_serial_import_or_open (test_so101_elbow_probe.ProbeTests) ... ok
+test_enable_without_readiness_is_rejected_without_writes (test_so101_elbow_probe.ProbeTests) ... ok
+test_handover_eof_or_interrupt_releases_without_motion (test_so101_elbow_probe.ProbeTests) ... ok
+test_handover_timeout_releases_without_motion (test_so101_elbow_probe.ProbeTests) ... ok
+test_interrupt_after_motion_releases_without_return (test_so101_elbow_probe.ProbeTests) ... ok
+test_late_baseline_and_late_motion_feedback_cannot_pass (test_so101_elbow_probe.ProbeTests) ... ok
+test_loaded_baseline_is_not_updated_during_failed_motion (test_so101_elbow_probe.ProbeTests) ... ok
+test_loaded_bias_is_not_added_to_commands (test_so101_elbow_probe.ProbeTests) ... ok
+test_lost_ack_after_applied_motion_still_releases_without_return (test_so101_elbow_probe.ProbeTests) ... ok
+test_monitor_crossing_handover_deadline_never_checks_enter (test_so101_elbow_probe.ProbeTests) ... ok
+test_no_arbitrary_motion_or_output_cli_options (test_so101_elbow_probe.ProbeTests) ... ok
+test_preflight_checks_device_limits_not_only_single_turn (test_so101_elbow_probe.ProbeTests) ... ok
+test_preflight_rejects_entire_corridor_near_both_boundaries (test_so101_elbow_probe.ProbeTests) ... ok
+test_preview_never_writes_or_requests_handover (test_so101_elbow_probe.ProbeTests) ... ok
+test_ready_arriving_after_callback_deadline_is_not_accepted (test_so101_elbow_probe.ProbeTests) ... ok
+test_restoring_support_in_final_five_seconds_is_allowed (test_so101_elbow_probe.ProbeTests) ... ok
+test_reverse_and_overshoot_release_without_return (test_so101_elbow_probe.ProbeTests) ... ok
+test_saturation_is_inherited_and_does_not_increase_limit (test_so101_elbow_probe.ProbeTests) ... ok
+test_still_within_absolute_tolerance_does_not_pass_relative (test_so101_elbow_probe.ProbeTests) ... ok
+test_terminal_restore_failure_cannot_skip_record_or_release (test_so101_elbow_probe.ProbeTests) ... ok
+test_wrist_drift_is_rejected_on_same_feedback_packet (test_so101_elbow_probe.ProbeTests) ... ok
+test_old_enter_is_flushed_new_enter_is_accepted_and_flags_restore (test_so101_elbow_probe.TerminalReadyTests) ... ok
+test_partial_input_does_not_block_and_eof_is_rejected (test_so101_elbow_probe.TerminalReadyTests) ... ok
+test_acceptance_requires_at_least_six_counts_of_real_motion (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_baseline_plus_three_or_six_rejected_before_motion (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_cli_mode_without_enable_is_only_read_only_preview (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_fresh_three_count_drift_rejected_before_new_goal (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_old_two_step_mode_still_allows_six_count_bias (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_one_count_or_zero_motion_cannot_pass (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_restore_support_is_allowed_after_single_step (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_saturation_and_corridor_violations_still_release (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_single_step_plus_one_bias_moves_negative_eight (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_two_count_baseline_and_fresh_feedback_boundaries_are_inclusive (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_wrist_four_count_drift_stops_on_its_feedback_reply (test_so101_elbow_single_step.SingleStepTests) ... ok
+test_baseline_and_fresh_feedback_plus_minus_two_are_accepted (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_baseline_plus_minus_three_rejects_without_motion (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_cli_readonly_log_and_no_arbitrary_parameters (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_common_constructor_only_accepts_fixed_profiles (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_final_envelope_allows_support_restoration_but_rejects_retreat (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_fresh_drift_rejects_without_motion_or_baseline_change (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_handover_eof_releases_without_motion (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_historical_fourteen_count_overshoot_stops_on_id2_reply (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_id4_drift_immediately_releases (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_no_motion_and_only_one_count_cannot_pass (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_positive_eight_with_stable_baseline_and_correct_physical_id (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_readonly_and_boundary_preflight_never_write (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_restored_support_is_allowed_after_relative_motion_completes (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_reverse_three_stops_on_id2_reply_before_next_axis (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+test_saturation_lost_ack_and_interrupt_release_without_return (test_so101_shoulder_relative_probe.ShoulderRelativeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 50 tests in 0.401s
+
+OK
+
+exit_code=0

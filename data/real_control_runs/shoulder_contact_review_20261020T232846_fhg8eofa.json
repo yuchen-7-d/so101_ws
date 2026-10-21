@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "kind": "shoulder_positive_probe_contact_review",
+  "source_run": "data/real_control_runs/shoulder_relative_probe_20261020T232535_n3l84old.json",
+  "source_sha256": "998fd7dcb1c0a9ba3ea4bd92ef7637d3bc8c1ba79aee1ff029d4237896af3ad4",
+  "g0": 114,
+  "p0": 114,
+  "command_goal": 122,
+  "after_command_sample_count": 32,
+  "position_values": [
+    114
+  ],
+  "signed_output_values": [
+    -72,
+    -52,
+    0
+  ],
+  "speed_values": [
+    0
+  ],
+  "release": {
+    "attempted_ids": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "unconfirmed_ids": [],
+    "confirmed": true
+  },
+  "user_support_observation": "仍接触手掌，手掌高度基本不动",
+  "observation_source": "user_explicit_async_reply_after_this_run",
+  "inference": "Fixed-height palm contact may constrain the small downward wrist component suggested by the previous candidate-model geometry. This is a hypothesis, not an established cause.",
+  "next_comparison": "One attended run of the unchanged ID2 +8 profile with support permitting passive natural motion; no anticipatory hand lowering or active pushing.",
+  "change_parameters": false,
+  "real_serial_access_by_assistant": false,
+  "acceptance_status": "ID2 movement not yet accepted"
+}

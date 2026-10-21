@@ -105,6 +105,14 @@ def main(action):
         timeout=0.5,
         write_timeout=0.5,
     ) as port:
+        offset_raw = read_config_u16(port, servo_id, 0x1F)
+        if offset_raw != 0:
+            raise RuntimeError(
+                f'ID6 中位修正原始值={offset_raw}(0x{offset_raw:04X})；'
+                '计数基准已改变，旧ID6绝对目标不可用；'
+                '未发送寄存器写入'
+            )
+
         mode = read_servo_byte(port, servo_id, 0x21)
         torque = read_servo_byte(port, servo_id, 0x28)
         reply_level = read_servo_byte(port, servo_id, 0x08)

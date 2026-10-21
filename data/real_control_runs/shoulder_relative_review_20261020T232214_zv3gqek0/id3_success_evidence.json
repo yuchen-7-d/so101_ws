@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "kind": "accepted_local_id3_negative_response",
+  "source_run": "data/real_control_runs/elbow_probe_20261020T231233_i24tkjxk.json",
+  "source_sha256": "a256e54acc8cc130e673bb7d2e5d9882923e65259b4f86aa400aa49816313dbc",
+  "source_status": "relative_probe_complete",
+  "user_support_confirmation": "持续轻托，未改变托力或主动推拉",
+  "support_evidence_source": "user_explicit_async_reply_after_this_run",
+  "independent_weight_bearing_verified": false,
+  "model_mapping_verified": false,
+  "grasp_verified": false,
+  "g0": 3894,
+  "p0": 3895,
+  "goal": 3886,
+  "motion_goal_write": {
+    "elapsed_s": 13.299084476995631,
+    "phase": "step_-8",
+    "servo_id": 3,
+    "address": 42,
+    "value": 3886,
+    "acknowledged": true
+  },
+  "precommand_checks": [
+    {
+      "elapsed_s": 13.299057415002608,
+      "phase": "step_-8",
+      "position": 3895,
+      "goal": 3886,
+      "delta_from_g0": 1,
+      "command_gap": 9,
+      "accepted": true
+    }
+  ],
+  "completed_steps": [
+    {
+      "offset": -8,
+      "goal": 3886,
+      "expected_feedback": 3887,
+      "position": 3887,
+      "relative_error": 0,
+      "absolute_error": 1,
+      "consecutive_samples": 4,
+      "span_s": 0.28269039498991333
+    }
+  ],
+  "sampled_motion_positions": [
+    3895,
+    3894,
+    3887,
+    3887,
+    3887,
+    3887
+  ],
+  "sampled_motion_speeds": [
+    0,
+    0,
+    -100,
+    0,
+    0,
+    0
+  ],
+  "sampled_motion_outputs": [
+    28,
+    60,
+    -24,
+    0,
+    0,
+    0
+  ],
+  "first_exact_relative_arrival_after_write_s": 0.21104103000834584,
+  "final_hold": {
+    "sample_count": 54,
+    "span_s": 4.9899281980033265,
+    "positions": [
+      3887
+    ]
+  },
+  "other_joint_positions_during_motion_and_final_hold": {
+    "1": [
+      67
+    ],
+    "2": [
+      115
+    ],
+    "4": [
+      967
+    ],
+    "5": [
+      3300
+    ]
+  },
+  "release": {
+    "attempted_ids": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "unconfirmed_ids": [],
+    "confirmed": true
+  },
+  "acceptance_scope": "One fixed negative-eight-count ID3 response in the reported pose with steady light hand support.",
+  "next_diagnostic": "Prepare fixed positive-eight-count ID2 response from fresh feedback; old full grasp route remains not_for_motion."
+}

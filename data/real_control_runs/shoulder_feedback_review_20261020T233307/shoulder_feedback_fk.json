@@ -1,0 +1,425 @@
+{
+  "schema_version": 1,
+  "kind": "historical_shoulder_probe_conditional_model_fk_comparison",
+  "status": "offline_not_for_motion",
+  "hardware_writes_sent": 0,
+  "execution_available": false,
+  "source_files": {
+    "log": "/home/yu/so101_ws/data/real_control_runs/shoulder_relative_probe_20261020T233307_ijyxou1a.json",
+    "candidate_mapping": "/home/yu/so101_ws/data/pose_mapping_checks/wrist_model_e_ebbd4505/wrist_candidate_mapping.json",
+    "model": "/home/yu/so101_ws/simulation/so101/so101_new_calib.xml"
+  },
+  "source_sha256": {
+    "/home/yu/so101_ws/data/real_control_runs/shoulder_relative_probe_20261020T233307_ijyxou1a.json": "25aee184fa550c1eea2da759c9d1ff4e9cfa33c05b24de4d3d63cf3bf93967ef",
+    "/home/yu/so101_ws/data/pose_mapping_checks/wrist_model_e_ebbd4505/wrist_candidate_mapping.json": "4940a7707f41d0725c97faa48ddd95d236e26d582518ba869779e5ee9c6cc2dd",
+    "/home/yu/so101_ws/simulation/so101/so101_new_calib.xml": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02"
+  },
+  "log_status": "failed",
+  "log_fault": {
+    "elapsed_s": 19.357478421006817,
+    "phase": "step_+8",
+    "type": "ControlError",
+    "message": "ID2 相对位移未在 3 秒内达标：固定预期=123±2；停止，不更新基线、不执行回程"
+  },
+  "selected_feedback": {
+    "phase": "step_+8",
+    "selection": "last complete six-servo feedback sweep before release",
+    "positions_1_to_6": [
+      67,
+      119,
+      3966,
+      968,
+      3300,
+      3951
+    ],
+    "per_servo_elapsed_s": [
+      19.267153095002868,
+      19.27512151301198,
+      19.283045251009753,
+      19.290295500002685,
+      19.29749550600536,
+      19.304698168009054
+    ],
+    "sweep_span_ms": 37.5450730061857,
+    "simultaneous_sample": false,
+    "identical_trailing_sweeps": 5,
+    "stable_interval_elapsed_s": [
+      18.890883627012954,
+      19.304698168009054
+    ],
+    "goal_counts_1_to_5": [
+      67,
+      123,
+      3967,
+      968,
+      3300
+    ],
+    "latest_hardware_state_claimed": false,
+    "raw_feedback_rows": [
+      {
+        "elapsed_s": 19.267153095002868,
+        "phase": "step_+8",
+        "servo_id": 1,
+        "address": 56,
+        "raw_hex": "430000000000441a0000",
+        "position": 67,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.8,
+        "temperature": 26,
+        "status": 0,
+        "command_target": 67,
+        "absolute_error": 0
+      },
+      {
+        "elapsed_s": 19.27512151301198,
+        "phase": "step_+8",
+        "servo_id": 2,
+        "address": 56,
+        "raw_hex": "770000002804431a0000",
+        "position": 119,
+        "speed_raw_signed": 0,
+        "output_raw_signed": -40,
+        "voltage": 6.7,
+        "temperature": 26,
+        "status": 0,
+        "command_target": 123,
+        "absolute_error": -4,
+        "loaded_baseline": 115,
+        "expected_position": 123,
+        "relative_error": -4
+      },
+      {
+        "elapsed_s": 19.283045251009753,
+        "phase": "step_+8",
+        "servo_id": 3,
+        "address": 56,
+        "raw_hex": "7e0f0000000044190000",
+        "position": 3966,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.8,
+        "temperature": 25,
+        "status": 0,
+        "command_target": 3967,
+        "absolute_error": -1
+      },
+      {
+        "elapsed_s": 19.290295500002685,
+        "phase": "step_+8",
+        "servo_id": 4,
+        "address": 56,
+        "raw_hex": "c80300000000431b0000",
+        "position": 968,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.7,
+        "temperature": 27,
+        "status": 0,
+        "command_target": 968,
+        "absolute_error": 0
+      },
+      {
+        "elapsed_s": 19.29749550600536,
+        "phase": "step_+8",
+        "servo_id": 5,
+        "address": 56,
+        "raw_hex": "e40c00000000431a0000",
+        "position": 3300,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.7,
+        "temperature": 26,
+        "status": 0,
+        "command_target": 3300,
+        "absolute_error": 0
+      },
+      {
+        "elapsed_s": 19.304698168009054,
+        "phase": "step_+8",
+        "servo_id": 6,
+        "address": 56,
+        "raw_hex": "6f0f00000000431c0000",
+        "position": 3951,
+        "speed_raw_signed": 0,
+        "output_raw_signed": 0,
+        "voltage": 6.7,
+        "temperature": 28,
+        "status": 0,
+        "command_target": null,
+        "absolute_error": null
+      }
+    ]
+  },
+  "assumptions": {
+    "mapping_verified": false,
+    "wrist_zero_basis": "qualitative pose E wrist-axis gamma=90-degree hypothesis",
+    "gripper_model_q_rad": 0.6,
+    "ID6_count_to_angle_calibrated": false,
+    "ID6_reported_count_used_for_model_q": false,
+    "side_plot": "kinematic anchor schematic, not shell clearances or camera reconstruction",
+    "coordinates": "model coordinates; no measured table/base height correction applied",
+    "no_new_zero_inferred": true,
+    "scope": "conditional FK of historical observations and comparison vectors, not commands"
+  },
+  "poses": {
+    "feedback": {
+      "counts_1_to_5": [
+        67,
+        119,
+        3966,
+        968,
+        3300
+      ],
+      "model_q_rad": [
+        -0.03374757733348411,
+        -1.1481206210000348,
+        1.4182919102314069,
+        -1.6461520559647922,
+        0.010345166433500764
+      ],
+      "model_q_deg": [
+        -1.9335937500000002,
+        -65.78246595524115,
+        81.26214057380703,
+        -94.31756524356588,
+        0.592734375
+      ],
+      "tcp_position_model_m": [
+        0.12839924951778214,
+        0.0021637228830851778,
+        0.31587374027022325
+      ],
+      "tcp_rotation_model_from_tcp": [
+        [
+          0.19347536054427006,
+          -0.07129495589159907,
+          -0.9785112743993697
+        ],
+        [
+          0.006531804568897806,
+          0.9974276842609877,
+          -0.07138172174188664
+        ],
+        [
+          0.9810833911504858,
+          0.007419159937442472,
+          0.19344336554786323
+        ]
+      ],
+      "joint_anchors_model_m": {
+        "shoulder_pan": [
+          0.0388353,
+          -8.97657e-09,
+          0.0624
+        ],
+        "shoulder_lift": [
+          0.0698339052248676,
+          -0.017241697049169395,
+          0.11659999999999998
+        ],
+        "elbow_flex": [
+          -0.021291753590931925,
+          -0.02031813527325359,
+          0.18831230531254653
+        ],
+        "wrist_flex": [
+          0.11002782159792367,
+          -0.01588473456118688,
+          0.15731933626560393
+        ],
+        "wrist_roll": [
+          0.12123845091666868,
+          0.002604052640426631,
+          0.2172635314648986
+        ]
+      }
+    },
+    "shoulder_only_target": {
+      "counts_1_to_5": [
+        67,
+        123,
+        3966,
+        968,
+        3300
+      ],
+      "model_q_rad": [
+        -0.03374757733348411,
+        -1.1419846978484922,
+        1.4182919102314069,
+        -1.6461520559647922,
+        0.010345166433500764
+      ],
+      "model_q_deg": [
+        -1.9335937500000002,
+        -65.43090345524115,
+        81.26214057380703,
+        -94.31756524356588,
+        0.592734375
+      ],
+      "tcp_position_model_m": [
+        0.1296201604504909,
+        0.0022049413182701283,
+        0.3155068258720193
+      ],
+      "tcp_rotation_model_from_tcp": [
+        [
+          0.19948810528962016,
+          -0.07124875129666917,
+          -0.9773065595229683
+        ],
+        [
+          0.00673479720573153,
+          0.9974292441463568,
+          -0.07134105009195807
+        ],
+        [
+          0.9798771036995167,
+          0.007649729425998224,
+          0.19945511596635954
+        ]
+      ],
+      "joint_anchors_model_m": {
+        "shoulder_pan": [
+          0.0388353,
+          -8.97657e-09,
+          0.0624
+        ],
+        "shoulder_lift": [
+          0.0698339052248676,
+          -0.017241697049169395,
+          0.11659999999999998
+        ],
+        "elbow_flex": [
+          -0.020850270287325653,
+          -0.020303230622596903,
+          0.18887041043091218
+        ],
+        "wrist_flex": [
+          0.11027677184615463,
+          -0.01587632990250449,
+          0.157071803993854
+        ],
+        "wrist_roll": [
+          0.12185477986884055,
+          0.0026248601492195635,
+          0.21694229502989448
+        ]
+      },
+      "difference_from_feedback": {
+        "joint_counts": [
+          0,
+          4,
+          0,
+          0,
+          0
+        ],
+        "tcp_delta_model_mm": [
+          1.220910932708763,
+          0.04121843518495056,
+          -0.36691439820396576
+        ],
+        "tcp_distance_mm": 1.275518969132273,
+        "tcp_orientation_geodesic_deg": 0.3515624999999746,
+        "tcp_rotation_vector_model_deg": [
+          -0.011862130728980715,
+          0.3513623219140047,
+          7.951436598237044e-15
+        ]
+      }
+    },
+    "all_command_targets": {
+      "counts_1_to_5": [
+        67,
+        123,
+        3967,
+        968,
+        3300
+      ],
+      "model_q_rad": [
+        -0.03374757733348411,
+        -1.1419846978484922,
+        1.4198258910192925,
+        -1.6461520559647922,
+        0.010345166433500764
+      ],
+      "model_q_deg": [
+        -1.9335937500000002,
+        -65.43090345524115,
+        81.35003119880703,
+        -94.31756524356588,
+        0.592734375
+      ],
+      "tcp_position_model_m": [
+        0.1298141298659573,
+        0.002211489802328332,
+        0.3152748246614098
+      ],
+      "tcp_rotation_model_from_tcp": [
+        [
+          0.20099012677913794,
+          -0.0712369792862454,
+          -0.9769996221695667
+        ],
+        [
+          0.00678550604431568,
+          0.9974296415740774,
+          -0.07133068776570806
+        ],
+        [
+          0.9795697656854399,
+          0.0077073271357470385,
+          0.2009568890667696
+        ]
+      ],
+      "joint_anchors_model_m": {
+        "shoulder_pan": [
+          0.0388353,
+          -8.97657e-09,
+          0.0624
+        ],
+        "shoulder_lift": [
+          0.0698339052248676,
+          -0.017241697049169395,
+          0.11659999999999998
+        ],
+        "elbow_flex": [
+          -0.020850270287325653,
+          -0.020303230622596903,
+          0.18887041043091218
+        ],
+        "wrist_flex": [
+          0.11022786691084756,
+          -0.015877980952431352,
+          0.1568705805249023
+        ],
+        "wrist_roll": [
+          0.121897648446543,
+          0.0026263074093301926,
+          0.21672229320828265
+        ]
+      },
+      "difference_from_feedback": {
+        "joint_counts": [
+          0,
+          4,
+          1,
+          0,
+          0
+        ],
+        "tcp_delta_model_mm": [
+          1.4148803481751626,
+          0.04776691924315412,
+          -0.5989156088134218
+        ],
+        "tcp_distance_mm": 1.5371623156669574,
+        "tcp_orientation_geodesic_deg": 0.4394531249999789,
+        "tcp_rotation_vector_model_deg": [
+          -0.014827663411240137,
+          0.4392029023925162,
+          1.391506316222737e-14
+        ]
+      }
+    }
+  }
+}

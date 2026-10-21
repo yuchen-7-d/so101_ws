@@ -77,19 +77,27 @@ def main():
                     f'ID {servo_id}:当前反馈不适用于单圈角度换算'
                 )
 
-            reference_position = reference_counts[str(servo_id)]
+            offset_raw = (
+                read_config_u16(port, servo_id, 0x1F)
+                if servo_id == 6 else None
+            )
+            if servo_id == 6 and offset_raw != 0:
+                relative_text = '未换算（ID6计数基准已改变）'
+            else:
+                reference_position = reference_counts[str(servo_id)]
 
-            delta_counts = (
-                position - reference_position + 2048
-            ) % 4096 - 2048
+                delta_counts = (
+                    position - reference_position + 2048
+                ) % 4096 - 2048
 
-            relative_deg = delta_counts * 360.0 / 4096
+                relative_deg = delta_counts * 360.0 / 4096
+                relative_text = f'{relative_deg:+.2f}°'
 
             print(
                 f'ID {servo_id}:位置计数={position},'
                 f'模式={mode},扭矩开关={torque_state},'
                 f'电压={voltage_raw * 0.1:.1f}V,'
-                f'编码器相对角度={relative_deg:+.2f}°'
+                f'编码器相对角度={relative_text}'
             )
             if servo_id == 6:
                 minimum = read_config_u16(port, servo_id, 0x09)
@@ -116,6 +124,7 @@ def main():
                 print(
                     f'ID 6配置:最小限位={minimum},'
                     f'最大限位={maximum},'
+                    f'中位修正原始值={offset_raw}(0x{offset_raw:04X}),'
                     f'相位=0x{phase:02X},'
                     f'分辨率倍率={resolution}'
                 )

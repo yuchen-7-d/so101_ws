@@ -1,0 +1,9 @@
+{
+  "archive": "/home/yu/so101_ws/data/real_control_runs/id6_center_review_nk5y2xcz",
+  "installed": [
+    "scripts/so101_verify_gripper_center.py",
+    "tests/test_so101_verify_gripper_center.py"
+  ],
+  "real_serial_access": false,
+  "hardware_writes_sent": 0
+}

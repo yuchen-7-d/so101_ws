@@ -1,0 +1,22 @@
+{
+  "stage": "/tmp/so101_id6_offset_read_guard_99ubagux",
+  "files": {
+    "scripts/so101_read_position.py": "481b1a43008e3db45422c3e4095ac43e7159008038c51a55983804e06e3a9e59",
+    "scripts/so101_gripper_test.py": "d975f9fcf000c027593a4c5ffd9ff4c94c3ad68d4788d59877280f6866fc6ba7",
+    "tests/test_so101_id6_offset_guards.py": "3ed374730be56770b895e647260631a4e6b403d8cb950a06efed83b322e54676"
+  },
+  "original_hashes": {
+    "scripts/so101_read_position.py": "9ae0480d13333eaceaee5b044bca3d6917a6512e30a3be3b93b984e29c7d33de",
+    "scripts/so101_gripper_test.py": "8e4c581768c90f38f6206fe598bf117683b1a0398a76db0b070ec82e90e40c84"
+  },
+  "original_project_files_unchanged": true,
+  "public_functions_source_unchanged": {
+    "read_servo_position": true,
+    "read_config_u16": true
+  },
+  "unittest": "5 passed, including subtests; all Serial constructors patched",
+  "py_compile": "passed",
+  "register_writes_in_nonzero_offset_tests": 0,
+  "real_serial_access": false,
+  "project_files_written": false
+}

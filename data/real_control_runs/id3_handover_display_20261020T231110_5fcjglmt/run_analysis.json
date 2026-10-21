@@ -1,0 +1,38 @@
+{
+  "source_path": "/home/yu/so101_ws/data/real_control_runs/elbow_probe_20261020T230824_i9j1aefp.json",
+  "source_sha256": "8102ca864c0fafe8a69fe9f515d194b418f6a1569f9b948659302994889e4f11",
+  "g0": 3838,
+  "first_baseline_sample": {
+    "elapsed_s": 7.575914621993434,
+    "position": 3835
+  },
+  "baseline_delta": -3,
+  "stable_outside_gate_span_s": 3.622798183991108,
+  "stable_outside_gate_position": 3835,
+  "stable_outside_gate_samples": 41,
+  "id3_goal_writes": [
+    3838
+  ],
+  "id4_feedback_values": [
+    967
+  ],
+  "fault": {
+    "elapsed_s": 7.5759230089897756,
+    "phase": "loaded_baseline",
+    "type": "ControlError",
+    "message": "ID3 有载基线相对 G0 偏差超过 2 计数，停止"
+  },
+  "release": {
+    "attempted_ids": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "unconfirmed_ids": [],
+    "confirmed": true
+  },
+  "next_change": "Display handover feedback; improve error detail. No threshold or motion-control changes.",
+  "observation_limit": "Position and drive-output logs do not identify whether a person, contact, load or friction caused the offset."
+}

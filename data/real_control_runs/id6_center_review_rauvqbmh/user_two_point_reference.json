@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "kind": "so101_gripper_user_two_point_offline_coordinate_estimate",
+  "status": "not_for_motion",
+  "hardware_writes_sent": 0,
+  "active_mapping_modified": false,
+  "observations": {
+    "source": "user_reported_readouts_and_manual_opening_confirmation",
+    "sample_timestamps": null,
+    "assistant_device_read_performed": false,
+    "closed": {
+      "servo_id": 6,
+      "position_count": 3953,
+      "mode": 0,
+      "torque_enabled": 0,
+      "observation": "user-described closed state; not a measured hardware travel limit",
+      "voltage_V": 6.7
+    },
+    "open": {
+      "servo_id": 6,
+      "position_count": 194,
+      "mode": 0,
+      "torque_enabled": 0,
+      "observation": "user-described opening accommodating the known 40 mm box; exact jaw width and insertion depth not measured",
+      "voltage_V": 6.7
+    },
+    "box_fit_confirmation": {
+      "source": "explicit user reply",
+      "text_zh": "能放入，有少许间隙",
+      "applies_to_open_count": 194,
+      "exact_clearance_mm": null
+    }
+  },
+  "relative_motion": {
+    "counts_per_turn": 4096,
+    "positive_delta_counts": 337,
+    "principal_delta_counts": 337,
+    "unwrapped_counts_closed_open": [
+      3953,
+      4290
+    ],
+    "delta_angle_deg": 29.619140625,
+    "delta_angle_rad": 0.516951525517461,
+    "raw_zero_crossing_consistent_with_positive_opening": true,
+    "full_device_or_mechanical_range_inferred": false
+  },
+  "hypothetical_recenter": {
+    "performed": false,
+    "intended_open_reported_count": 2048,
+    "logical_additive_shift_mod_4096": 1854,
+    "expected_closed_reported_count": 1711,
+    "expected_open_reported_count": 2048,
+    "expected_observed_interval": [
+      1711,
+      2048
+    ],
+    "interval_is_mechanical_limit": false,
+    "note": "Logical count-coordinate arithmetic only, not a servo register write value or verified firmware offset convention."
+  },
+  "normal_control_policy": {
+    "exact_closed_observation_count_1711_excluded_from_routine_empty_close_targets": true,
+    "closed_observation_is_not_a_hard_stop_or_safe_soft_limit": true,
+    "precontact_lower_bound_after_recenter": null,
+    "routine_interval_after_recenter": null,
+    "reason": "Choose an observed visible-gap precontact point above the closed observation; do not automatically declare 1712 safe or use a single closed sample as a validated stop. Box-contact behavior and bounded holding output require separate validation."
+  },
+  "conditional_model_geometry": {
+    "source_model": "/home/yu/so101_ws/simulation/so101/so101_new_calib.xml",
+    "source_model_sha256": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02",
+    "count_to_angle_direction_assumed": 1,
+    "closed_count_3953_not_calibrated_to_model_angle": true,
+    "closed_model_angle_assumption": "existing model lower joint bound, used only as near-closed illustration",
+    "cases": [
+      {
+        "label": "model_lower_bound_near_closed_hypothesis",
+        "q_rad": -0.17453297762778586,
+        "q_deg": -10.000003003923348,
+        "fixed_tip_to_moving_tip_collision_distance_mm": 1.9063258566946846
+      },
+      {
+        "label": "relative_opening_from_337_counts",
+        "q_rad": 0.3424185478896752,
+        "q_deg": 19.61913762107665,
+        "fixed_tip_to_moving_tip_collision_distance_mm": 40.68924272360574
+      }
+    ],
+    "opened_tip_distance_minus_40_mm": 0.6892427236057372,
+    "distance_definition": "minimum separation between existing fixed_jaw_tip_collision box and moving_jaw_collision_0 convex mesh; not uniform aperture at every insertion depth",
+    "agreement_with_40mm_is_calibration_acceptance": false
+  },
+  "recenter_operation_plan": {
+    "servo_id": 6,
+    "default_mode": "read_only_preview",
+    "apply_requires_explicit_cli_flag": true,
+    "firmware_operation": "Torque switch register40 value128, with output limit0 and torque0 verified first",
+    "desired_anchor_count": 2048,
+    "historical_endpoints_after_recenter": "Recompute both from actual readback offset; do not hardcode1711 or2048 as measured endpoints",
+    "write_whitelist": {
+      "40": [
+        0,
+        128
+      ],
+      "48": [
+        0
+      ]
+    },
+    "no_movement_goal_or_torque_enable_sent": true,
+    "other_servo_ids_read_only": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "back_up_before_side_effects": true,
+    "power_cycle_persistence_not_yet_verified": true,
+    "source_documentation": [
+      "https://docs.waveshare.com/Memory_Map_Explanation/ST_Servo_Memory_Map_Explanation",
+      "https://github.com/ftservo/FTServo_Arduino/blob/main/src/SMS_STS.cpp#L127-L130"
+    ]
+  }
+}

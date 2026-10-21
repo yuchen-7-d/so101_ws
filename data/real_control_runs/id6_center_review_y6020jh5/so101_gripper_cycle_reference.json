@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "scope": "candidate_empty_gripper_cycle_only",
+  "hardware_access_performed": false,
+  "readonly_source_verified_offline": true,
+  "sources": {
+    "centering_journal": {
+      "path": "/home/yu/so101_ws/data/real_control_runs/gripper_center_20261021T001712_uikl4heg.jsonl",
+      "sha256": "e32253ed5ac0d735e79ab8aa614e7fdf9c9684a78f39d1e0f6651544e9c65fb6"
+    },
+    "readonly_verification": {
+      "path": "/home/yu/so101_ws/data/real_control_runs/gripper_center_readonly_20261021T002549_eaikzm_j.json",
+      "sha256": "946c77051a23355d482bea7a3f8186e456d34de3257f5381a78e258999a850f8"
+    },
+    "legacy_empty_gripper_observations": {
+      "path": "/home/yu/so101_ws/data/so101_gripper_test_result.json",
+      "sha256": "cf3d0a44450cf0ddd3693e6a6503f2457c1426067d8a59aa083128aeba32267b"
+    }
+  },
+  "current_offset_raw": 3901,
+  "current_offset_signed": -1853,
+  "historical_reference_translation": {
+    "old_gap_target": 3970,
+    "new_candidate_gap_target": 1727,
+    "old_gap_actual": 3972,
+    "new_predicted_gap_actual": 1729,
+    "old_observed_contact": 3961,
+    "new_predicted_old_contact": 1718,
+    "new_predicted_recent_closed": 1710
+  },
+  "fresh_run_start_must_be_read_from_hardware": true,
+  "fresh_start_window": [
+    2046,
+    2050
+  ],
+  "example_path_for_start_2048": {
+    "close": [
+      2032,
+      2016,
+      2000,
+      1984,
+      1968,
+      1952,
+      1936,
+      1920,
+      1904,
+      1888,
+      1872,
+      1856,
+      1840,
+      1824,
+      1808,
+      1792,
+      1776,
+      1760,
+      1744,
+      1728,
+      1727
+    ],
+    "return_only_on_success": [
+      1728,
+      1744,
+      1760,
+      1776,
+      1792,
+      1808,
+      1824,
+      1840,
+      1856,
+      1872,
+      1888,
+      1904,
+      1920,
+      1936,
+      1952,
+      1968,
+      1984,
+      2000,
+      2016,
+      2032,
+      2048
+    ]
+  },
+  "parameters": {
+    "maximum_step_counts": 16,
+    "output_limit": 100,
+    "acceleration": 1,
+    "speed_raw": 50,
+    "position_tolerance": 2,
+    "settled_samples": 3,
+    "minimum_settle_span_s": 0.2,
+    "step_timeout_s": 3,
+    "whole_motion_timeout_s": 90,
+    "saturation_dwell_s": 1,
+    "precontact_observation_s": 2,
+    "feedback_round_timeout_s": 0.5
+  },
+  "preparation": {
+    "observed_stale_goal": 0,
+    "preload_fresh_goal_with_output_limit_zero": true
+  },
+  "fault_policy": "release ID6 torque and output independently; no return, no output increase",
+  "other_joints_write_permitted": false,
+  "model_mapping_verified": false,
+  "mechanical_limits_verified": false,
+  "grasp_verified": false,
+  "validation": {
+    "mock_tests_passed": 22,
+    "independent_review_passed": true,
+    "real_hardware_access": false
+  }
+}

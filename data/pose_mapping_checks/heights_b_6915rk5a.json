@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "kind": "so101_height_reference_candidate",
+  "recorded_at_utc": "2026-10-20T20:58:46.343715+00:00",
+  "paired_observation": "data/pose_mapping_checks/pose_b_4mfmwcx_.json",
+  "source": "user_reported_axis_heights_in_mm_in_requested_shoulder_elbow_wrist_order",
+  "counts_height_pairing": "assumed_same_B_pose_from_conversation_no_synchronized_device_capture",
+  "heights_mm": {
+    "shoulder": 125.0,
+    "elbow": 110.0,
+    "wrist_pitch": 195.0
+  },
+  "position_counts": {
+    "1": 71,
+    "2": 3696,
+    "3": 3890,
+    "4": 845,
+    "5": 3299,
+    "6": 3951
+  },
+  "model_axis_distances_mm": [
+    116.00002112068773,
+    135.00018518505817
+  ],
+  "branch_from_B_photo": {
+    "shoulder_to_elbow": "backward_and_down",
+    "elbow_to_wrist": "forward_and_up"
+  },
+  "physical_link_angles_deg": [
+    187.42974025041494,
+    39.02273886858198
+  ],
+  "comparisons": [
+    {
+      "servo_id": 2,
+      "position_count": 3696,
+      "height_derived_model_angle_deg": -111.39770033024115,
+      "existing_mapping_angle_deg": -121.548125,
+      "difference_deg": 10.150424669758848,
+      "preserved_reference_count": 824,
+      "old_reference_angle_deg": -13.97,
+      "candidate_reference_angle_deg": -3.8195753302411504
+    },
+    {
+      "servo_id": 3,
+      "position_count": 3890,
+      "height_derived_model_angle_deg": 74.58245307380703,
+      "existing_mapping_angle_deg": 86.92671874999999,
+      "difference_deg": -12.344265676192961,
+      "preserved_reference_count": 3092,
+      "old_reference_angle_deg": 16.79,
+      "candidate_reference_angle_deg": 4.445734323807031
+    }
+  ],
+  "fk_reconstructed_relative_heights_mm": [
+    -15.000000000000014,
+    84.99999999999994
+  ],
+  "height_sensitivity_scenarios": [
+    {
+      "assumed_error_each_height_mm": 1.0,
+      "type": "illustrative_bound_not_user_reported_accuracy",
+      "q2_q3_min_deg": [
+        -112.39510497103495,
+        73.48122358823532
+      ],
+      "q2_q3_max_deg": [
+        -110.40255505194261,
+        75.66678757466069
+      ]
+    },
+    {
+      "assumed_error_each_height_mm": 2.0,
+      "type": "illustrative_bound_not_user_reported_accuracy",
+      "q2_q3_min_deg": [
+        -113.39508892238328,
+        72.36185671744651
+      ],
+      "q2_q3_max_deg": [
+        -109.40935551667442,
+        76.73535324267617
+      ]
+    }
+  ],
+  "shoulder_axis_model_height_mm": 116.59999999999995,
+  "shoulder_height_difference_mm": 8.400000000000048,
+  "base_height_note": "difference includes base alignment and ruler error; not applied to base transform",
+  "candidate_mapping_file": "candidate_mapping_heights_b_6915rk5a.json",
+  "candidate_status": "draft_not_for_motion",
+  "active_mapping_updated": false,
+  "second_pose_validation_pending": true,
+  "hardware_writes_sent": 0,
+  "next_validation": {
+    "elbow_above_shoulder_height_mm": [
+      20,
+      30
+    ],
+    "expected_model_shoulder_angles_deg": [
+      -94.03977006352616,
+      -88.9797283905036
+    ],
+    "data_required": [
+      "all_six_counts",
+      "shoulder_elbow_wrist_heights_mm"
+    ],
+    "requires_stable_supported_pose": true
+  }
+}

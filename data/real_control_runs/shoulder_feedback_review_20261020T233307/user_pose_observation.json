@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "kind": "user_qualitative_pose_comparison",
+  "source_viewer": "/home/yu/so101_ws/data/real_control_runs/shoulder_feedback_review_20261020T233307/viewer.py",
+  "source_viewer_sha256": "956bdb782550cef526293e71e11ffc63bde2a168fbb0ee1ff0d968f436b55dcf",
+  "source_log": "data/real_control_runs/shoulder_relative_probe_20261020T233307_ijyxou1a.json",
+  "user_observation_zh": "实物闭合，模型张开；其他基本一致",
+  "source": "explicit user clarification in this conversation",
+  "arm_shape_agreement": "qualitative user confirmation only",
+  "model_mapping_verified": false,
+  "historical_id6_count": 3951,
+  "fresh_id6_measurement": false,
+  "closed_count_calibrated": false,
+  "display_change": {
+    "script": "viewer_near_closed.py",
+    "q_source": "model gripper joint lower limit",
+    "purpose": "visual near-closed display only",
+    "encoder_to_model_mapping_created": false
+  },
+  "tcp_definition": "grasp_center_40mm is attached to fixed gripper body; it is a 40 mm box reference, not instantaneous jaw midpoint.",
+  "next_measurement": "Fresh torque-off closed count and manual opening sufficient to admit the measured 40 mm box with clearance; use read-only script, no forced hard stop.",
+  "hardware_writes_sent": 0
+}

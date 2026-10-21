@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "so101_box_grasp_target",
   "source_mode": "live",
-  "session_id": "c790cd56-2081-4270-9657-25b0d5d4c625",
+  "session_id": "85e8d4d2-fb00-48a4-9cd9-f459a8123439",
   "source": {
     "camera_device": "/dev/video0",
     "buffer_size_one_requested": true,
@@ -24,9 +24,9 @@
     "transform_direction": "board_to_camera",
     "pose_rms_px": 0.24714232981204987
   },
-  "frame_id": 852,
-  "captured_at_unix_s": 1792527090.5835752,
-  "published_at_unix_s": 1792527090.6501057,
+  "frame_id": 1122,
+  "captured_at_unix_s": 1792528496.5862596,
+  "published_at_unix_s": 1792528496.614195,
   "valid": false,
   "reason": "stopped",
   "coordinate_system": "table",

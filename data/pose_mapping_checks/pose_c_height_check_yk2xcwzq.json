@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "kind": "so101_height_reference_crosscheck",
+  "recorded_at_utc": "2026-10-20T21:06:18.996696+00:00",
+  "pose_label": "C",
+  "source": "user_pasted_heights_and_read_position_output_in_one_message",
+  "device_sample_time": null,
+  "direct_device_read_by_assistant": false,
+  "hardware_writes_sent": 0,
+  "position_counts": {
+    "1": 70,
+    "2": 90,
+    "3": 4076,
+    "4": 845,
+    "5": 3300,
+    "6": 3951
+  },
+  "mode": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0
+  },
+  "torque_enabled": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0
+  },
+  "voltage_V": {
+    "1": 6.7,
+    "2": 6.8,
+    "3": 6.8,
+    "4": 6.7,
+    "5": 6.7,
+    "6": 6.8
+  },
+  "heights_mm": {
+    "shoulder": 125.0,
+    "elbow": 195.0,
+    "wrist_pitch": 145.0
+  },
+  "paired_pose_B": "data/pose_mapping_checks/pose_b_4mfmwcx_.json",
+  "B_height_reference": "data/pose_mapping_checks/heights_b_6915rk5a.json",
+  "delta_counts_from_B_continuous": {
+    "1": -1,
+    "2": 490,
+    "3": 186,
+    "4": 0,
+    "5": 1,
+    "6": 0
+  },
+  "delta_encoder_deg_from_B": {
+    "1": -0.087890625,
+    "2": 43.06640625,
+    "3": 16.34765625,
+    "4": 0.0,
+    "5": 0.087890625,
+    "6": 0.0
+  },
+  "branch_basis": "B_photo_branch_plus_continuous_encoder_deltas_shoulder_backward_up_forearm_forward_down",
+  "height_derived_q2_q3_deg": [
+    -66.85070450734011,
+    90.79662557318422
+  ],
+  "predicted_q2_q3_deg": [
+    -68.33129408024115,
+    90.93010932380703
+  ],
+  "q2_q3_measured_minus_predicted_deg": [
+    1.4805895729010388,
+    -0.13348375062281548
+  ],
+  "predicted_heights_mm_shoulder_aligned": [
+    125.0,
+    192.58662218228358,
+    145.54849286353164
+  ],
+  "height_residuals_measured_minus_predicted_mm": [
+    0.0,
+    2.413377817716423,
+    -0.5484928635316351
+  ],
+  "mapping_checks_after_reference_update": [
+    {
+      "servo_id": 1,
+      "joint_name": "shoulder_pan",
+      "model_angle_nearest_branch_deg": -1.669921875,
+      "model_limits_deg": [
+        -109.99987525598623,
+        109.99987525598623
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 70.0
+    },
+    {
+      "servo_id": 2,
+      "joint_name": "shoulder_lift",
+      "model_angle_nearest_branch_deg": -68.33129408024115,
+      "model_limits_deg": [
+        -99.99999999999959,
+        100.00000000000041
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 90.0
+    },
+    {
+      "servo_id": 3,
+      "joint_name": "elbow_flex",
+      "model_angle_nearest_branch_deg": 90.93010932380703,
+      "model_limits_deg": [
+        -96.82986737710912,
+        96.82986737710912
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 4076.0
+    },
+    {
+      "servo_id": 4,
+      "joint_name": "wrist_flex",
+      "model_angle_nearest_branch_deg": -114.966640625,
+      "model_limits_deg": [
+        -94.99984017946129,
+        94.99984017946129
+      ],
+      "nearest_branch_in_model_range": false,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 845.0
+    },
+    {
+      "servo_id": 5,
+      "joint_name": "wrist_roll",
+      "model_angle_nearest_branch_deg": 0.592734375,
+      "model_limits_deg": [
+        -157.2108697464359,
+        162.78913025356408
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 3300.0
+    }
+  ],
+  "reference_decision": {
+    "adopt_B_values_as_software_estimates": true,
+    "values_not_refitted_to_C": true,
+    "measurement_accuracy_mm": null,
+    "overall_model_mapping_verified": false,
+    "not_for_motion": true
+  },
+  "contact_observation": {
+    "source": "user_explicit_confirmation",
+    "description": "User reports the wrist / ID4 assembly lowered until contacting the ID2 structure; which joint caused the lowering is not established",
+    "servo_id4_count_reported": 845,
+    "id4_count_change_from_B": 0,
+    "contact_geometry_not_measured": true,
+    "safe_limit_verified": false,
+    "must_not_use_contact_count_as_home_or_safe_limit": true,
+    "contact_does_not_establish_id4_joint_stop": true,
+    "id3_count_change_from_B": 186,
+    "id4_relative_rotation_not_observed_between_samples": true
+  },
+  "source_hashes": {
+    "data/so101_joint_mapping.json": "fe7b1fccd4ff65badecdb4cc99bc9084e4c162e562513feee62b2e9dd81f90a3",
+    "data/box_grasp_plan.json": "fa962b5c59e911033b8efcd10f41ef74105c885e8f1d10483ee28c5d1d5b3a91",
+    "data/pose_mapping_checks/pose_b_4mfmwcx_.json": "9fec81e1c5d6a8dc5b974207e6785c1eb472873957c5f0abdf7420aed7925da6",
+    "data/pose_mapping_checks/heights_b_6915rk5a.json": "39b806808b846aab0cb48f2c08bf296b768a23a30da02d52b8a89e4a2ade5097",
+    "data/pose_mapping_checks/candidate_mapping_heights_b_6915rk5a.json": "9480029a351bb9c4e2231d0d044dbb1143d903b417741366406e79e3b6d19154",
+    "data/so101_initial_pose.json": "f91f9601f769ee23a489d7f50abfb00e872d22e82a373a1f8c3709db4aa44148",
+    "data/base_reference_initial.json": "14c79700868dbadb5bd7af47fcbdc62a023f81385552e4c51cebd53e6f1dcf4b",
+    "simulation/so101/scene_grasp.xml": "657b0387a443b26ba225d826e845a380e86773e5342cd7617187ad0ac67fde73",
+    "simulation/so101/so101_new_calib.xml": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02"
+  }
+}

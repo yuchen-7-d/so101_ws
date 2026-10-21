@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-20T22:17:46.697739+00:00",
+  "kind": "so101_offline_pose_alignment_and_approach_review",
+  "execution_available": false,
+  "hardware_writes_sent": 0,
+  "model_mapping_verified": false,
+  "active_project_configuration_modified": false,
+  "file_sha256": {
+    "render.py": "32fd429bdab537f4aaefe9d7ec3ac0241f758019bb9350b7f389904e2f0cdfa6",
+    "render_metadata.json": "169e86e92b0444b060ce8cf9deb1d9b81fecef364110837eda7086bc8dd6b1a3",
+    "pose_comparison.png": "c98bdcd1d6d891ec231d21eb5651fd9c154eee86065f9c5de7de8a86da17fd80",
+    "audit_approach.py": "2a6e16de873af369137a2f6a6ada2af2f42cc4157d785c53f0390b67f428af71",
+    "test_audit_approach.py": "fb99d76cfe4272aaa2ce1dc68b21c3f9fd319d9675e497e372fb25b75e825f51",
+    "approach_review.json": "847c37c9763bb218f86883a45b41d2b0b5bb90857b08452e894c1ef5ad51a349"
+  },
+  "validation": {
+    "focused_tests_passed": 10,
+    "suite": "test_audit_approach.py",
+    "static_mesh_rendered_and_visually_inspected": true
+  },
+  "next_step": "user_supported_manual_wrist_adjustment_and_new_readback_before_any_new_start_path"
+}

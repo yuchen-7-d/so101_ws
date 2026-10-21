@@ -1,0 +1,24 @@
+[
+  {
+    "relative_motion": 4,
+    "bus_events_equal": true,
+    "bus_event_count": 1522,
+    "writes_equal": true,
+    "write_count": 61,
+    "status_before": "failed",
+    "status_after": "failed",
+    "message_before": "ID2 相对位移未在 3 秒内达标：固定预期=123±2；停止，不更新基线、不执行回程",
+    "message_after": "ID2 相对位移未在 3 秒内达标：固定预期=123±2；最近有效反馈：实际=119，P0=115，相对位移=+4，目标=123，目标误差=-4，输出幅值=40/1000，样本距今=0.001s；停止，不更新基线、不执行回程"
+  },
+  {
+    "relative_motion": 0,
+    "bus_events_equal": true,
+    "bus_event_count": 1522,
+    "writes_equal": true,
+    "write_count": 61,
+    "status_before": "failed",
+    "status_after": "failed",
+    "message_before": "ID2 相对位移未在 3 秒内达标：固定预期=123±2；停止，不更新基线、不执行回程",
+    "message_after": "ID2 相对位移未在 3 秒内达标：固定预期=123±2；最近有效反馈：实际=115，P0=115，相对位移=+0，目标=123，目标误差=-8，输出幅值=40/1000，样本距今=0.001s；停止，不更新基线、不执行回程"
+  }
+]

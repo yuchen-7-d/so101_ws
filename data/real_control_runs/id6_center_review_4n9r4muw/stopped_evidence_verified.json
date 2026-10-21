@@ -1,0 +1,29 @@
+{
+  "path": "/home/yu/so101_ws/data/real_control_runs/gripper_cycle_20261021T004559_h8wvajla.jsonl",
+  "sha256": "24d6b910bbb634ba37d423757421e2510f10c85e9ecacd23c20a87d80e435008",
+  "status": "failed_no_return",
+  "fault": {
+    "phase": "closing",
+    "error": "ControlError: ID1支撑姿态漂移超过允许值"
+  },
+  "release": {
+    "servo_id": 6,
+    "readback": {
+      "40": 0,
+      "48": 0
+    },
+    "errors": [],
+    "confirmed": true
+  },
+  "stopped_goal": 1890,
+  "last_observed_position": 1891,
+  "fresh_start_bounds": [
+    1888,
+    2050
+  ],
+  "open_target": 2048,
+  "lower_bound_basis": "stopped goal 1890 minus tolerance 2",
+  "observation": "user reported a remaining gap; no physical contact claimed",
+  "independent_transaction": true,
+  "resume_closing": false
+}

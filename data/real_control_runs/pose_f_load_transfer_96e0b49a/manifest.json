@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-20T22:46:56.785265+00:00",
+  "kind": "pose_f_load_transfer_evidence_and_local_elbow_probe",
+  "assistant_serial_access": false,
+  "active_model_mapping_changed": false,
+  "test_validation": {
+    "passed": 24,
+    "hardware": "FakeSerial/Clock and local PTY only",
+    "command": "PYTHONPATH=/tmp/so101_elbow_probe_stage/scripts:/home/yu/so101_ws/scripts:/home/yu/so101_ws/tests /home/yu/so101_ws/.venv_vision/bin/python -m unittest discover -s /tmp/so101_elbow_probe_stage/tests -p test_so101_elbow_probe.py -v"
+  },
+  "file_sha256": {
+    "scripts/so101_elbow_probe.py": "9addcc2159deed3263c3a224b7df6ebcde43f63c4cefc855bf3cc914ecf2d7d2",
+    "tests/test_so101_elbow_probe.py": "1ca900d561f7913d3caff55c8e6f3a3bf4dfa4e5c50bde8d3775df74d5fdfcc8",
+    "data/real_control_runs/pose_f_load_transfer_96e0b49a/hold_user_observation.json": "d326280edf13e3052c54de79afcf614006f21ad24b3695a6655229a669490e12",
+    "data/real_control_runs/pose_f_load_transfer_96e0b49a/elbow_local_geometry.json": "846f1de1614c6b3da0e87f9f2716de99983bd0a64b1bdc55d5ff9e3a92e4c98d"
+  },
+  "scope": "Hold evidence is user reported. Local ID3 probe code prepared and tested offline; physical execution pending. No changes to active mappings, PID or EEPROM."
+}

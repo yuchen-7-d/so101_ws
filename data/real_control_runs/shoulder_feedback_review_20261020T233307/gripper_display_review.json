@@ -1,0 +1,132 @@
+{
+  "kind": "offline_gripper_display_geometry_review",
+  "not_for_motion": true,
+  "hardware_writes_sent": 0,
+  "active_mapping_modified": false,
+  "source_model": "/home/yu/so101_ws/simulation/so101/so101_new_calib.xml",
+  "source_model_sha256": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02",
+  "reported_ID6_count_3951_is_not_converted_to_angle": true,
+  "old_small_range_test": {
+    "servo_id": 6,
+    "scope": "empty_gripper_small_range",
+    "open_target_counts": 4022,
+    "open_actual_counts": 4021,
+    "open_motion_confirmed": true,
+    "precontact_target_counts": 3970,
+    "precontact_actual_counts": 3972,
+    "precontact_gap_confirmed": true,
+    "observed_contact_counts": 3961,
+    "acceleration_raw": 1,
+    "speed_raw": 50,
+    "torque_limit_raw": 100,
+    "position_tolerance_counts": 2,
+    "settled_samples_required": 3,
+    "timeout_seconds": 3.0,
+    "torque_off_on_exit": true
+  },
+  "gripper_joint_limits_rad": [
+    -0.17453297762778586,
+    1.7453291995659765
+  ],
+  "tcp_body": "gripper",
+  "tcp_local_position_m": [
+    0.0121,
+    -0.000218121,
+    -0.0981274
+  ],
+  "max_tcp_position_change_across_cases_m": 0.0,
+  "max_tcp_rotation_matrix_change_across_cases": 0.0,
+  "cases": [
+    {
+      "label": "previous_open_display",
+      "model_q_rad": 0.6,
+      "model_q_deg": 34.37746770784939,
+      "tip_collision_geoms_nearest_distance_mm": 57.43009283249274,
+      "distance_kind": "minimum separation of existing fixed-tip box and moving-tip convex collision geom; not a uniform real jaw width",
+      "tcp_world_m": [
+        0.3913619000000002,
+        -0.0009844611109343668,
+        0.24644505234376887
+      ],
+      "tcp_rotation_world_from_tcp": [
+        [
+          0.9999999999999998,
+          2.7383622771663763e-17,
+          5.546093411585272e-16
+        ],
+        [
+          -3.6373171817102955e-19,
+          0.9988153863756337,
+          -0.04866029119613933
+        ],
+        [
+          -5.552848384348645e-16,
+          0.04866029119613933,
+          0.9988153863756337
+        ]
+      ],
+      "does_not_assign_a_servo_count": true
+    },
+    {
+      "label": "zero_angle_still_open",
+      "model_q_rad": 0.0,
+      "model_q_deg": 0.0,
+      "tip_collision_geoms_nearest_distance_mm": 15.800004349947368,
+      "distance_kind": "minimum separation of existing fixed-tip box and moving-tip convex collision geom; not a uniform real jaw width",
+      "tcp_world_m": [
+        0.3913619000000002,
+        -0.0009844611109343668,
+        0.24644505234376887
+      ],
+      "tcp_rotation_world_from_tcp": [
+        [
+          0.9999999999999998,
+          2.7383622771663763e-17,
+          5.546093411585272e-16
+        ],
+        [
+          -3.6373171817102955e-19,
+          0.9988153863756337,
+          -0.04866029119613933
+        ],
+        [
+          -5.552848384348645e-16,
+          0.04866029119613933,
+          0.9988153863756337
+        ]
+      ],
+      "does_not_assign_a_servo_count": true
+    },
+    {
+      "label": "joint_lower_bound_nearly_closed",
+      "model_q_rad": -0.17453297762778586,
+      "model_q_deg": -10.000003003923348,
+      "tip_collision_geoms_nearest_distance_mm": 1.9063258566946846,
+      "distance_kind": "minimum separation of existing fixed-tip box and moving-tip convex collision geom; not a uniform real jaw width",
+      "tcp_world_m": [
+        0.3913619000000002,
+        -0.0009844611109343668,
+        0.24644505234376887
+      ],
+      "tcp_rotation_world_from_tcp": [
+        [
+          0.9999999999999998,
+          2.7383622771663763e-17,
+          5.546093411585272e-16
+        ],
+        [
+          -3.6373171817102955e-19,
+          0.9988153863756337,
+          -0.04866029119613933
+        ],
+        [
+          -5.552848384348645e-16,
+          0.04866029119613933,
+          0.9988153863756337
+        ]
+      ],
+      "does_not_assign_a_servo_count": true
+    }
+  ],
+  "display_recommendation": "Use existing model lower joint bound for nearly-closed display only; do not identify 3951 with this angle or change the model limits."
+}

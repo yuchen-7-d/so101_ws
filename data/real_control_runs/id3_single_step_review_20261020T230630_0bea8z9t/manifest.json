@@ -1,0 +1,38 @@
+{
+  "existing_sha256": {
+    "scripts/so101_elbow_probe.py": "9addcc2159deed3263c3a224b7df6ebcde43f63c4cefc855bf3cc914ecf2d7d2",
+    "tests/test_so101_elbow_probe.py": "1ca900d561f7913d3caff55c8e6f3a3bf4dfa4e5c50bde8d3775df74d5fdfcc8",
+    "scripts/so101_hold_current.py": "6888f895dcf069791e8f9b2db19a172e73d8697ac6656c439f8b72dbea60f0a3",
+    "scripts/so101_pan_step.py": "3f3b4d626df0c9b59cabaf97e4e5813f5a691fa7f40f22bf699cdf3d684fc4f7",
+    "data/so101_joint_mapping.json": "716caa4a722dc165d870a8122efe68131a045e365e68dda7df05fc08cf24b150",
+    "data/real_control_runs/elbow_probe_20261020T225204_rltw_nqz.json": "ed2c47032183a02a00c2bd81cd07b784a688cea9404bba26ad8089a9db1a9f3d",
+    "data/real_control_runs/elbow_probe_20261020T225702__du71an6.json": "fda93c1dc640b7d6dd5f578b5dcaf367ff2647c3a2e3a9373b9331428c7bb875"
+  },
+  "candidate_sha256": {
+    "scripts/so101_elbow_probe.py": "f1cd6ddc94af80edfcf8ef5533757a1aa7705cac0033e81a7600286a1b518ac5",
+    "tests/test_so101_elbow_probe.py": "d256f9943701e53837e4ab50340a444faaf8741d2f8007f61105e74b8d554f96",
+    "tests/test_so101_elbow_single_step.py": "6d0f905697a686991b82f1068db6abca4ab7b794b4e981fb1015d82c0b2c34dd"
+  },
+  "evidence_sha256": {
+    "/tmp/so101_elbow_single_stage/review.patch": "047e7a06d0d9efecb27199977267661c7978c99afd4fd83aeee3f4d513a4217b",
+    "/tmp/so101_elbow_single_stage/test_results.txt": "0ae8d302e56c351768c5baddac2d5e35ec60785d78db126f692631b046f8886f",
+    "/tmp/so101_elbow_comparison_stage/comparison.json": "73346fed19b6c5e94fce84a96b78b91d16130ff0d4efe6c7f7707ed3825ec11f",
+    "/tmp/so101_elbow_comparison_stage/analyze.py": "0d481d0004818e6d8ef64fda4f7d21e2d117288eabe637da6e8830604a442139"
+  },
+  "offline_tests": {
+    "count": 35,
+    "result": "passed",
+    "hardware": "mocked serial only"
+  },
+  "independent_review": "passed",
+  "installed_at_utc": "2026-10-20T23:06:30.080213+00:00",
+  "installed_sha256": {
+    "scripts/so101_elbow_probe.py": "f1cd6ddc94af80edfcf8ef5533757a1aa7705cac0033e81a7600286a1b518ac5",
+    "tests/test_so101_elbow_probe.py": "d256f9943701e53837e4ab50340a444faaf8741d2f8007f61105e74b8d554f96",
+    "tests/test_so101_elbow_single_step.py": "6d0f905697a686991b82f1068db6abca4ab7b794b4e981fb1015d82c0b2c34dd"
+  },
+  "offline_review": "Independent review passed; mocked serial tests only.",
+  "real_serial_opened": false,
+  "real_motion_executed": false,
+  "scope": "Explicit single-step negative-eight diagnostic under reduced load; no grasp acceptance."
+}

@@ -1,0 +1,10 @@
+{
+  "verification_sha256": "946c77051a23355d482bea7a3f8186e456d34de3257f5381a78e258999a850f8",
+  "gap_record_sha256": "cf3d0a44450cf0ddd3693e6a6503f2457c1426067d8a59aa083128aeba32267b",
+  "historical_precontact_target": 3970,
+  "translated_precontact_target": 1727,
+  "translated_historical_actual": 1729,
+  "historical_closed_prediction_not_a_target": 1710,
+  "source_journal_sha256": "e32253ed5ac0d735e79ab8aa614e7fdf9c9684a78f39d1e0f6651544e9c65fb6",
+  "hardware_accessed": false
+}

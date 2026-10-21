@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "kind": "shoulder_partial_response_review",
+  "source_run": "/home/yu/so101_ws/data/real_control_runs/shoulder_relative_probe_20261020T233307_ijyxou1a.json",
+  "source_sha256": "25aee184fa550c1eea2da759c9d1ff4e9cfa33c05b24de4d3d63cf3bf93967ef",
+  "source_status": "failed",
+  "diagnostic_acceptance": false,
+  "assistant_hardware_access": false,
+  "baseline": 115,
+  "goal": 123,
+  "accepted_feedback_band": [
+    121,
+    125
+  ],
+  "position_sequence": [
+    115,
+    119
+  ],
+  "observed_displacement_counts": 4,
+  "last_position": 119,
+  "last_goal_error_counts": -4,
+  "last_goal_error_degrees": -0.3515625,
+  "after_command_samples": 32,
+  "first_observed_movement_s_after_write": 0.30015360700781457,
+  "stationary_tail": {
+    "samples": 28,
+    "span_s": 2.5370927620097063,
+    "position": 119,
+    "signed_output_reading": -40
+  },
+  "observed_max_abs_output": 72,
+  "output_limit": 100,
+  "release": {
+    "attempted_ids": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "unconfirmed_ids": [],
+    "confirmed": true
+  },
+  "interpretation": "Positive encoder response observed after command, followed by stable residual error; exact cause unresolved. Existing +8 acceptance remains failed. This is not a calibration or grasp pass.",
+  "support_observation_this_run": "Not separately reported; do not assume a particular contact or load condition.",
+  "comparison_caveat": "Prior run had ID3 near3907, this run near3967; support and pose were not a controlled single-variable comparison.",
+  "next_use": "Offline FK uses actual feedback, never treats commanded123 as reached or changes zero/constant compensation."
+}

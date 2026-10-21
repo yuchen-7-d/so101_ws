@@ -1,0 +1,10 @@
+{
+  "installed_at_utc": "2026-10-20T23:11:10.905811+00:00",
+  "file": "scripts/so101_elbow_probe.py",
+  "before_sha256": "f1cd6ddc94af80edfcf8ef5533757a1aa7705cac0033e81a7600286a1b518ac5",
+  "after_sha256": "ec2737869c0f1722f5204878b6522b6c7d0a70dc4cba754282850634da8a5b5c",
+  "change": "Handover feedback display and detailed baseline rejection message only.",
+  "control_parameters_changed": false,
+  "real_serial_opened": false,
+  "offline_tests_passed": 35
+}

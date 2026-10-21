@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "kind": "so101_candidate_grasp_plan",
+  "status": "invalid",
+  "writes_sent": 0,
+  "execution_available": false,
+  "generated_at_unix_s": 1792529331.5653265,
+  "reason": "ID3 direction mapping changed after user-confirmed A/B comparison; previous candidate counts are obsolete",
+  "previous_plan_backup": "data/pose_mapping_checks/grasp_plan_before_id3_direction_4mfmwcx_.json",
+  "direction_evidence": "data/pose_mapping_checks/pose_b_4mfmwcx_.json"
+}

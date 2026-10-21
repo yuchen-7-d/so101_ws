@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "kind": "so101_candidate_grasp_plan",
+  "status": "invalid",
+  "writes_sent": 0,
+  "execution_available": false,
+  "generated_at_unix_s": 1792530378.9967291,
+  "reason": "Shoulder/elbow reference estimates changed after B/C height crosscheck; recompute candidate counts. Wrist contact remains unresolved.",
+  "previous_plan_backup": "data/pose_mapping_checks/grasp_plan_before_height_estimate_yk2xcwzq.json",
+  "calibration_evidence": "data/pose_mapping_checks/pose_c_height_check_yk2xcwzq.json"
+}

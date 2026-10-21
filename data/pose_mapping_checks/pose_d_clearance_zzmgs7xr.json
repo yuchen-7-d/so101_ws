@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "kind": "so101_manual_contact_clearance_observation",
+  "recorded_at_utc": "2026-10-20T21:11:47.637646+00:00",
+  "pose_label": "D",
+  "source": "user_pasted_read_position_output_and_explicit_contact_clearance_confirmation",
+  "device_sample_time": null,
+  "direct_device_read_by_assistant": false,
+  "hardware_writes_sent": 0,
+  "position_counts": {
+    "1": 68,
+    "2": 89,
+    "3": 4008,
+    "4": 846,
+    "5": 3299,
+    "6": 3951
+  },
+  "mode": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0
+  },
+  "torque_enabled": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0
+  },
+  "voltage_V": {
+    "1": 6.8,
+    "2": 6.8,
+    "3": 6.8,
+    "4": 6.7,
+    "5": 6.7,
+    "6": 6.7
+  },
+  "previous_pose": "data/pose_mapping_checks/pose_c_height_check_yk2xcwzq.json",
+  "delta_counts_from_C": {
+    "1": -2,
+    "2": -1,
+    "3": -68,
+    "4": 1,
+    "5": -1,
+    "6": 0
+  },
+  "delta_encoder_deg_from_C": {
+    "1": -0.17578125,
+    "2": -0.087890625,
+    "3": -5.9765625,
+    "4": 0.087890625,
+    "5": -0.087890625,
+    "6": 0.0
+  },
+  "mapping_diagnostics": [
+    {
+      "servo_id": 1,
+      "joint_name": "shoulder_pan",
+      "model_angle_nearest_branch_deg": -1.845703125,
+      "model_limits_deg": [
+        -109.99987525598623,
+        109.99987525598623
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 68.0
+    },
+    {
+      "servo_id": 2,
+      "joint_name": "shoulder_lift",
+      "model_angle_nearest_branch_deg": -68.41918470524115,
+      "model_limits_deg": [
+        -99.99999999999959,
+        100.00000000000041
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 89.0
+    },
+    {
+      "servo_id": 3,
+      "joint_name": "elbow_flex",
+      "model_angle_nearest_branch_deg": 84.95354682380703,
+      "model_limits_deg": [
+        -96.82986737710912,
+        96.82986737710912
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 4008.0
+    },
+    {
+      "servo_id": 4,
+      "joint_name": "wrist_flex",
+      "model_angle_nearest_branch_deg": -114.87875,
+      "model_limits_deg": [
+        -94.99984017946129,
+        94.99984017946129
+      ],
+      "nearest_branch_in_model_range": false,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 846.0
+    },
+    {
+      "servo_id": 5,
+      "joint_name": "wrist_roll",
+      "model_angle_nearest_branch_deg": 0.50484375,
+      "model_limits_deg": [
+        -157.2108697464359,
+        162.78913025356408
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 3299.0
+    }
+  ],
+  "predicted_joint_anchors_model_mm": {
+    "shoulder_pan": [
+      38.835300000000004,
+      -8.97657e-06,
+      62.4
+    ],
+    "shoulder_lift": [
+      69.8074203456299,
+      -17.289228009708047,
+      116.59999999999995
+    ],
+    "elbow_flex": [
+      -24.523652894243575,
+      -20.329022698515388,
+      184.04192442141252
+    ],
+    "wrist_flex": [
+      106.21013624886663,
+      -16.116159807892355,
+      150.63566508952076
+    ],
+    "wrist_roll": [
+      96.76477080537505,
+      1.6888610988270263,
+      211.08883954835443
+    ]
+  },
+  "predicted_shoulder_to_wrist_pitch_distance_mm": {
+    "previous_C": 38.2517892138832,
+    "current_D": 49.8493762470896
+  },
+  "prediction_scope": "Wrist-pitch anchor position depends only on ID1/2/3; model distances are not measured housing clearances. Current wrist reference remains unvalidated.",
+  "contact_observation": {
+    "source": "user_explicit_confirmation",
+    "visible_gap_from_ID2": true,
+    "can_keep_separated_while_supported": true,
+    "physical_gap_mm": null,
+    "collision_free_motion_range_verified": false
+  },
+  "same_pose_side_photo_received": false,
+  "model_mapping_verified": false,
+  "not_for_motion": true,
+  "source_hashes": {
+    "data/so101_joint_mapping.json": "716caa4a722dc165d870a8122efe68131a045e365e68dda7df05fc08cf24b150",
+    "data/pose_mapping_checks/pose_c_height_check_yk2xcwzq.json": "260dd9eed1be9149c7e5f0382a51db83f6f5f9953fd15913857a57a77bdfe068",
+    "simulation/so101/scene_grasp.xml": "657b0387a443b26ba225d826e845a380e86773e5342cd7617187ad0ac67fde73",
+    "simulation/so101/so101_new_calib.xml": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02"
+  }
+}

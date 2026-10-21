@@ -1,0 +1,744 @@
+--- /dev/null
++++ b/scripts/so101_gripper_cycle.py
+@@ -0,0 +1,421 @@
++"""Fixed empty ID6 cycle: fresh open -> translated precontact 1727 -> fresh open.
++
++No grasp, calibration, automatic output increase, or fault return is provided.
++"""
++import argparse
++from datetime import datetime, timezone
++import hashlib
++import json
++import math
++import os
++from pathlib import Path
++import signal
++import sys
++import tempfile
++import time
++
++from so101_hold_current import Bus, ControlError, WRITE_WIDTHS, u16, signed_magnitude
++from so101_center_gripper import DurableJournal
++from so101_verify_gripper_center import load_source, strict_object, reject_constant, require
++
++IDS=(1,2,3,4,5,6)
++TORQUE,ACCEL,GOAL,SPEED,OUTPUT=40,41,42,46,48
++ENDPOINT=1727
++STEP=16
++TOLERANCE=2
++PROJECT=Path(__file__).resolve().parents[1]
++DEFAULT_JOURNAL=PROJECT/'data/real_control_runs/gripper_center_20261021T001712_uikl4heg.jsonl'
++DEFAULT_VERIFICATION=PROJECT/'data/real_control_runs/gripper_center_readonly_20261021T002549_eaikzm_j.json'
++
++
++def create_cycle_journal(directory,snapshot):
++    directory=Path(directory);directory.mkdir(parents=True,exist_ok=True)
++    stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S_')
++    fd,path=tempfile.mkstemp(prefix='gripper_cycle_'+stamp,suffix='.jsonl',dir=directory)
++    journal=DurableJournal(path,os.fdopen(fd,'w',encoding='utf-8'))
++    try:
++        journal.append('before_any_write',snapshot)
++        directory_fd=os.open(directory,os.O_RDONLY|os.O_DIRECTORY)
++        try:os.fsync(directory_fd)
++        finally:os.close(directory_fd)
++    except BaseException:
++        journal.close();raise
++    return journal
++
++
++def evidence(journal,verification,gap_record):
++    source=load_source(journal)
++    require(source['after_config']['offset_raw']==3901 and source['offset_signed']==-1853,
++            '此固定循环只适用于本次offset3901/-1853')
++    raw=Path(verification).read_bytes()
++    verified=json.loads(raw,object_pairs_hook=strict_object,parse_constant=reject_constant)
++    require(verified.get('test')=='id6_read_only_center_verification'
++            and verified.get('status')=='read_only_center_verified'
++            and verified.get('writes_sent')==0 and verified.get('reasons')==[]
++            and verified['source']['sha256']==source['sha256'], '只读复核证据不符合条件')
++    for name in ('initial','final'):
++        state=verified[name]
++        require(state['config']['raw_hex']==source['after_config']['raw_hex']
++                and not any(state['torques'].values())
++                and state['control']['torque_enabled']==0 and state['control']['output_limit']==0,
++                '只读复核前后配置/关闭状态不符')
++    samples=verified['samples']
++    require(len(samples)==21 and all(e['instruction']==2 for e in verified['events']),
++            '只读复核须有21帧且无写指令')
++    positions=[]
++    for sample in samples:
++        frame=bytes.fromhex(sample['raw_hex'])
++        require(len(frame)==26 and frame[0]==0 and u16(frame[8:10])==0
++                and u16(frame[18:20])==0 and u16(frame[20:22])==0
++                and 60<=frame[22]<=74 and frame[23]<55 and frame[25]==0,
++                '只读复核原始反馈不符合静止关闭条件')
++        position=u16(frame[16:18]);positions.append(position)
++        require(abs(position-source['expected_anchor_after'])<=2,'只读复核anchor不符')
++    span=samples[-1]['elapsed_s']-samples[0]['elapsed_s']
++    require(math.isfinite(span) and span>=2 and max(positions)-min(positions)<=2,
++            '只读复核窗口不稳定')
++    gap_raw=Path(gap_record).read_bytes()
++    gap=json.loads(gap_raw,object_pairs_hook=strict_object,parse_constant=reject_constant)
++    require(gap.get('servo_id')==6 and gap.get('scope')=='empty_gripper_small_range'
++            and gap.get('precontact_gap_confirmed') is True
++            and gap.get('precontact_target_counts')==3970 and gap.get('precontact_actual_counts')==3972,
++            '缺少历史空夹爪留缝证据')
++    require((3970-source['offset_signed'])%4096==ENDPOINT,'历史留缝目标平移不符')
++    return {'calibration':source, 'verification_path':str(Path(verification).resolve()),
++            'verification_sha256':hashlib.sha256(raw).hexdigest(),
++            'gap_record_path':str(Path(gap_record).resolve()),
++            'gap_record_sha256':hashlib.sha256(gap_raw).hexdigest(),
++            'historical_precontact_target':3970,'translated_precontact_target':ENDPOINT,
++            'translated_historical_actual':1729,'historical_closed_prediction_not_a_target':1710}
++
++
++class GripperBus(Bus):
++    """Independent capability; inherited exchange supplies strict packet parsing."""
++    def __init__(self,port,*,clock=time.monotonic):
++        super().__init__(port)
++        self.clock=clock;self.started=clock();self.phase='preflight'
++        self.events=[];self.allowed_goals=frozenset();self.enabled=False
++
++    def authorize_path(self,path):
++        require(path and all(type(p) is int and ENDPOINT<=p<=2050 for p in path),
++                '禁止白名单范围外目标')
++        self.allowed_goals=frozenset(path);self.enabled=True
++
++    def exchange(self,sid,instruction,params,size,tolerate_alarm=False):
++        if instruction==2:
++            if len(params)!=2 or not 1<=size<=40 or params[1]!=size or not 0<=params[0]<=255-size:
++                raise ControlError('读取范围不合法')
++        elif instruction==3:
++            if not self.enabled or sid!=6 or not params or params[0] not in WRITE_WIDTHS:
++                raise ControlError('只允许显式enable后写ID6固定控制寄存器')
++            address=params[0];width=WRITE_WIDTHS[address]
++            value=int.from_bytes(bytes(params[1:]),'little')
++            allowed={TORQUE:(0,1),ACCEL:(1,),SPEED:(50,),OUTPUT:(0,100),GOAL:self.allowed_goals}
++            if size!=0 or len(params)!=width+1 or value not in allowed[address]:
++                raise ControlError('写入不在本次固定ID6路径/参数白名单')
++        else:
++            raise ControlError('禁止非读写白名单指令')
++        entry={'elapsed_s':self.clock()-self.started,'phase':self.phase,'servo_id':sid,
++               'instruction':instruction,'parameters_hex':bytes(params).hex(),'acknowledged':False}
++        self.events.append(entry)
++        try:
++            result=super().exchange(sid,instruction,params,size,tolerate_alarm)
++            entry['response_payload_hex']=result.hex();entry['acknowledged']=True
++            return result
++        except BaseException as error:
++            entry['error']=f'{type(error).__name__}: {error}'
++            raise
++
++    def write(self,sid,address,value,tolerate_alarm=False):
++        if address not in WRITE_WIDTHS or type(value) is not int or value<0:
++            raise ControlError('禁止未列入白名单的寄存器/数值')
++        self.exchange(sid,3,[address,*value.to_bytes(WRITE_WIDTHS[address],'little')],0,tolerate_alarm)
++
++
++def frame_fields(raw):
++    feedback=raw[16:26]
++    return {'raw_hex':raw.hex(),'torque':raw[0],'acceleration':raw[1],
++            'goal':u16(raw[2:4]),'speed_limit':u16(raw[6:8]),'output_limit':u16(raw[8:10]),
++            'lock':raw[15], 'position':signed_magnitude(u16(feedback[:2]),15),
++            'speed_raw_signed':signed_magnitude(u16(feedback[2:4]),15),
++            'output_raw_signed':signed_magnitude(u16(feedback[4:6]),10),
++            'load':abs(signed_magnitude(u16(feedback[4:6]),10)),
++            'voltage':feedback[6]/10,'temperature':feedback[7],'status':feedback[9]}
++
++
++def fixed_path(start):
++    result=[start]
++    while result[-1]>ENDPOINT:
++        result.append(max(ENDPOINT,result[-1]-STEP))
++    return result+result[-2::-1]
++
++
++class GripperCycle:
++    def __init__(self,bus,proof,*,journal_dir,clock=time.monotonic,sleep=time.sleep,emit=print,
++                 journal_factory=create_cycle_journal):
++        self.bus,self.proof,self.journal_dir=bus,proof,journal_dir
++        self.clock,self.sleep,self.emit=clock,sleep,emit
++        self.journal_factory=journal_factory;self.journal=None
++        self.configs={};self.initial={};self.start=None;self.path=[];self.current_goal=None
++        self.active_since=None;self.high_load_since=None;self.touched=False
++        self.status='not_started';self.fault=None;self.release_result=None;self.journal_error=None
++        self.samples=[];self.steps=[];self.goal_intents=[];self.cycle_response_complete=False
++
++    def check_total(self):
++        if self.active_since is not None and self.clock()-self.active_since>=90:
++            raise ControlError('总动作达到90秒，停止且不执行故障回程')
++
++    def read_frame(self,sid):
++        self.check_total()
++        raw=self.bus.read(sid,40,26)
++        state=frame_fields(raw)
++        state['received_at_s']=self.clock()
++        self.samples.append({'elapsed_s':self.clock()-self.bus.started,'phase':self.bus.phase,
++                             'servo_id':sid,**state})
++        config=self.configs[sid]
++        if (not u16(config[9:11])<=state['position']<=u16(config[11:13])
++                or not max(6,config[15]/10)<=state['voltage']<=min(7.4,config[14]/10)
++                or state['temperature']>=min(55,config[13]) or state['status']):
++            raise ControlError(f'ID{sid}健康/位置异常：{state}')
++        if sid!=6:
++            if state['torque']!=0:
++                raise ControlError(f'ID{sid}扭矩意外开启；本程序不写该轴')
++            if sid in self.initial and abs(state['position']-self.initial[sid])>(3 if sid==4 else 12):
++                raise ControlError(f'ID{sid}支撑姿态漂移超过允许值')
++        self.check_total()
++        return state
++
++    def preflight(self):
++        self.bus.phase='preflight'
++        for sid in IDS:
++            raw=self.bus.read(sid,0,40)
++            if (raw[2]!=0 or raw[5]!=sid or raw[8]!=1 or raw[18]!=12 or raw[30]!=1 or raw[33]!=0
++                    or not 0<=u16(raw[9:11])<u16(raw[11:13])<=4095):
++                raise ControlError(f'ID{sid}配置不符合固定单圈控制条件')
++            self.configs[sid]=raw
++            if sid==6:
++                if raw.hex()!=self.proof['calibration']['after_config']['raw_hex'] or not 100<=u16(raw[16:18])<=1000:
++                    raise ControlError('ID6当前完整配置/offset与历史after不符')
++        observations=[]
++        for index in range(3):
++            if index:self.sleep(.1)
++            states={sid:self.read_frame(sid) for sid in IDS}
++            for sid,state in states.items():
++                if state['torque']!=0:raise ControlError(f'ID{sid}扭矩非0，未写入')
++                self.initial.setdefault(sid,state['position'])
++            s=states[6]
++            if abs(s['position']-2048)>2 or s['speed_raw_signed'] or s['output_raw_signed'] or s['output_limit']:
++                raise ControlError('ID6须在2048±2稳定张开、速度/输出/输出上限均0')
++            observations.append((self.clock(),s['position']))
++        if observations[-1][0]-observations[0][0]<.2 or max(v for _,v in observations)-min(v for _,v in observations)>2:
++            raise ControlError('ID6三帧未满足0.2秒且范围≤2')
++        self.start=observations[-1][1];self.path=fixed_path(self.start)
++        self.current_goal=self.start
++        lower,upper=u16(self.configs[6][9:11]),u16(self.configs[6][11:13])
++        if not lower<=ENDPOINT-2<=self.start+2<=upper:
++            raise ControlError('完整反馈走廊超出设备限位')
++        self.emit(f'固定空夹爪路径：{self.start} → {ENDPOINT} → {self.start}；每步≤16，输出100/1000。')
++
++    def check_config(self):
++        self.check_total()
++        raw=self.bus.read(6,0,40)
++        if raw!=self.configs[6]:raise ControlError('ID6配置/offset发生变化')
++        self.check_total()
++
++    def recheck_after_journal(self):
++        # The backup start/path stay frozen. Disk latency may make them stale.
++        self.bus.phase='post_journal_recheck'
++        self.check_config();positions=[]
++        for index in range(3):
++            if index:self.sleep(.1)
++            states={sid:self.read_frame(sid) for sid in (6,1,2,3,4,5)}
++            s=states[6];positions.append(s['position'])
++            if (s['torque'] or s['output_limit'] or s['speed_raw_signed'] or s['output_raw_signed']
++                    or abs(s['position']-self.start)>2):
++                raise ControlError('持久备份后ID6状态改变；不更新冻结起点，不发送写指令')
++        if max(positions)-min(positions)>2:raise ControlError('备份后ID6仍不稳定，未写入')
++
++    def monitor(self,goal,torque,output,corridor):
++        began=self.clock();moving=None
++        for sid in (6,1,2,3,4,5):
++            if self.clock()-began>.5:raise ControlError('反馈整轮超过0.5秒')
++            state=self.read_frame(sid)
++            if self.clock()-began>.5:raise ControlError('反馈整轮超过0.5秒')
++            if sid==6:
++                moving=state
++                low=max(ENDPOINT-2,corridor[0]);high=min(self.start+2,corridor[1])
++                if not low<=state['position']<=high:
++                    raise ControlError(f"ID6小步反馈越界：实际{state['position']}，允许{low}–{high}；不回程")
++                if (state['goal']!=goal or state['torque']!=torque or state['acceleration']!=1
++                        or state['speed_limit']!=50 or state['output_limit']!=output):
++                    raise ControlError('ID6同帧控制目标/扭矩/速度/输出参数改变')
++                if output and state['load']>=95:
++                    if self.high_load_since is None:self.high_load_since=self.clock()
++                    if self.clock()-self.high_load_since>=1:
++                        raise ControlError('ID6输出幅值持续≥95/1000达1秒；停止，不把饱和当接触成功')
++                else:self.high_load_since=None
++        return moving
++
++    def set_checked(self,address,value):
++        self.check_total();self.bus.set_checked(6,address,value);self.check_total()
++
++    def persist(self,stage):
++        self.journal.append(stage,self.report())
++
++    def prepare(self):
++        self.bus.phase='prepare'
++        self.touched=True  # Before the first mutation, including lost ACK.
++        self.set_checked(OUTPUT,0)
++        self.set_checked(TORQUE,0)
++        self.set_checked(ACCEL,1)
++        self.set_checked(SPEED,50)
++        state=self.read_frame(6)
++        if abs(state['position']-self.start)>2:raise ControlError('预置前ID6漂移')
++        self.goal_intents.append({'phase':self.bus.phase,'target':self.start,
++                                  'elapsed_s':self.clock()-self.bus.started})
++        self.set_checked(GOAL,self.start)
++        # Goal writes may auto-enable; the output register is still zero.
++        self.set_checked(TORQUE,0)
++        corridor=(self.start-2,self.start+2)
++        self.monitor(self.start,0,0,corridor)
++        self.set_checked(TORQUE,1)
++        self.monitor(self.start,1,0,corridor)
++        self.set_checked(OUTPUT,100)
++        self.wait_step(self.start,self.start,'initial_hold')
++
++    def wait_step(self,previous,target,label,began=None):
++        began=self.clock() if began is None else began
++        deadline=began+3;settled=[]
++        corridor=(min(previous,target)-2,max(previous,target)+2)
++        while True:
++            if self.clock()>=deadline:raise ControlError(f'ID6目标{target}在3秒内未稳定到位')
++            state=self.monitor(target,1,100,corridor)
++            if self.clock()>=deadline:raise ControlError(f'ID6目标{target}在3秒内未稳定到位')
++            if abs(state['position']-target)<=2:
++                settled.append((state['received_at_s'],state['position']))
++                if len(settled)>=3 and settled[-1][0]-settled[0][0]>=.2:
++                    self.steps.append({'label':label,'target':target,'actual':state['position'],
++                        'elapsed_s':self.clock()-began,'settled_samples':len(settled),
++                        'settled_span_s':settled[-1][0]-settled[0][0]})
++                    self.emit(f"ID6小步到位：目标={target}，实际={state['position']}，输出幅值={state['load']}/1000")
++                    return
++            else:settled=[]
++            self.sleep(.05)
++
++    def cycle(self):
++        for index,target in enumerate(self.path[1:],1):
++            previous=self.current_goal
++            self.bus.phase='closing' if target<previous else 'returning'
++            began=self.clock()
++            self.check_config()
++            self.monitor(previous,1,100,(previous-2,previous+2))
++            if self.clock()-began>=3:raise ControlError('写前本小步已超时，不发下一目标')
++            self.goal_intents.append({'phase':self.bus.phase,'target':target,'previous':previous,
++                                      'elapsed_s':self.clock()-self.bus.started})
++            self.current_goal=target  # Fixed plan, not retargeted from feedback.
++            self.set_checked(GOAL,target)
++            self.wait_step(previous,target,f'step_{index}',began)
++            if target==ENDPOINT:
++                self.bus.phase='precontact_observation'
++                self.emit('已到留缝候选点，连续监控保持2秒后张开；这还不是机械限位验收。')
++                end=self.clock()+2
++                while self.clock()<end:
++                    self.monitor(ENDPOINT,1,100,(ENDPOINT-2,ENDPOINT+2))
++                    self.sleep(.05)
++        self.check_config()
++        self.cycle_response_complete=True
++
++    def release(self):
++        self.bus.phase='release';errors=[];values={}
++        for address in (TORQUE,OUTPUT):
++            try:self.bus.write(6,address,0,tolerate_alarm=True)
++            except BaseException as error:errors.append({'operation':'write','address':address,'error':str(error)})
++        for address,width in ((TORQUE,1),(OUTPUT,2)):
++            try:values[str(address)]=self.bus.value(6,address,width,tolerate_alarm=True)
++            except BaseException as error:errors.append({'operation':'read','address':address,'error':str(error)})
++        self.release_result={'servo_id':6,'readback':values,'errors':errors,
++                             'confirmed':values.get('40')==0 and values.get('48')==0}
++
++    def run(self,enable=False):
++        try:self.preflight()
++        except BaseException as error:
++            self.status='preflight_rejected';self.fault={'phase':self.bus.phase,'error':f'{type(error).__name__}: {error}'}
++            raise
++        if not enable:
++            self.status='read_only_preview';return self.report()
++        self.journal=self.journal_factory(self.journal_dir,self.report())
++        primary=None
++        try:
++            self.recheck_after_journal()
++            self.bus.authorize_path(self.path)
++            self.active_since=self.clock()
++            self.prepare()
++            self.cycle();self.status='empty_gripper_cycle_complete'
++        except BaseException as error:
++            primary=error;self.status='failed_no_return' if self.touched else 'failed_before_write'
++            self.fault={'phase':self.bus.phase,'error':f'{type(error).__name__}: {error}'}
++        finally:
++            saved={sig:signal.signal(sig,signal.SIG_IGN) for sig in (signal.SIGINT,signal.SIGTERM)}
++            try:
++                if self.touched:self.release()
++                if self.touched and (not self.release_result or not self.release_result['confirmed']):
++                    self.status='release_unconfirmed'
++                try:self.persist('final_cleanup')
++                except BaseException as error:self.journal_error=f'{type(error).__name__}: {error}'
++                try:self.journal.close()
++                except BaseException as error:self.journal_error=self.journal_error or str(error)
++                if self.journal_error and self.status=='empty_gripper_cycle_complete':self.status='journal_save_failed'
++            finally:
++                for sig,handler in saved.items():signal.signal(sig,handler)
++        if self.status=='release_unconfirmed':raise ControlError('ID6扭矩/输出清零未确认，请断开舵机电源') from primary
++        if primary is not None:raise primary
++        if self.journal_error:raise ControlError('已执行释放，但最终journal保存失败：'+self.journal_error)
++        return self.report()
++
++    def report(self):
++        return {'schema_version':1,'test':'fixed_id6_empty_gripper_cycle','status':self.status,
++            'proof':self.proof,'initial_positions':self.initial,'initial_configs':{str(k):v.hex() for k,v in self.configs.items()},
++            'start':self.start,'path':self.path,'current_goal':self.current_goal,'steps':self.steps,
++            'goal_intents':self.goal_intents,
++            'samples':self.samples,'events':self.bus.events,'fault':self.fault,'release':self.release_result,
++            'journal_error':self.journal_error,'cycle_response_complete':self.cycle_response_complete,
++            'writes_sent':sum(e['instruction']==3 for e in self.bus.events),
++            'output_limit':100,'acceleration':1,'speed':50,'step_counts_max':16,
++            'position_tolerance':2,'step_timeout_s':3,'total_timeout_s':90,
++            'empty_gripper_only':True,'mechanical_limits_verified':False,'grasp_verified':False,
++            'note':'1710 is a historical closed prediction, never a commanded target; no fault return.'}
++
++
++def main(argv=None):
++    parser=argparse.ArgumentParser(description='固定ID6空夹爪往返；默认只读，--enable才运动。')
++    parser.add_argument('--enable',action='store_true')
++    parser.add_argument('--port',default='/dev/ttyUSB0')
++    parser.add_argument('--journal',type=Path,default=DEFAULT_JOURNAL)
++    parser.add_argument('--verification',type=Path,default=DEFAULT_VERIFICATION)
++    parser.add_argument('--log-dir',type=Path,default=PROJECT/'data/real_control_runs')
++    args=parser.parse_args(argv)
++    controller=None
++    def stop(signum,frame):raise KeyboardInterrupt
++    previous=signal.signal(signal.SIGTERM,stop)
++    try:
++        proof=evidence(args.journal,args.verification,PROJECT/'data/so101_gripper_test_result.json')
++        import serial
++        print('夹爪内不得有纸盒或手指；稳定支撑机械臂，ID1–5始终不使能。关闭其他串口程序。',flush=True)
++        print('将执行固定空夹爪往返。' if args.enable else '只读预览；本次不发送寄存器写指令。',flush=True)
++        with serial.Serial(args.port,baudrate=1_000_000,timeout=.15,write_timeout=.15,exclusive=True) as port:
++            controller=GripperCycle(GripperBus(port),proof,journal_dir=args.log_dir)
++            result=controller.run(args.enable)
++            print(f"状态：{result['status']}；起点={result['start']}；写指令={result['writes_sent']}",flush=True)
++    except KeyboardInterrupt:
++        print('已中止；不会执行故障回程。',flush=True);return 130
++    except (ControlError,RuntimeError,OSError,ValueError,KeyError) as error:
++        print(f'本次未完成：{error}',file=sys.stderr,flush=True);return 1
++    finally:
++        signal.signal(signal.SIGTERM,previous)
++        if controller is not None and controller.journal is not None:
++            print(f'持久journal：{controller.journal.path}',flush=True)
++            print(f'ID6释放读回：{controller.release_result}',flush=True)
++    return 0
++
++
++if __name__=='__main__':raise SystemExit(main())
+--- /dev/null
++++ b/tests/test_so101_gripper_cycle.py
+@@ -0,0 +1,317 @@
++"""Fixed ID6 cycle tests: packet mocks only, never opens serial hardware."""
++import copy
++import io
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++from contextlib import redirect_stdout,redirect_stderr
++from unittest.mock import patch
++
++sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
++from so101_gripper_cycle import GripperBus,GripperCycle,ControlError,fixed_path,main
++from test_so101_center_gripper import FakeSerial,Clock
++
++AFTER_CONFIG=bytes.fromhex('030a000903060000010000ff0f465028e8030c2c2f20200010000101f401013d0f0014c8500ac8c8')
++
++class CycleSerial(FakeSerial):
++    def __init__(self,clock):
++        super().__init__(clock)
++        self.regs[6][:40]=AFTER_CONFIG
++        self.put(6,48,0);self.put(6,42,0);self.put(6,56,2048)
++        self.follow=True;self.before_hook=None;self.auto_enable=True
++        self.pre_goal_states=[]
++    def write(self,packet):
++        sid,ins,address=packet[2],packet[4],packet[5]
++        params=packet[6:-1]
++        if sid==6 and ins==3 and address==42:
++            self.pre_goal_states.append((self.regs[6][40],self.get(6,48),int.from_bytes(params,'little')))
++        if sid==6 and ins==2 and address==40 and params==b'\x1a':
++            if self.follow and self.regs[6][40]==1 and self.get(6,48)>0:
++                self.put(6,56,self.get(6,42))
++        if self.before_hook:self.before_hook(self,ins,sid,address,params)
++        result=super().write(packet)
++        if sid==6 and ins==3 and address==42 and self.auto_enable:
++            self.regs[6][40]=1
++        return result
++
++class MemoryJournal:
++    def __init__(self,initial,fail_stage=None):
++        self.initial=copy.deepcopy(initial);self.fail_stage=fail_stage
++        self.path=Path('/tmp/mock_only_no_file.jsonl');self.stages=[]
++    def append(self,stage,snapshot):
++        self.stages.append(stage)
++        if stage==self.fail_stage:raise OSError('mock disk failure')
++    def close(self):pass
++
++class CycleTests(unittest.TestCase):
++    def make(self,fail_stage=None):
++        clock=Clock();port=CycleSerial(clock);messages=[]
++        proof={'calibration':{'after_config':{'raw_hex':AFTER_CONFIG.hex()}}}
++        def factory(directory,snapshot):
++            self.assertEqual(port.writes,[])
++            return MemoryJournal(snapshot,fail_stage)
++        control=GripperCycle(GripperBus(port,clock=clock.time),proof,journal_dir='/tmp',
++            clock=clock.time,sleep=clock.sleep,emit=messages.append,journal_factory=factory)
++        port.control=control
++        return port,control,messages
++    def assert_released(self,p,c):
++        self.assertEqual(p.regs[6][40],0);self.assertEqual(p.get(6,48),0)
++        self.assertTrue(c.release_result['confirmed'])
++    def goals(self,p):return [value for sid,addr,value in p.writes if addr==42]
++    def assert_no_return(self,p):
++        goals=self.goals(p)
++        self.assertTrue(all(b<=a for a,b in zip(goals,goals[1:])),goals)
++
++    def test_preview_zero_write_and_fixed_path(self):
++        p,c,_=self.make();before={sid:bytes(r) for sid,r in p.regs.items()}
++        result=c.run()
++        self.assertEqual(result['status'],'read_only_preview');self.assertEqual(p.writes,[])
++        self.assertEqual(result['path'],fixed_path(2048))
++        self.assertEqual(before,{sid:bytes(r) for sid,r in p.regs.items()})
++        self.assertIsNone(c.journal)
++
++    def test_success_fixed_cycle_never_targets_closed_prediction_or_other_axes(self):
++        p,c,_=self.make();others={sid:bytes(p.regs[sid]) for sid in range(1,6)}
++        result=c.run(True)
++        self.assertEqual(result['status'],'empty_gripper_cycle_complete')
++        self.assertEqual(self.goals(p),fixed_path(2048))
++        self.assertEqual(min(self.goals(p)),1727);self.assertNotIn(1710,self.goals(p))
++        self.assertTrue(all(abs(b-a)<=16 for a,b in zip(self.goals(p),self.goals(p)[1:])))
++        self.assertTrue(all(sid==6 for sid,_,_ in p.writes))
++        self.assertEqual(others,{sid:bytes(p.regs[sid]) for sid in range(1,6)})
++        self.assert_released(p,c)
++        self.assertEqual(c.journal.initial['writes_sent'],0)
++        self.assertEqual(c.journal.initial['start'],2048)
++        self.assertFalse(result['grasp_verified'])
++
++    def test_returns_to_actual_fresh_start_not_hardcoded_2048(self):
++        for start in (2046,2050):
++            with self.subTest(start=start):
++                p,c,_=self.make();p.put(6,56,start)
++                c.run(True)
++                self.assertEqual(self.goals(p),fixed_path(start))
++                self.assertEqual(p.get(6,56),start)
++                self.assert_released(p,c)
++
++    def test_goal_autoenable_is_cleared_before_output_is_nonzero(self):
++        p,c,_=self.make();c.run(True)
++        self.assertEqual(p.pre_goal_states[0],(0,0,2048))
++        self.assertTrue(all(torque==1 and output==100 for torque,output,_ in p.pre_goal_states[1:]))
++        writes=p.writes
++        firstgoal=writes.index((6,42,2048));firstpower=writes.index((6,48,100))
++        self.assertEqual(writes[firstgoal+1],(6,40,0))
++        self.assertIn((6,40,1),writes[firstgoal+2:firstpower])
++        self.assertTrue(all(value in (0,100) for _,addr,value in writes if addr==48))
++
++    def test_preflight_bad_offset_start_torque_health_are_zero_write(self):
++        cases=((6,31,3902,2),(6,56,2051,2),(2,40,1,1),(6,58,1,2),(6,60,1,2),
++               (6,62,75,1),(4,63,55,1),(6,48,100,2))
++        for sid,addr,value,width in cases:
++            with self.subTest(sid=sid,addr=addr,value=value):
++                p,c,_=self.make()
++                if width==2:p.put(sid,addr,value)
++                else:p.regs[sid][addr]=value
++                with self.assertRaises(ControlError):c.run(True)
++                self.assertEqual(p.writes,[])
++
++    def test_preflight_unstable_position_has_zero_writes(self):
++        p,c,_=self.make()
++        original=c.sleep
++        def drift(duration):original(duration);p.put(6,56,2050)
++        p.put(6,56,2047);c.sleep=drift
++        with self.assertRaisesRegex(ControlError,'三帧'):c.run(True)
++        self.assertEqual(p.writes,[])
++
++    def test_no_movement_times_out_and_does_not_return_or_increase_output(self):
++        p,c,_=self.make();p.follow=False
++        with self.assertRaisesRegex(ControlError,'3秒'):c.run(True)
++        self.assertEqual(self.goals(p),[2048,2032])
++        self.assert_no_return(p);self.assert_released(p,c)
++
++    def test_small_step_overshoot_stops_on_id6_packet_before_reading_other_axes(self):
++        p,c,_=self.make()
++        def overshoot(port,ins,sid,address,params):
++            if c.bus.phase=='closing' and (ins,sid,address,params)==(2,6,40,b'\x1a') and port.get(6,42)<2048:
++                port.put(6,56,port.get(6,42)-3)
++        p.before_hook=overshoot
++        with self.assertRaisesRegex(ControlError,'越界'):c.run(True)
++        eventindex=next(i for i,e in enumerate(c.bus.events) if e['phase']=='release')
++        self.assertEqual(c.bus.events[eventindex-1]['servo_id'],6)
++        self.assertEqual(self.goals(p),[2048,2032]);self.assert_released(p,c)
++
++    def test_health_id4_drift_and_control_corruption_abort_without_return(self):
++        for sid,address,value,width in ((6,63,55,1),(4,56,404,2),(6,41,2,1)):
++            with self.subTest(sid=sid,address=address):
++                p,c,_=self.make()
++                def alter(port,ins,read_sid,addr,params):
++                    if c.bus.phase=='closing' and port.get(6,42)<2048:
++                        if width==2:port.put(sid,address,value)
++                        else:port.regs[sid][address]=value
++                p.before_hook=alter
++                with self.assertRaises(ControlError):c.run(True)
++                self.assert_released(p,c);self.assert_no_return(p)
++
++    def test_saturation_for_one_second_aborts_not_contact_success(self):
++        p,c,_=self.make();p.follow=False
++        def loaded(port,ins,sid,address,params):
++            if c.bus.phase=='closing' and port.get(6,42)<2048:port.put(6,60,95)
++        p.before_hook=loaded
++        with self.assertRaisesRegex(ControlError,'1秒'):c.run(True)
++        self.assertEqual(self.goals(p),[2048,2032]);self.assert_released(p,c)
++        self.assertFalse(c.cycle_response_complete)
++
++    def test_lost_goal_ack_and_interrupt_still_release_without_return(self):
++        for fault in ('ack','interrupt','first_ack'):
++            with self.subTest(fault=fault):
++                p,c,_=self.make();fired=[]
++                def fail(port,ins,sid,address,params):
++                    relevant=(c.bus.phase=='prepare' and address==48) if fault=='first_ack' else (c.bus.phase=='closing' and address==42)
++                    if not fired and relevant and ins==3:
++                        fired.append(True)
++                        if fault in ('ack','first_ack'):port.pending=b''
++                        else:raise KeyboardInterrupt
++                p.hook=fail
++                with self.assertRaises((ControlError,KeyboardInterrupt)):c.run(True)
++                self.assert_released(p,c);self.assert_no_return(p)
++                self.assertEqual(len(self.goals(p)),0 if fault=='first_ack' else 2)
++
++    def test_configuration_change_blocks_next_goal(self):
++        p,c,_=self.make()
++        def alter(port,ins,sid,addr,params):
++            if c.bus.phase=='closing' and port.get(6,42)==2032:port.regs[6][31]=0x3c
++        p.hook=alter
++        with self.assertRaisesRegex(ControlError,'配置'):c.run(True)
++        self.assertEqual(self.goals(p),[2048,2032]);self.assert_released(p,c)
++
++    def test_cleanup_both_paths_are_attempted_after_one_fails(self):
++        p,c,_=self.make();p.follow=False
++        def fail(port,ins,sid,addr,params):
++            if c.bus.phase=='release' and addr==40:port.pending=b''
++        p.hook=fail
++        with self.assertRaisesRegex(ControlError,'清零未确认'):c.run(True)
++        release=[e for e in c.bus.events if e['phase']=='release']
++        self.assertEqual([(e['instruction'],bytes.fromhex(e['parameters_hex'])[0]) for e in release],
++                         [(3,40),(3,48),(2,40),(2,48)])
++        self.assertEqual(c.release_result['readback']['48'],0)
++        self.assert_no_return(p)
++
++    def test_journal_creation_failure_is_zero_write_and_later_failures_release(self):
++        p,c,_=self.make()
++        c.journal_factory=lambda *a: (_ for _ in ()).throw(OSError('disk'))
++        with self.assertRaises(OSError):c.run(True)
++        self.assertEqual(p.writes,[])
++        p,c,_=self.make(fail_stage='final_cleanup')
++        with self.assertRaises(ControlError):c.run(True)
++        self.assert_released(p,c)
++        self.assertEqual(c.status,'journal_save_failed')
++
++    def test_no_disk_append_while_output_is_enabled(self):
++        p,c,_=self.make()
++        original=c.journal_factory
++        def factory(directory,snapshot):
++            journal=original(directory,snapshot)
++            append=journal.append
++            def guarded(stage,report):
++                self.assertEqual(p.regs[6][40],0)
++                self.assertEqual(p.get(6,48),0)
++                append(stage,report)
++            journal.append=guarded
++            return journal
++        c.journal_factory=factory
++        c.run(True)
++        self.assertEqual(c.journal.stages,['final_cleanup'])
++
++    def test_recheck_after_journal_never_changes_start_or_writes_on_drift(self):
++        for sid,address,value,width in ((6,56,2051,2),(6,31,3902,2),(4,56,404,2),(2,40,1,1)):
++            with self.subTest(sid=sid,address=address):
++                p,c,_=self.make();original=c.journal_factory
++                def factory(directory,snapshot):
++                    journal=original(directory,snapshot)
++                    if width==2:p.put(sid,address,value)
++                    else:p.regs[sid][address]=value
++                    return journal
++                c.journal_factory=factory
++                with self.assertRaises(ControlError):c.run(True)
++                self.assertEqual(p.writes,[])
++                self.assertEqual(c.status,'failed_before_write')
++                self.assertEqual(c.start,2048)
++                self.assertEqual(c.path,fixed_path(2048))
++                self.assertIsNone(c.release_result)
++
++    def test_two_second_precontact_observation_is_monitored_and_fault_prevents_return(self):
++        p,c,messages=self.make()
++        c.run(True)
++        observed=[s for s in c.samples if s['phase']=='precontact_observation' and s['servo_id']==6]
++        self.assertGreaterEqual(observed[-1]['elapsed_s']-observed[0]['elapsed_s'],1.9)
++        self.assertTrue(any('保持2秒' in m for m in messages))
++        p,c,_=self.make()
++        def fault(port,ins,sid,addr,params):
++            if c.bus.phase=='precontact_observation':port.put(6,60,95)
++        p.before_hook=fault
++        with self.assertRaisesRegex(ControlError,'1秒'):c.run(True)
++        self.assertEqual(self.goals(p)[-1],1727)
++        self.assert_no_return(p);self.assert_released(p,c)
++
++    def test_settled_span_uses_id6_sample_time_not_late_other_axis_response(self):
++        p,c,_=self.make()
++        # First three ID6 samples span .112s; only the third round's ID5 is slow.
++        count=[]
++        def slow(port,ins,sid,addr,params):
++            if c.bus.phase=='closing' and port.get(6,42)==2032:
++                if ins==2 and sid==6 and addr==40:count.append(1)
++                if ins==2 and sid==5 and addr==40 and len(count)==3:port.clock.now+=.15
++        p.hook=slow
++        c.run(True)
++        first=next(step for step in c.steps if step['target']==2032)
++        self.assertGreaterEqual(first['settled_samples'],4)
++        self.assertGreaterEqual(first['settled_span_s'],.2)
++
++    def test_feedback_and_step_deadlines_include_io(self):
++        for mode in ('round','step'):
++            with self.subTest(mode=mode):
++                p,c,_=self.make();fired=[]
++                def delay(port,ins,sid,addr,params):
++                    if not fired and c.bus.phase=='closing' and ins==2:
++                        fired.append(True)
++                        port.clock.now+=.6 if mode=='round' and addr==40 else (3.1 if mode=='step' else 0)
++                p.hook=delay
++                # For the round check delay its first feedback, not config read.
++                if mode=='round':
++                    def delay_round(port,ins,sid,addr,params):
++                        if not fired and c.bus.phase=='closing' and ins==2 and addr==40:
++                            fired.append(True);port.clock.now+=.6
++                    p.hook=delay_round
++                with self.assertRaises(ControlError):c.run(True)
++                self.assert_released(p,c);self.assert_no_return(p)
++                self.assertEqual(self.goals(p),[2048])
++
++    def test_total_90_second_deadline_stops_before_any_further_goal(self):
++        p,c,_=self.make()
++        def delay(port,ins,sid,addr,params):
++            if c.bus.phase=='closing' and ins==3 and addr==42:
++                port.clock.now=c.active_since+90.001
++        p.hook=delay
++        with self.assertRaisesRegex(ControlError,'90秒'):c.run(True)
++        self.assertEqual(self.goals(p),[2048,2032])
++        self.assert_released(p,c);self.assert_no_return(p)
++
++    def test_bus_whitelist_rejects_other_axes_128_offsets_and_unplanned_goal(self):
++        p,c,_=self.make();bus=c.bus
++        with self.assertRaises(ControlError):bus.write(6,40,0)
++        bus.authorize_path(fixed_path(2048))
++        for sid,addr,value in ((1,40,0),(5,48,0),(6,40,128),(6,31,3901),(6,55,0),
++                               (6,48,101),(6,41,2),(6,46,51),(6,42,1710),(6,42,2001)):
++            with self.subTest(sid=sid,addr=addr,value=value),self.assertRaises(ControlError):
++                bus.write(sid,addr,value)
++        for ins,params in ((4,[40,1]),(3,[40,128]),(3,[48,100]),(3,[42,174,6])):
++            with self.assertRaises(ControlError):bus.exchange(6,ins,params,0)
++        self.assertEqual(p.writes,[])
++
++    def test_help_does_not_open_serial_and_no_arbitrary_control_flags(self):
++        with redirect_stdout(io.StringIO()),self.assertRaises(SystemExit) as result:main(['--help'])
++        self.assertEqual(result.exception.code,0)
++        for option in ('--limit','--delta','--joint','--target'):
++            with redirect_stderr(io.StringIO()),self.assertRaises(SystemExit):main([option,'1'])
++
++if __name__=='__main__':unittest.main()

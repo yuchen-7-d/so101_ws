@@ -1,0 +1,501 @@
+"""Fixed empty ID6 cycle, or an independent bounded open-only recovery.
+
+No grasp, calibration, automatic output increase, or fault return is provided.
+"""
+import argparse
+from datetime import datetime, timezone
+import hashlib
+import json
+import math
+import os
+from pathlib import Path
+import signal
+import sys
+import tempfile
+import time
+
+from so101_hold_current import Bus, ControlError, WRITE_WIDTHS, u16, signed_magnitude
+from so101_center_gripper import DurableJournal
+from so101_verify_gripper_center import load_source, strict_object, reject_constant, require
+
+IDS=(1,2,3,4,5,6)
+TORQUE,ACCEL,GOAL,SPEED,OUTPUT=40,41,42,46,48
+ENDPOINT=1727
+STEP=16
+TOLERANCE=2
+PROJECT=Path(__file__).resolve().parents[1]
+DEFAULT_JOURNAL=PROJECT/'data/real_control_runs/gripper_center_20261021T001712_uikl4heg.jsonl'
+DEFAULT_VERIFICATION=PROJECT/'data/real_control_runs/gripper_center_readonly_20261021T002549_eaikzm_j.json'
+DEFAULT_STOPPED_JOURNAL=PROJECT/'data/real_control_runs/gripper_cycle_20261021T004559_h8wvajla.jsonl'
+STOPPED_SHA256='24d6b910bbb634ba37d423757421e2510f10c85e9ecacd23c20a87d80e435008'
+OPEN_LOWER,OPEN_TARGET,OPEN_UPPER=1888,2048,2050
+
+
+def create_cycle_journal(directory,snapshot):
+    directory=Path(directory);directory.mkdir(parents=True,exist_ok=True)
+    stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S_')
+    fd,path=tempfile.mkstemp(prefix='gripper_cycle_'+stamp,suffix='.jsonl',dir=directory)
+    journal=DurableJournal(path,os.fdopen(fd,'w',encoding='utf-8'))
+    try:
+        journal.append('before_any_write',snapshot)
+        directory_fd=os.open(directory,os.O_RDONLY|os.O_DIRECTORY)
+        try:os.fsync(directory_fd)
+        finally:os.close(directory_fd)
+    except BaseException:
+        journal.close();raise
+    return journal
+
+
+def evidence(journal,verification,gap_record):
+    source=load_source(journal)
+    require(source['after_config']['offset_raw']==3901 and source['offset_signed']==-1853,
+            '此固定循环只适用于本次offset3901/-1853')
+    raw=Path(verification).read_bytes()
+    verified=json.loads(raw,object_pairs_hook=strict_object,parse_constant=reject_constant)
+    require(verified.get('test')=='id6_read_only_center_verification'
+            and verified.get('status')=='read_only_center_verified'
+            and verified.get('writes_sent')==0 and verified.get('reasons')==[]
+            and verified['source']['sha256']==source['sha256'], '只读复核证据不符合条件')
+    for name in ('initial','final'):
+        state=verified[name]
+        require(state['config']['raw_hex']==source['after_config']['raw_hex']
+                and not any(state['torques'].values())
+                and state['control']['torque_enabled']==0 and state['control']['output_limit']==0,
+                '只读复核前后配置/关闭状态不符')
+    samples=verified['samples']
+    require(len(samples)==21 and all(e['instruction']==2 for e in verified['events']),
+            '只读复核须有21帧且无写指令')
+    positions=[]
+    for sample in samples:
+        frame=bytes.fromhex(sample['raw_hex'])
+        require(len(frame)==26 and frame[0]==0 and u16(frame[8:10])==0
+                and u16(frame[18:20])==0 and u16(frame[20:22])==0
+                and 60<=frame[22]<=74 and frame[23]<55 and frame[25]==0,
+                '只读复核原始反馈不符合静止关闭条件')
+        position=u16(frame[16:18]);positions.append(position)
+        require(abs(position-source['expected_anchor_after'])<=2,'只读复核anchor不符')
+    span=samples[-1]['elapsed_s']-samples[0]['elapsed_s']
+    require(math.isfinite(span) and span>=2 and max(positions)-min(positions)<=2,
+            '只读复核窗口不稳定')
+    gap_raw=Path(gap_record).read_bytes()
+    gap=json.loads(gap_raw,object_pairs_hook=strict_object,parse_constant=reject_constant)
+    require(gap.get('servo_id')==6 and gap.get('scope')=='empty_gripper_small_range'
+            and gap.get('precontact_gap_confirmed') is True
+            and gap.get('precontact_target_counts')==3970 and gap.get('precontact_actual_counts')==3972,
+            '缺少历史空夹爪留缝证据')
+    require((3970-source['offset_signed'])%4096==ENDPOINT,'历史留缝目标平移不符')
+    return {'calibration':source, 'verification_path':str(Path(verification).resolve()),
+            'verification_sha256':hashlib.sha256(raw).hexdigest(),
+            'gap_record_path':str(Path(gap_record).resolve()),
+            'gap_record_sha256':hashlib.sha256(gap_raw).hexdigest(),
+            'historical_precontact_target':3970,'translated_precontact_target':ENDPOINT,
+            'translated_historical_actual':1729,'historical_closed_prediction_not_a_target':1710}
+
+
+def stopped_evidence(path,proof):
+    """Accept only the reviewed, released stop; never resume its closing path."""
+    raw=Path(path).read_bytes();digest=hashlib.sha256(raw).hexdigest()
+    require(digest==STOPPED_SHA256,'只张开模式的停止日志不是已复核的原始文件')
+    rows=[json.loads(line,object_pairs_hook=strict_object,parse_constant=reject_constant)
+          for line in raw.decode('utf-8').splitlines()]
+    require(len(rows)==2 and [row['stage'] for row in rows]==['before_any_write','final_cleanup'],
+            '停止日志须有完整原始备份与最终清理')
+    before,final=(row['snapshot'] for row in rows)
+    require(final['test']=='fixed_id6_empty_gripper_cycle' and final['status']=='failed_no_return'
+            and final['fault']=={'phase':'closing','error':'ControlError: ID1支撑姿态漂移超过允许值'}
+            and final['release']=={'servo_id':6,'readback':{'40':0,'48':0},'errors':[],'confirmed':True}
+            and final['journal_error'] is None and final['cycle_response_complete'] is False,
+            '停止原因或释放读回不符合本次只张开依据')
+    for snapshot in (before,final):
+        old=snapshot['proof']
+        require(old['calibration']['sha256']==proof['calibration']['sha256']
+                and old['calibration']['after_config']==proof['calibration']['after_config']
+                and old['verification_sha256']==proof['verification_sha256']
+                and old['gap_record_sha256']==proof['gap_record_sha256'],
+                '停止日志与当前校准/只读复核来源不一致')
+        require(snapshot['initial_configs']['6']==proof['calibration']['after_config']['raw_hex'],
+                '停止日志的ID6完整配置与校准不一致')
+    require(before['initial_configs']==final['initial_configs'] and before['start']==final['start']==2050
+            and final['path']==fixed_path(2050) and final['current_goal']==1890,
+            '停止日志起点/固定路径/停止目标不符')
+    for event in final['events']:
+        if event['instruction']==2 and event['parameters_hex']=='0028':
+            require(event['acknowledged'] is True
+                    and event['response_payload_hex']==final['initial_configs'][str(event['servo_id'])],
+                    '停止日志有配置变化或未确认的配置读取')
+    last6=next(sample for sample in reversed(final['samples']) if sample['servo_id']==6)
+    last1=final['samples'][-1]
+    require(last6['goal']==1890 and last6['position']==1891 and last6['status']==0
+            and last1['servo_id']==1 and last1['position']==3998
+            and final['initial_positions']['1']==4013,
+            '停止日志的最终反馈不符')
+    return {'path':str(Path(path).resolve()),'sha256':digest,'status':final['status'],
+            'fault':final['fault'],'release':final['release'],'stopped_goal':1890,
+            'last_observed_position':1891,'fresh_start_bounds':[OPEN_LOWER,OPEN_UPPER],
+            'open_target':OPEN_TARGET,'lower_bound_basis':'stopped goal 1890 minus tolerance 2',
+            'observation':'user reported a remaining gap; no physical contact claimed',
+            'independent_transaction':True,'resume_closing':False}
+
+
+class GripperBus(Bus):
+    """Independent capability; inherited exchange supplies strict packet parsing."""
+    def __init__(self,port,*,clock=time.monotonic):
+        super().__init__(port)
+        self.clock=clock;self.started=clock();self.phase='preflight'
+        self.events=[];self.allowed_goals=frozenset();self.enabled=False
+
+    def authorize_path(self,path):
+        require(path and all(type(p) is int and ENDPOINT<=p<=2050 for p in path),
+                '禁止白名单范围外目标')
+        self.allowed_goals=frozenset(path);self.enabled=True
+
+    def exchange(self,sid,instruction,params,size,tolerate_alarm=False):
+        if instruction==2:
+            if len(params)!=2 or not 1<=size<=40 or params[1]!=size or not 0<=params[0]<=255-size:
+                raise ControlError('读取范围不合法')
+        elif instruction==3:
+            if not self.enabled or sid!=6 or not params or params[0] not in WRITE_WIDTHS:
+                raise ControlError('只允许显式enable后写ID6固定控制寄存器')
+            address=params[0];width=WRITE_WIDTHS[address]
+            value=int.from_bytes(bytes(params[1:]),'little')
+            allowed={TORQUE:(0,1),ACCEL:(1,),SPEED:(50,),OUTPUT:(0,100),GOAL:self.allowed_goals}
+            if size!=0 or len(params)!=width+1 or value not in allowed[address]:
+                raise ControlError('写入不在本次固定ID6路径/参数白名单')
+        else:
+            raise ControlError('禁止非读写白名单指令')
+        entry={'elapsed_s':self.clock()-self.started,'phase':self.phase,'servo_id':sid,
+               'instruction':instruction,'parameters_hex':bytes(params).hex(),'acknowledged':False}
+        self.events.append(entry)
+        try:
+            result=super().exchange(sid,instruction,params,size,tolerate_alarm)
+            entry['response_payload_hex']=result.hex();entry['acknowledged']=True
+            return result
+        except BaseException as error:
+            entry['error']=f'{type(error).__name__}: {error}'
+            raise
+
+    def write(self,sid,address,value,tolerate_alarm=False):
+        if address not in WRITE_WIDTHS or type(value) is not int or value<0:
+            raise ControlError('禁止未列入白名单的寄存器/数值')
+        self.exchange(sid,3,[address,*value.to_bytes(WRITE_WIDTHS[address],'little')],0,tolerate_alarm)
+
+
+def frame_fields(raw):
+    feedback=raw[16:26]
+    return {'raw_hex':raw.hex(),'torque':raw[0],'acceleration':raw[1],
+            'goal':u16(raw[2:4]),'speed_limit':u16(raw[6:8]),'output_limit':u16(raw[8:10]),
+            'lock':raw[15], 'position':signed_magnitude(u16(feedback[:2]),15),
+            'speed_raw_signed':signed_magnitude(u16(feedback[2:4]),15),
+            'output_raw_signed':signed_magnitude(u16(feedback[4:6]),10),
+            'load':abs(signed_magnitude(u16(feedback[4:6]),10)),
+            'voltage':feedback[6]/10,'temperature':feedback[7],'status':feedback[9]}
+
+
+def fixed_path(start):
+    result=[start]
+    while result[-1]>ENDPOINT:
+        result.append(max(ENDPOINT,result[-1]-STEP))
+    return result+result[-2::-1]
+
+
+def opening_path(start):
+    require(type(start) is int and OPEN_LOWER<=start<=OPEN_UPPER,'只张开起点超出1888–2050')
+    result=[start]
+    while result[-1]<OPEN_TARGET:
+        result.append(min(OPEN_TARGET,result[-1]+STEP))
+    return result  # 2049/2050 already open: never issue a negative step.
+
+
+class GripperCycle:
+    def __init__(self,bus,proof,*,journal_dir,clock=time.monotonic,sleep=time.sleep,emit=print,
+                 journal_factory=create_cycle_journal,open_only=False):
+        self.bus,self.proof,self.journal_dir=bus,proof,journal_dir
+        self.clock,self.sleep,self.emit=clock,sleep,emit
+        self.journal_factory=journal_factory;self.journal=None
+        self.configs={};self.initial={};self.start=None;self.path=[];self.current_goal=None
+        self.active_since=None;self.high_load_since=None;self.touched=False
+        self.status='not_started';self.fault=None;self.release_result=None;self.journal_error=None
+        self.samples=[];self.steps=[];self.goal_intents=[];self.cycle_response_complete=False
+        self.open_only=open_only;self.open_response_complete=False;self.feedback_bounds=None
+
+    def check_total(self):
+        if self.active_since is not None and self.clock()-self.active_since>=90:
+            raise ControlError('总动作达到90秒，停止且不执行故障回程')
+
+    def read_frame(self,sid):
+        self.check_total()
+        raw=self.bus.read(sid,40,26)
+        state=frame_fields(raw)
+        state['received_at_s']=self.clock()
+        self.samples.append({'elapsed_s':self.clock()-self.bus.started,'phase':self.bus.phase,
+                             'servo_id':sid,**state})
+        config=self.configs[sid]
+        if (not u16(config[9:11])<=state['position']<=u16(config[11:13])
+                or not max(6,config[15]/10)<=state['voltage']<=min(7.4,config[14]/10)
+                or state['temperature']>=min(55,config[13]) or state['status']):
+            raise ControlError(f'ID{sid}健康/位置异常：{state}')
+        if sid!=6:
+            if state['torque']!=0:
+                raise ControlError(f'ID{sid}扭矩意外开启；本程序不写该轴')
+            if sid in self.initial:
+                delta=state['position']-self.initial[sid];limit=3 if sid==4 else 12
+                if abs(delta)>limit:
+                    raise ControlError(f"ID{sid}支撑姿态漂移超过允许值：初始={self.initial[sid]}，"
+                                       f"实际={state['position']}，差值={delta:+d}，允许±{limit}计数")
+        self.check_total()
+        return state
+
+    def preflight(self):
+        self.bus.phase='preflight'
+        if self.open_only:
+            recovery=self.proof.get('open_only_recovery',{})
+            require(recovery.get('sha256')==STOPPED_SHA256
+                    and recovery.get('fresh_start_bounds')==[OPEN_LOWER,OPEN_UPPER]
+                    and recovery.get('open_target')==OPEN_TARGET,
+                    '只张开模式缺少已验证停止来源')
+        for sid in IDS:
+            raw=self.bus.read(sid,0,40)
+            if (raw[2]!=0 or raw[5]!=sid or raw[8]!=1 or raw[18]!=12 or raw[30]!=1 or raw[33]!=0
+                    or not 0<=u16(raw[9:11])<u16(raw[11:13])<=4095):
+                raise ControlError(f'ID{sid}配置不符合固定单圈控制条件')
+            self.configs[sid]=raw
+            if sid==6:
+                if raw.hex()!=self.proof['calibration']['after_config']['raw_hex'] or not 100<=u16(raw[16:18])<=1000:
+                    raise ControlError('ID6当前完整配置/offset与历史after不符')
+        observations=[]
+        for index in range(3):
+            if index:self.sleep(.1)
+            states={sid:self.read_frame(sid) for sid in IDS}
+            for sid,state in states.items():
+                if state['torque']!=0:raise ControlError(f'ID{sid}扭矩非0，未写入')
+                self.initial.setdefault(sid,state['position'])
+            s=states[6]
+            low,high=(OPEN_LOWER,OPEN_UPPER) if self.open_only else (2046,2050)
+            if not low<=s['position']<=high or s['speed_raw_signed'] or s['output_raw_signed'] or s['output_limit']:
+                raise ControlError(f'ID6须在{low}–{high}稳定、速度/输出/输出上限均0')
+            observations.append((self.clock(),s['position']))
+        if observations[-1][0]-observations[0][0]<.2 or max(v for _,v in observations)-min(v for _,v in observations)>2:
+            raise ControlError('ID6三帧未满足0.2秒且范围≤2')
+        self.start=observations[-1][1]
+        self.path=opening_path(self.start) if self.open_only else fixed_path(self.start)
+        self.feedback_bounds=(OPEN_LOWER,OPEN_UPPER) if self.open_only else (ENDPOINT-2,self.start+2)
+        self.current_goal=self.start
+        lower,upper=u16(self.configs[6][9:11]),u16(self.configs[6][11:13])
+        if not lower<=self.feedback_bounds[0]<=self.feedback_bounds[1]<=upper:
+            raise ControlError('完整反馈走廊超出设备限位')
+        if self.open_only:
+            self.emit(f'独立只张开路径：{self.start} → {self.path[-1]}；每步≤16，输出100/1000，不再闭合。')
+        else:self.emit(f'固定空夹爪路径：{self.start} → {ENDPOINT} → {self.start}；每步≤16，输出100/1000。')
+
+    def check_config(self):
+        self.check_total()
+        raw=self.bus.read(6,0,40)
+        if raw!=self.configs[6]:raise ControlError('ID6配置/offset发生变化')
+        self.check_total()
+
+    def recheck_after_journal(self):
+        # The backup start/path stay frozen. Disk latency may make them stale.
+        self.bus.phase='post_journal_recheck'
+        self.check_config();positions=[]
+        for index in range(3):
+            if index:self.sleep(.1)
+            states={sid:self.read_frame(sid) for sid in (6,1,2,3,4,5)}
+            s=states[6];positions.append(s['position'])
+            if (s['torque'] or s['output_limit'] or s['speed_raw_signed'] or s['output_raw_signed']
+                    or abs(s['position']-self.start)>2):
+                raise ControlError('持久备份后ID6状态改变；不更新冻结起点，不发送写指令')
+        if max(positions)-min(positions)>2:raise ControlError('备份后ID6仍不稳定，未写入')
+
+    def monitor(self,goal,torque,output,corridor):
+        began=self.clock();moving=None
+        for sid in (6,1,2,3,4,5):
+            if self.clock()-began>.5:raise ControlError('反馈整轮超过0.5秒')
+            state=self.read_frame(sid)
+            if self.clock()-began>.5:raise ControlError('反馈整轮超过0.5秒')
+            if sid==6:
+                moving=state
+                low=max(self.feedback_bounds[0],corridor[0]);high=min(self.feedback_bounds[1],corridor[1])
+                if not low<=state['position']<=high:
+                    raise ControlError(f"ID6小步反馈越界：实际{state['position']}，允许{low}–{high}；不回程")
+                if (state['goal']!=goal or state['torque']!=torque or state['acceleration']!=1
+                        or state['speed_limit']!=50 or state['output_limit']!=output):
+                    raise ControlError('ID6同帧控制目标/扭矩/速度/输出参数改变')
+                if output and state['load']>=95:
+                    if self.high_load_since is None:self.high_load_since=self.clock()
+                    if self.clock()-self.high_load_since>=1:
+                        raise ControlError('ID6输出幅值持续≥95/1000达1秒；停止，不把饱和当接触成功')
+                else:self.high_load_since=None
+        return moving
+
+    def set_checked(self,address,value):
+        self.check_total();self.bus.set_checked(6,address,value);self.check_total()
+
+    def persist(self,stage):
+        self.journal.append(stage,self.report())
+
+    def prepare(self):
+        self.bus.phase='prepare'
+        self.touched=True  # Before the first mutation, including lost ACK.
+        self.set_checked(OUTPUT,0)
+        self.set_checked(TORQUE,0)
+        self.set_checked(ACCEL,1)
+        self.set_checked(SPEED,50)
+        state=self.read_frame(6)
+        if abs(state['position']-self.start)>2:raise ControlError('预置前ID6漂移')
+        self.goal_intents.append({'phase':self.bus.phase,'target':self.start,
+                                  'elapsed_s':self.clock()-self.bus.started})
+        self.set_checked(GOAL,self.start)
+        # Goal writes may auto-enable; the output register is still zero.
+        self.set_checked(TORQUE,0)
+        corridor=(self.start-2,self.start+2)
+        self.monitor(self.start,0,0,corridor)
+        self.set_checked(TORQUE,1)
+        self.monitor(self.start,1,0,corridor)
+        self.set_checked(OUTPUT,100)
+        self.wait_step(self.start,self.start,'initial_hold')
+
+    def wait_step(self,previous,target,label,began=None):
+        began=self.clock() if began is None else began
+        deadline=began+3;settled=[]
+        corridor=(min(previous,target)-2,max(previous,target)+2)
+        while True:
+            if self.clock()>=deadline:raise ControlError(f'ID6目标{target}在3秒内未稳定到位')
+            state=self.monitor(target,1,100,corridor)
+            if self.clock()>=deadline:raise ControlError(f'ID6目标{target}在3秒内未稳定到位')
+            if abs(state['position']-target)<=2:
+                settled.append((state['received_at_s'],state['position']))
+                if len(settled)>=3 and settled[-1][0]-settled[0][0]>=.2:
+                    self.steps.append({'label':label,'target':target,'actual':state['position'],
+                        'elapsed_s':self.clock()-began,'settled_samples':len(settled),
+                        'settled_span_s':settled[-1][0]-settled[0][0]})
+                    self.emit(f"ID6小步到位：目标={target}，实际={state['position']}，输出幅值={state['load']}/1000")
+                    return
+            else:settled=[]
+            self.sleep(.05)
+
+    def cycle(self):
+        for index,target in enumerate(self.path[1:],1):
+            previous=self.current_goal
+            self.bus.phase='opening_only' if self.open_only else ('closing' if target<previous else 'returning')
+            began=self.clock()
+            self.check_config()
+            self.monitor(previous,1,100,(previous-2,previous+2))
+            if self.clock()-began>=3:raise ControlError('写前本小步已超时，不发下一目标')
+            self.goal_intents.append({'phase':self.bus.phase,'target':target,'previous':previous,
+                                      'elapsed_s':self.clock()-self.bus.started})
+            self.current_goal=target  # Fixed plan, not retargeted from feedback.
+            self.set_checked(GOAL,target)
+            self.wait_step(previous,target,f'step_{index}',began)
+            if not self.open_only and target==ENDPOINT:
+                self.bus.phase='precontact_observation'
+                self.emit('已到留缝候选点，连续监控保持2秒后张开；这还不是机械限位验收。')
+                end=self.clock()+2
+                while self.clock()<end:
+                    self.monitor(ENDPOINT,1,100,(ENDPOINT-2,ENDPOINT+2))
+                    self.sleep(.05)
+        self.check_config()
+        if self.open_only:self.open_response_complete=True
+        else:self.cycle_response_complete=True
+
+    def release(self):
+        self.bus.phase='release';errors=[];values={}
+        for address in (TORQUE,OUTPUT):
+            try:self.bus.write(6,address,0,tolerate_alarm=True)
+            except BaseException as error:errors.append({'operation':'write','address':address,'error':str(error)})
+        for address,width in ((TORQUE,1),(OUTPUT,2)):
+            try:values[str(address)]=self.bus.value(6,address,width,tolerate_alarm=True)
+            except BaseException as error:errors.append({'operation':'read','address':address,'error':str(error)})
+        self.release_result={'servo_id':6,'readback':values,'errors':errors,
+                             'confirmed':values.get('40')==0 and values.get('48')==0}
+
+    def run(self,enable=False):
+        try:self.preflight()
+        except BaseException as error:
+            self.status='preflight_rejected';self.fault={'phase':self.bus.phase,'error':f'{type(error).__name__}: {error}'}
+            raise
+        if not enable:
+            self.status='read_only_preview';return self.report()
+        self.journal=self.journal_factory(self.journal_dir,self.report())
+        primary=None
+        try:
+            self.recheck_after_journal()
+            self.bus.authorize_path(self.path)
+            self.active_since=self.clock()
+            self.prepare()
+            self.cycle()
+            self.status='empty_gripper_open_only_complete' if self.open_only else 'empty_gripper_cycle_complete'
+        except BaseException as error:
+            primary=error;self.status='failed_no_return' if self.touched else 'failed_before_write'
+            self.fault={'phase':self.bus.phase,'error':f'{type(error).__name__}: {error}'}
+        finally:
+            saved={sig:signal.signal(sig,signal.SIG_IGN) for sig in (signal.SIGINT,signal.SIGTERM)}
+            try:
+                if self.touched:self.release()
+                if self.touched and (not self.release_result or not self.release_result['confirmed']):
+                    self.status='release_unconfirmed'
+                try:self.persist('final_cleanup')
+                except BaseException as error:self.journal_error=f'{type(error).__name__}: {error}'
+                try:self.journal.close()
+                except BaseException as error:self.journal_error=self.journal_error or str(error)
+                if self.journal_error and self.status in ('empty_gripper_cycle_complete','empty_gripper_open_only_complete'):
+                    self.status='journal_save_failed'
+            finally:
+                for sig,handler in saved.items():signal.signal(sig,handler)
+        if self.status=='release_unconfirmed':raise ControlError('ID6扭矩/输出清零未确认，请断开舵机电源') from primary
+        if primary is not None:raise primary
+        if self.journal_error:raise ControlError('已执行释放，但最终journal保存失败：'+self.journal_error)
+        return self.report()
+
+    def report(self):
+        return {'schema_version':1,'test':'fixed_id6_empty_gripper_open_only' if self.open_only else 'fixed_id6_empty_gripper_cycle',
+            'mode':'open_only' if self.open_only else 'cycle','status':self.status,
+            'proof':self.proof,'initial_positions':self.initial,'initial_configs':{str(k):v.hex() for k,v in self.configs.items()},
+            'start':self.start,'path':self.path,'current_goal':self.current_goal,'steps':self.steps,
+            'goal_intents':self.goal_intents,
+            'samples':self.samples,'events':self.bus.events,'fault':self.fault,'release':self.release_result,
+            'journal_error':self.journal_error,'cycle_response_complete':self.cycle_response_complete,
+            'open_response_complete':self.open_response_complete,'feedback_bounds':self.feedback_bounds,
+            'writes_sent':sum(e['instruction']==3 for e in self.bus.events),
+            'output_limit':100,'acceleration':1,'speed':50,'step_counts_max':16,
+            'position_tolerance':2,'step_timeout_s':3,'total_timeout_s':90,
+            'empty_gripper_only':True,'mechanical_limits_verified':False,'grasp_verified':False,
+            'note':'1710 is a historical closed prediction, never a commanded target; no fault return.'}
+
+
+def main(argv=None):
+    parser=argparse.ArgumentParser(description='固定ID6空夹爪往返或独立只张开；默认只读，--enable才运动。')
+    parser.add_argument('--enable',action='store_true')
+    parser.add_argument('--open-only',action='store_true',help='从本次停止后的稳定位置仅张开；不继续闭合')
+    parser.add_argument('--stopped-journal',type=Path,default=DEFAULT_STOPPED_JOURNAL)
+    parser.add_argument('--port',default='/dev/ttyUSB0')
+    parser.add_argument('--journal',type=Path,default=DEFAULT_JOURNAL)
+    parser.add_argument('--verification',type=Path,default=DEFAULT_VERIFICATION)
+    parser.add_argument('--log-dir',type=Path,default=PROJECT/'data/real_control_runs')
+    args=parser.parse_args(argv)
+    controller=None
+    def stop(signum,frame):raise KeyboardInterrupt
+    previous=signal.signal(signal.SIGTERM,stop)
+    try:
+        proof=evidence(args.journal,args.verification,PROJECT/'data/so101_gripper_test_result.json')
+        if args.open_only:proof['open_only_recovery']=stopped_evidence(args.stopped_journal,proof)
+        import serial
+        print('夹爪内不得有纸盒或手指；稳定支撑机械臂，ID1–5始终不使能。关闭其他串口程序。',flush=True)
+        action='将执行独立只张开动作；不继续闭合。' if args.open_only else '将执行固定空夹爪往返。'
+        print(action if args.enable else '只读预览；本次不发送寄存器写指令。',flush=True)
+        with serial.Serial(args.port,baudrate=1_000_000,timeout=.15,write_timeout=.15,exclusive=True) as port:
+            controller=GripperCycle(GripperBus(port),proof,journal_dir=args.log_dir,open_only=args.open_only)
+            result=controller.run(args.enable)
+            print(f"状态：{result['status']}；起点={result['start']}；写指令={result['writes_sent']}",flush=True)
+    except KeyboardInterrupt:
+        print('已中止；不会执行故障回程。',flush=True);return 130
+    except (ControlError,RuntimeError,OSError,ValueError,KeyError) as error:
+        print(f'本次未完成：{error}',file=sys.stderr,flush=True);return 1
+    finally:
+        signal.signal(signal.SIGTERM,previous)
+        if controller is not None and controller.journal is not None:
+            print(f'持久journal：{controller.journal.path}',flush=True)
+            print(f'ID6释放读回：{controller.release_result}',flush=True)
+    return 0
+
+
+if __name__=='__main__':raise SystemExit(main())

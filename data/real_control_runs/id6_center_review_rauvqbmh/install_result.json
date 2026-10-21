@@ -1,0 +1,12 @@
+{
+  "archive": "/home/yu/so101_ws/data/real_control_runs/id6_center_review_rauvqbmh",
+  "installed": [
+    "scripts/so101_center_gripper.py",
+    "tests/test_so101_center_gripper.py",
+    "scripts/so101_read_position.py",
+    "scripts/so101_gripper_test.py",
+    "tests/test_so101_id6_offset_guards.py"
+  ],
+  "real_serial_access": false,
+  "hardware_writes_sent": 0
+}

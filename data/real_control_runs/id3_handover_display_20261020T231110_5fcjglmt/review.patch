@@ -1,0 +1,45 @@
+--- a/scripts/so101_elbow_probe.py
++++ b/scripts/so101_elbow_probe.py
+@@ -218,7 +218,10 @@
+                                           "position": position})
+             if abs(position - g0) > self.baseline_bias:
+                 raise ControlError(f"ID3 有载基线相对 G0 偏差超过 "
+-                                   f"{self.baseline_bias} 计数，停止")
++                                   f"{self.baseline_bias} 计数：实际={position}，"
++                                   f"G0={g0}，偏差={position-g0:+d}，"
++                                   f"允许实际区间={g0-self.baseline_bias}–{g0+self.baseline_bias}；"
++                                   "停止，未发送运动目标")
+             window.append((now, position))
+             while window and now - window[0][0] > .6:
+                 window.popleft()
+@@ -308,9 +311,12 @@
+                   "逐渐减到本次运动要保持的托力，稳定后按 Enter。"
+                   f"按 Enter 后直到{self.step_description}运动完成，不再改变托力、不主动推拉。"
+                   "等待期间持续监测；超时、EOF 或异常会释放扭矩。")
++        self.emit("下方仅显示当前单帧偏差，稳定性仍在按 Enter 后检测；不要按计数推拉关节。")
+         end = self.clock()+15.0
++        next_print = self.clock()
++        g0 = self.initial_targets[3]
+         while self.clock() < end:
+-            self.monitor(1, HOLD_TOLERANCE, self.limit)
++            states = self.monitor(1, HOLD_TOLERANCE, self.limit)
+             if self.clock() >= end:
+                 break
+             ready = self.ready_check()
+@@ -318,6 +324,16 @@
+                 break
+             if ready:
+                 return
++            now = self.clock()
++            if now >= next_print:
++                position = states[3].position
++                delta = position-g0
++                within = "是" if abs(delta) <= self.baseline_bias else "否"
++                self.emit(f"交接剩余 {max(0, end-now):.1f}s  ID3 实际={position}, "
++                          f"G0={g0}, 偏差={delta:+d}, "
++                          f"当前单帧 |偏差|≤{self.baseline_bias}：{within}；"
++                          "稳定性尚未检测。")
++                next_print = now+.5
+             self.sleep(.05)
+         raise ControlError("承重交接在 15 秒内未就绪，停止；未发送运动目标")
+ 

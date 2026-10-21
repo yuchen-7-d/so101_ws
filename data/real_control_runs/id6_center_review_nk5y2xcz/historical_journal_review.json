@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "source_journal": "/home/yu/so101_ws/data/real_control_runs/gripper_center_20261021T001712_uikl4heg.jsonl",
+  "source_sha256": "e32253ed5ac0d735e79ab8aa614e7fdf9c9684a78f39d1e0f6651544e9c65fb6",
+  "source_status": "centering_readback_failed",
+  "calibration_acknowledged_once": true,
+  "writes": [
+    [
+      6,
+      "300000"
+    ],
+    [
+      6,
+      "2800"
+    ],
+    [
+      6,
+      "2880"
+    ],
+    [
+      6,
+      "2800"
+    ],
+    [
+      6,
+      "300000"
+    ]
+  ],
+  "config_changed_addresses": [
+    31,
+    32
+  ],
+  "offset_raw": 3901,
+  "offset_signed": -1853,
+  "anchor_before": 195,
+  "first_position_after": 2048,
+  "closed_historical_prediction": 1710,
+  "open_historical_prediction": 2047,
+  "predictions_are_motion_targets": false,
+  "release_confirmed": true,
+  "first_post_feedback_speed_raw_signed": 27114,
+  "post_feedback_request_delay_s": 0.018289851999725215,
+  "speed_anomaly_cause_verified": false,
+  "fresh_stability_verified": false,
+  "power_cycle_persistence_verified": false,
+  "assistant_hardware_access": false,
+  "user_physical_motion_observation": "unknown; user did not notice at the time"
+}

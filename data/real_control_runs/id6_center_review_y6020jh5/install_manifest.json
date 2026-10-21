@@ -1,0 +1,84 @@
+{
+  "scope": "Install two reviewed new empty ID6 cycle files; no hardware access or register writes",
+  "unchanged_dependencies": [
+    {
+      "relative_path": "scripts/so101_hold_current.py",
+      "sha256": "6888f895dcf069791e8f9b2db19a172e73d8697ac6656c439f8b72dbea60f0a3"
+    },
+    {
+      "relative_path": "scripts/so101_center_gripper.py",
+      "sha256": "aed92daf1e1d27d07307bfdca3c6d2acf0c0255efd36615efc11503d9c817205"
+    },
+    {
+      "relative_path": "scripts/so101_verify_gripper_center.py",
+      "sha256": "78dfb0ea0f5187df61ba3f554b02316f3745c3b13fa676c3762e8fdd1e860f75"
+    },
+    {
+      "relative_path": "tests/test_so101_center_gripper.py",
+      "sha256": "4f0fd36f09a48ee0b6f5776be842ff6ea1877719d96a06f194ffae666c3be1ff"
+    },
+    {
+      "relative_path": "data/real_control_runs/gripper_center_20261021T001712_uikl4heg.jsonl",
+      "sha256": "e32253ed5ac0d735e79ab8aa614e7fdf9c9684a78f39d1e0f6651544e9c65fb6"
+    },
+    {
+      "relative_path": "data/real_control_runs/gripper_center_readonly_20261021T002549_eaikzm_j.json",
+      "sha256": "946c77051a23355d482bea7a3f8186e456d34de3257f5381a78e258999a850f8"
+    },
+    {
+      "relative_path": "data/so101_gripper_test_result.json",
+      "sha256": "cf3d0a44450cf0ddd3693e6a6503f2457c1426067d8a59aa083128aeba32267b"
+    }
+  ],
+  "install": [
+    {
+      "source": "/tmp/so101_gripper_cycle_stage/scripts/so101_gripper_cycle.py",
+      "relative_path": "scripts/so101_gripper_cycle.py",
+      "sha256": "0d39eb83cfef18da1c73e0c335a09ac15bb08b6b505d3bfe02de38438708cdab",
+      "expected_previous_sha256": null
+    },
+    {
+      "source": "/tmp/so101_gripper_cycle_stage/tests/test_so101_gripper_cycle.py",
+      "relative_path": "tests/test_so101_gripper_cycle.py",
+      "sha256": "b856b4e13d3d3e92bc9ad63dea78d2156764e27a2dc379634388bd0714de6a1d",
+      "expected_previous_sha256": null
+    }
+  ],
+  "archive": [
+    {
+      "source": "/tmp/so101_gripper_cycle_reference.json",
+      "name": "so101_gripper_cycle_reference.json",
+      "sha256": "9772c85e5a39aee2b3e76049e12d4b5a1a34d0d39d2684d46f3f44b168a14dd2"
+    },
+    {
+      "source": "/tmp/so101_gripper_cycle_stage/baseline_hashes.json",
+      "name": "baseline_hashes.json",
+      "sha256": "2476cbe6110705c8d05e85e1e42d1b813e590b5efa1d790dd3d43a0be3e92040"
+    },
+    {
+      "source": "/tmp/so101_gripper_cycle_stage/test_results.txt",
+      "name": "test_results.txt",
+      "sha256": "2f670dfc86693dc4886314fa8bc29128ee3e5f8ad51c9b5439d1752c00371870"
+    },
+    {
+      "source": "/tmp/so101_gripper_cycle_stage/offline_evidence_check.json",
+      "name": "offline_evidence_check.json",
+      "sha256": "5a2ab77754bfdd5fc2693eab2bfe8b73af79a8b5bdef86a5c673139d93b9596d"
+    },
+    {
+      "source": "/tmp/so101_gripper_cycle_stage/independent_review_tests.txt",
+      "name": "independent_review_tests.txt",
+      "sha256": "d33367e2b84c83302f582fee43fb0516fffafb1fbb033ba97512eb69a0b90456"
+    },
+    {
+      "source": "/tmp/so101_gripper_cycle_stage/independent_evidence_check.json",
+      "name": "independent_evidence_check.json",
+      "sha256": "9d4fde9126778329f9f5c5302c4ef268a24d364818170b63f091202009711061"
+    },
+    {
+      "source": "/tmp/so101_gripper_cycle_stage/review.patch",
+      "name": "review.patch",
+      "sha256": "ffe8cd322dc35fd133766b43cacbb9e3961e88a06bcd9f0ae80a2c30c6e8e2f3"
+    }
+  ]
+}

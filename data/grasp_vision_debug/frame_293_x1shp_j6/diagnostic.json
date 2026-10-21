@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "kind": "so101_grasp_vision_diagnostic",
+  "saved_at_unix_s": 1792527826.611125,
+  "raw_image": "raw.png",
+  "annotated_image": "annotated.png",
+  "target_record": {
+    "schema_version": 1,
+    "kind": "so101_box_grasp_target",
+    "source_mode": "live",
+    "session_id": "f64e4e66-45f8-4f24-b630-fdba04fbe82c",
+    "source": {
+      "camera_device": "/dev/video0",
+      "buffer_size_one_requested": true,
+      "timestamp_kind": "host_read_return_not_hardware_exposure"
+    },
+    "weights": {
+      "path": "/home/yu/so101_ws/runs/detect/a_box_v4/weights/best.pt",
+      "sha256": "e83b231938b1ea05618b691c5a209e927e62d5703488453835089272db809deb",
+      "class_id": 0,
+      "class_name": "a_box"
+    },
+    "calibration": {
+      "path": "/home/yu/so101_ws/data/calibration/table_plane_pose.npz",
+      "sha256": "79b3bc87c32610e7d99d7ec4b416919d50649d3b8cff3f720094e7daf70fcb7e",
+      "image_size": [
+        640,
+        480
+      ],
+      "transform_direction": "board_to_camera",
+      "pose_rms_px": 0.24714232981204987
+    },
+    "frame_id": 293,
+    "captured_at_unix_s": 1792527826.0911093,
+    "published_at_unix_s": 1792527826.1047509,
+    "valid": false,
+    "reason": "合格顶面候选数量=0，需要唯一顶面",
+    "coordinate_system": "table",
+    "size_m": [
+      0.04,
+      0.04,
+      0.074
+    ],
+    "diagnostics": {
+      "target_box_count": 1,
+      "detection_confidence": 0.9806252717971802,
+      "stage": "candidate_filter",
+      "method": "otsu",
+      "bbox_xyxy": [
+        317.23724365234375,
+        132.90274047851562,
+        389.45904541015625,
+        249.44430541992188
+      ],
+      "brightness_threshold": 150.0,
+      "roi_xyxy": [
+        309,
+        124,
+        397,
+        257
+      ],
+      "contour_count": 3,
+      "large_contour_count": 1,
+      "convex_quad_count": 1,
+      "geometry_reject_count": 1,
+      "candidates": [
+        {
+          "contour_index": 2,
+          "stage": "geometry",
+          "valid": false,
+          "corners_image_px": [
+            [
+              386.0,
+              158.0
+            ],
+            [
+              330.0,
+              167.0
+            ],
+            [
+              321.0,
+              138.0
+            ],
+            [
+              373.0,
+              132.0
+            ]
+          ],
+          "side_lengths_mm": [
+            42.296916992769795,
+            39.49074452059934,
+            41.0566310273279,
+            36.89444518183404
+          ],
+          "side_errors_mm": [
+            2.2969169927697948,
+            -0.5092554794006574,
+            1.056631027327903,
+            -3.105554818165963
+          ],
+          "diagonal_lengths_mm": [
+            54.28692319315008,
+            58.65574095872979
+          ],
+          "diagonal_errors_mm": [
+            -2.2816193017737234,
+            2.087198463805983
+          ],
+          "reason": "顶面几何未通过40毫米方形尺寸检查"
+        }
+      ],
+      "candidate_records_limit": 12,
+      "candidate_count": 0,
+      "reason": "合格顶面候选数量=0，需要唯一顶面",
+      "previous_attempts": [
+        {
+          "stage": "candidate_filter",
+          "method": "edges",
+          "bbox_xyxy": [
+            317.23724365234375,
+            132.90274047851562,
+            389.45904541015625,
+            249.44430541992188
+          ],
+          "roi_xyxy": [
+            309,
+            124,
+            397,
+            257
+          ],
+          "contour_count": 22,
+          "large_contour_count": 3,
+          "convex_quad_count": 0,
+          "geometry_reject_count": 0,
+          "candidates": [],
+          "candidate_records_limit": 12,
+          "candidate_count": 0,
+          "reason": "合格顶面候选数量=0，需要唯一顶面"
+        }
+      ]
+    }
+  }
+}

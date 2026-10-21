@@ -1,0 +1,98 @@
+{
+  "scope": "Update reviewed gripper script with separate bounded open-only mode; code installation only, no serial access",
+  "unchanged_dependencies": [
+    {
+      "relative_path": "scripts/so101_hold_current.py",
+      "sha256": "6888f895dcf069791e8f9b2db19a172e73d8697ac6656c439f8b72dbea60f0a3"
+    },
+    {
+      "relative_path": "scripts/so101_center_gripper.py",
+      "sha256": "aed92daf1e1d27d07307bfdca3c6d2acf0c0255efd36615efc11503d9c817205"
+    },
+    {
+      "relative_path": "scripts/so101_verify_gripper_center.py",
+      "sha256": "78dfb0ea0f5187df61ba3f554b02316f3745c3b13fa676c3762e8fdd1e860f75"
+    },
+    {
+      "relative_path": "tests/test_so101_center_gripper.py",
+      "sha256": "4f0fd36f09a48ee0b6f5776be842ff6ea1877719d96a06f194ffae666c3be1ff"
+    },
+    {
+      "relative_path": "data/real_control_runs/gripper_center_20261021T001712_uikl4heg.jsonl",
+      "sha256": "e32253ed5ac0d735e79ab8aa614e7fdf9c9684a78f39d1e0f6651544e9c65fb6"
+    },
+    {
+      "relative_path": "data/real_control_runs/gripper_center_readonly_20261021T002549_eaikzm_j.json",
+      "sha256": "946c77051a23355d482bea7a3f8186e456d34de3257f5381a78e258999a850f8"
+    },
+    {
+      "relative_path": "data/so101_gripper_test_result.json",
+      "sha256": "cf3d0a44450cf0ddd3693e6a6503f2457c1426067d8a59aa083128aeba32267b"
+    },
+    {
+      "relative_path": "data/real_control_runs/gripper_cycle_20261021T004559_h8wvajla.jsonl",
+      "sha256": "24d6b910bbb634ba37d423757421e2510f10c85e9ecacd23c20a87d80e435008"
+    }
+  ],
+  "install": [
+    {
+      "source": "/tmp/so101_gripper_open_stage/scripts/so101_gripper_cycle.py",
+      "relative_path": "scripts/so101_gripper_cycle.py",
+      "sha256": "ad2df28ca9cbb65d322b020073dbec4de0759790d291b0b868ab2d61673ff8aa",
+      "expected_previous_sha256": "0d39eb83cfef18da1c73e0c335a09ac15bb08b6b505d3bfe02de38438708cdab"
+    },
+    {
+      "source": "/tmp/so101_gripper_open_stage/tests/test_so101_gripper_cycle.py",
+      "relative_path": "tests/test_so101_gripper_cycle.py",
+      "sha256": "50b31e89595fd5cfcee3d68a95fc315c91916fb2dd8b83d104db2f982504049e",
+      "expected_previous_sha256": "b856b4e13d3d3e92bc9ad63dea78d2156764e27a2dc379634388bd0714de6a1d"
+    }
+  ],
+  "archive": [
+    {
+      "source": "/tmp/so101_gripper_stop_review.json",
+      "name": "so101_gripper_stop_review.json",
+      "sha256": "3f0ddbf8f0d2e2ab6711e0d3fe822d3f488a46f0c56e5dd381734fd4732bf104"
+    },
+    {
+      "source": "/tmp/so101_gripper_open_stage/baseline_hashes.json",
+      "name": "baseline_hashes.json",
+      "sha256": "f3a05277da18927e2b1c1f328308ae098987e36db11e36ece734c34a292e4bf3"
+    },
+    {
+      "source": "/tmp/so101_gripper_open_stage/candidate_hashes.json",
+      "name": "candidate_hashes.json",
+      "sha256": "75807b9c0e4c7806dab292e8254aaacac99b5e433dc956ffb1b9f1d51d6a04eb"
+    },
+    {
+      "source": "/tmp/so101_gripper_open_stage/gripper_open_only.patch",
+      "name": "gripper_open_only.patch",
+      "sha256": "e97e9995bab3321ca15bed49ff65fd4e915886520185a0577202a51eed80f303"
+    },
+    {
+      "source": "/tmp/so101_gripper_open_stage/test_results.txt",
+      "name": "test_results.txt",
+      "sha256": "363b92a4747cb15bf373abcffd3b0ed4105baf0e754a8138b016373209bb1ad6"
+    },
+    {
+      "source": "/tmp/so101_gripper_open_stage/stopped_evidence_verified.json",
+      "name": "stopped_evidence_verified.json",
+      "sha256": "7afc433100253f0eb9b54e0943893dcaa70c31a886a6e0750c61c7c28cd05594"
+    },
+    {
+      "source": "/tmp/so101_gripper_open_independent_review.json",
+      "name": "so101_gripper_open_independent_review.json",
+      "sha256": "af86cefc49ed44f81e3851a608bbd929490c55ef5f7a5ef516c9720d186a4195"
+    },
+    {
+      "source": "/tmp/so101_gripper_open_independent_tests.txt",
+      "name": "so101_gripper_open_independent_tests.txt",
+      "sha256": "1430d709c6979ddc9aa42b803be87cb0f79b16278dbc0bb3730e065523785e42"
+    },
+    {
+      "source": "/tmp/so101_gripper_open_stage/dependency_hashes.json",
+      "name": "dependency_hashes.json",
+      "sha256": "fb117422985d426a4658e7f0e623bea284d5a91241cbcd424d54520f4c184132"
+    }
+  ]
+}

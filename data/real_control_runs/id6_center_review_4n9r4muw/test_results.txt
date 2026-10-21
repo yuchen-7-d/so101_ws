@@ -1,0 +1,37 @@
+test_bus_whitelist_rejects_other_axes_128_offsets_and_unplanned_goal (test_so101_gripper_cycle.CycleTests) ... ok
+test_cleanup_both_paths_are_attempted_after_one_fails (test_so101_gripper_cycle.CycleTests) ... ok
+test_configuration_change_blocks_next_goal (test_so101_gripper_cycle.CycleTests) ... ok
+test_feedback_and_step_deadlines_include_io (test_so101_gripper_cycle.CycleTests) ... ok
+test_goal_autoenable_is_cleared_before_output_is_nonzero (test_so101_gripper_cycle.CycleTests) ... ok
+test_health_id4_drift_and_control_corruption_abort_without_return (test_so101_gripper_cycle.CycleTests) ... ok
+test_help_does_not_open_serial_and_no_arbitrary_control_flags (test_so101_gripper_cycle.CycleTests) ... ok
+test_journal_creation_failure_is_zero_write_and_later_failures_release (test_so101_gripper_cycle.CycleTests) ... ok
+test_lost_goal_ack_and_interrupt_still_release_without_return (test_so101_gripper_cycle.CycleTests) ... ok
+test_no_disk_append_while_output_is_enabled (test_so101_gripper_cycle.CycleTests) ... ok
+test_no_movement_times_out_and_does_not_return_or_increase_output (test_so101_gripper_cycle.CycleTests) ... ok
+test_open_only_2048_2049_2050_only_hold_current_and_never_negative_step (test_so101_gripper_cycle.CycleTests) ... ok
+test_open_only_accepts_lower_bound_but_rejects_outside_or_missing_proof_before_write (test_so101_gripper_cycle.CycleTests) ... ok
+test_open_only_global_and_current_step_corridors_stop_overshoot (test_so101_gripper_cycle.CycleTests) ... ok
+test_open_only_id5_low_voltage_remains_a_stop_condition (test_so101_gripper_cycle.CycleTests) ... ok
+test_open_only_preview_is_zero_write_with_monotone_path (test_so101_gripper_cycle.CycleTests) ... ok
+test_open_only_success_moves_from_fresh_1891_to_2048_without_closing (test_so101_gripper_cycle.CycleTests) ... ok
+test_open_only_support_drift_reports_details_and_preserves_limit (test_so101_gripper_cycle.CycleTests) ... ok
+test_open_only_timeout_stops_without_further_goal_or_fault_return (test_so101_gripper_cycle.CycleTests) ... ok
+test_open_only_wrong_stopped_source_is_rejected_before_opening_serial (test_so101_gripper_cycle.CycleTests) ... ok
+test_preflight_bad_offset_start_torque_health_are_zero_write (test_so101_gripper_cycle.CycleTests) ... ok
+test_preflight_unstable_position_has_zero_writes (test_so101_gripper_cycle.CycleTests) ... ok
+test_preview_zero_write_and_fixed_path (test_so101_gripper_cycle.CycleTests) ... ok
+test_recheck_after_journal_never_changes_start_or_writes_on_drift (test_so101_gripper_cycle.CycleTests) ... ok
+test_returns_to_actual_fresh_start_not_hardcoded_2048 (test_so101_gripper_cycle.CycleTests) ... ok
+test_saturation_for_one_second_aborts_not_contact_success (test_so101_gripper_cycle.CycleTests) ... ok
+test_settled_span_uses_id6_sample_time_not_late_other_axis_response (test_so101_gripper_cycle.CycleTests) ... ok
+test_small_step_overshoot_stops_on_id6_packet_before_reading_other_axes (test_so101_gripper_cycle.CycleTests) ... ok
+test_stopped_evidence_is_digest_pinned_and_binds_original_sources (test_so101_gripper_cycle.CycleTests) ... ok
+test_success_fixed_cycle_never_targets_closed_prediction_or_other_axes (test_so101_gripper_cycle.CycleTests) ... ok
+test_total_90_second_deadline_stops_before_any_further_goal (test_so101_gripper_cycle.CycleTests) ... ok
+test_two_second_precontact_observation_is_monitored_and_fault_prevents_return (test_so101_gripper_cycle.CycleTests) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.275s
+
+OK

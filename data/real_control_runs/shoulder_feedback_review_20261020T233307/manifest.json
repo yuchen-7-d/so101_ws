@@ -1,0 +1,22 @@
+{
+  "archive": "/home/yu/so101_ws/data/real_control_runs/shoulder_feedback_review_20261020T233307",
+  "hardware_access_by_installer": false,
+  "changed_production_files": [
+    "scripts/so101_relative_probe.py"
+  ],
+  "scope": "Timeout diagnostic text only; no control parameter, threshold, protocol or acceptance changes.",
+  "tests_passed": 52,
+  "artifacts_sha256": {
+    "viewer.py": "956bdb782550cef526293e71e11ffc63bde2a168fbb0ee1ff0d968f436b55dcf",
+    "build_report.py": "b85170c9ead86f21bc5c2fa0e02bf3db51bff34eda0c248bef110bffadbe1b66",
+    "shoulder_feedback_fk.json": "47e930a0f64e5b80eeb69fdd7003af0707eb45e823e6a8c59abf91ef487d9a4a",
+    "shoulder_feedback_comparison.png": "da516547431ae602d9589ed29aa7976ade3731ebc1b37bce192f4bf29f5d4e6f",
+    "reviewed_so101_relative_probe.py": "58583b0271eeab475f340a32e6bb766e1f23d619552e8f759e736e8a93e0b2f3",
+    "test_so101_probe_timeout_diagnostics.py": "1e488e6ebc055cf37ee8d191d3692a7d9fe9ee5eba70eaa208aa26cf9d4ec39c",
+    "review.patch": "f07b37a4f89dea9dfb710701a41bb3c88035314dbca33b9f0b278de19362384e",
+    "baseline_sha256.json": "df69a2ebd3a78bd42fcdeee959f01dc2b2bd81d7c9016c000fa0b0008ab200ff",
+    "test_results.txt": "f8b35981465ce0129ebbb5bdc61085928b4e11f2aebf8610ac5e79d94df18f4c",
+    "baseline_protocol_comparison.json": "b81cf5b2155fd1138cfd6c08774a3a15b5cd2f40f25e0c22471e4ea32f59b61c",
+    "interpretation.json": "8f2a45652124be0d37e33425b4535aa366e367cbac6d8b09955a88585a6df7c0"
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "kind": "so101_pose_f_user_reported_load_transfer_hold",
+  "recorded_at_utc": "2026-10-20T22:40:14.761352+00:00",
+  "source": "user_pasted_terminal_output_and_physical_observation",
+  "device_sample_time": null,
+  "assistant_opened_serial": false,
+  "hardware_writes_sent_by_assistant": 0,
+  "reported_seconds": 30,
+  "reported_output_limit": 100,
+  "target_source": "script_start_fresh_stable_feedback",
+  "start_counts": {
+    "1": 67,
+    "2": 113,
+    "3": 3961,
+    "4": 967,
+    "5": 3299,
+    "6": 3951
+  },
+  "user_observation_zh": "稳住",
+  "support_context": {
+    "prior_support_box_confirmed": true,
+    "preceding_instruction": "hand catches from below; briefly reduce support for 2-3 seconds; restore support before release",
+    "exact_support_transfer_times_reported": false,
+    "residual_hand_support_measured": false,
+    "independent_unsupported_hold_verified": false
+  },
+  "printed_feedback_summary": {
+    "id1_position_min_max": [
+      67,
+      69
+    ],
+    "id2_position_min_max": [
+      113,
+      117
+    ],
+    "id3_position_min_max": [
+      3961,
+      3966
+    ],
+    "id4_position_min_max": [
+      967,
+      967
+    ],
+    "id5_position_min_max": [
+      3299,
+      3299
+    ],
+    "id1_max_printed_output": 24,
+    "id2_max_printed_output": 48,
+    "id3_max_printed_output": 48,
+    "id4_max_printed_output": 0,
+    "id5_max_printed_output": 0,
+    "plateau_remaining_s": [
+      28.3,
+      8.1
+    ],
+    "plateau_shoulder_counts": 117,
+    "plateau_elbow_counts": 3966,
+    "plateau_shoulder_output": 40,
+    "plateau_elbow_output": 48,
+    "plateau_shoulder_error_deg": 0.3515625,
+    "plateau_elbow_error_deg": 0.439453125,
+    "note": "Summary of printed samples, not a complete bus log or measurement of force/torque."
+  },
+  "selected_printed_samples": [
+    {
+      "remaining_s": 30.0,
+      "positions": [
+        67,
+        113,
+        3961,
+        967,
+        3299
+      ],
+      "outputs": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "remaining_s": 28.9,
+      "positions": [
+        67,
+        117,
+        3964,
+        967,
+        3299
+      ],
+      "outputs": [
+        0,
+        48,
+        36,
+        0,
+        0
+      ]
+    },
+    {
+      "remaining_s": 28.3,
+      "positions": [
+        67,
+        117,
+        3966,
+        967,
+        3299
+      ],
+      "outputs": [
+        0,
+        40,
+        48,
+        0,
+        0
+      ]
+    },
+    {
+      "remaining_s": 8.1,
+      "positions": [
+        68,
+        117,
+        3966,
+        967,
+        3299
+      ],
+      "outputs": [
+        0,
+        40,
+        48,
+        0,
+        0
+      ]
+    },
+    {
+      "remaining_s": 7.6,
+      "positions": [
+        68,
+        116,
+        3966,
+        967,
+        3299
+      ],
+      "outputs": [
+        0,
+        32,
+        48,
+        0,
+        0
+      ]
+    },
+    {
+      "remaining_s": 7.1,
+      "positions": [
+        69,
+        115,
+        3966,
+        967,
+        3299
+      ],
+      "outputs": [
+        24,
+        24,
+        48,
+        0,
+        0
+      ]
+    },
+    {
+      "remaining_s": 5.4,
+      "positions": [
+        68,
+        115,
+        3966,
+        967,
+        3299
+      ],
+      "outputs": [
+        0,
+        24,
+        48,
+        0,
+        0
+      ]
+    },
+    {
+      "remaining_s": 2.1,
+      "positions": [
+        68,
+        115,
+        3965,
+        967,
+        3299
+      ],
+      "outputs": [
+        0,
+        24,
+        40,
+        0,
+        0
+      ]
+    },
+    {
+      "remaining_s": 0.5,
+      "positions": [
+        68,
+        115,
+        3966,
+        967,
+        3299
+      ],
+      "outputs": [
+        0,
+        24,
+        48,
+        0,
+        0
+      ]
+    }
+  ],
+  "reported_normal_completion": true,
+  "reported_release_readback": {
+    "1": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "2": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "3": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "4": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    },
+    "5": {
+      "torque_enabled": 0,
+      "output_limit": 0
+    }
+  },
+  "acceptance_scope": "This pose with reported support reduction remained stable; ID2/3 produced sustained output without increasing printed position error. Not full payload, motion, mapping or grasp acceptance.",
+  "active_mapping_modified": false,
+  "model_mapping_verified": false,
+  "automatic_grasp_verified": false,
+  "source_sha256": {
+    "scripts/so101_hold_current.py": "6888f895dcf069791e8f9b2db19a172e73d8697ac6656c439f8b72dbea60f0a3",
+    "scripts/so101_pan_step.py": "3f3b4d626df0c9b59cabaf97e4e5813f5a691fa7f40f22bf699cdf3d684fc4f7",
+    "data/so101_joint_mapping.json": "716caa4a722dc165d870a8122efe68131a045e365e68dda7df05fc08cf24b150",
+    "data/pose_mapping_checks/pose_f_supported_start_glgoy1eh.json": "d6a48b74a65233099c55750f9d415e9ae70b0c5a2925ca98d0848f126b716454",
+    "data/pose_mapping_checks/wrist_model_e_ebbd4505/wrist_candidate_mapping.json": "4940a7707f41d0725c97faa48ddd95d236e26d582518ba869779e5ee9c6cc2dd",
+    "data/pose_mapping_checks/pose_alignment_e_a7974824/audit_approach.py": "2a6e16de873af369137a2f6a6ada2af2f42cc4157d785c53f0390b67f428af71",
+    "simulation/so101/scene_grasp.xml": "657b0387a443b26ba225d826e845a380e86773e5342cd7617187ad0ac67fde73",
+    "simulation/so101/so101_new_calib.xml": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02"
+  }
+}

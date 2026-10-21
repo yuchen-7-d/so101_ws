@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "kind": "so101_pose_height_and_wrist_observation",
+  "pose_label": "E",
+  "recorded_at_utc": "2026-10-20T21:16:44.065632+00:00",
+  "source": "user_supplied_heights_counts_and_photo_in_same_message_after_accidental_pose_change",
+  "device_sample_time": null,
+  "direct_device_read_by_assistant": false,
+  "hardware_writes_sent": 0,
+  "position_counts": {
+    "1": 68,
+    "2": 114,
+    "3": 3913,
+    "4": 899,
+    "5": 3300,
+    "6": 3951
+  },
+  "mode": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0
+  },
+  "torque_enabled": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0
+  },
+  "voltage_V": {
+    "1": 6.7,
+    "2": 6.8,
+    "3": 6.8,
+    "4": 6.7,
+    "5": 6.7,
+    "6": 6.7
+  },
+  "heights_mm": {
+    "shoulder": 125,
+    "elbow": 195,
+    "wrist_pitch": 180
+  },
+  "previous_pose": "data/pose_mapping_checks/pose_d_clearance_zzmgs7xr.json",
+  "delta_counts_from_D": {
+    "1": 0,
+    "2": 25,
+    "3": -95,
+    "4": 53,
+    "5": 1,
+    "6": 0
+  },
+  "delta_encoder_deg_from_D": {
+    "1": 0.0,
+    "2": 2.197265625,
+    "3": -8.349609375,
+    "4": 4.658203125,
+    "5": 0.087890625,
+    "6": 0.0
+  },
+  "mapping_diagnostics": [
+    {
+      "servo_id": 1,
+      "joint_name": "shoulder_pan",
+      "model_angle_nearest_branch_deg": -1.845703125,
+      "model_limits_deg": [
+        -109.99987525598623,
+        109.99987525598623
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 68.0
+    },
+    {
+      "servo_id": 2,
+      "joint_name": "shoulder_lift",
+      "model_angle_nearest_branch_deg": -66.22191908024115,
+      "model_limits_deg": [
+        -99.99999999999959,
+        100.00000000000041
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 114.0
+    },
+    {
+      "servo_id": 3,
+      "joint_name": "elbow_flex",
+      "model_angle_nearest_branch_deg": 76.60393744880703,
+      "model_limits_deg": [
+        -96.82986737710912,
+        96.82986737710912
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 3913.0
+    },
+    {
+      "servo_id": 4,
+      "joint_name": "wrist_flex",
+      "model_angle_nearest_branch_deg": -110.220546875,
+      "model_limits_deg": [
+        -94.99984017946129,
+        94.99984017946129
+      ],
+      "nearest_branch_in_model_range": false,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 899.0
+    },
+    {
+      "servo_id": 5,
+      "joint_name": "wrist_roll",
+      "model_angle_nearest_branch_deg": 0.592734375,
+      "model_limits_deg": [
+        -157.2108697464359,
+        162.78913025356408
+      ],
+      "nearest_branch_in_model_range": true,
+      "note": "最短环绕分支仅用于诊断，不用于选择真实运动路径",
+      "reported_count": 3300.0
+    }
+  ],
+  "height_branch": "shoulder_to_elbow_backward_up_elbow_to_wrist_forward_down_supported_by_current_photo",
+  "height_derived_q2_q3_deg": [
+    -66.85070450734011,
+    75.43755754075703
+  ],
+  "q2_q3_measured_minus_predicted_deg": [
+    -0.6287854270989612,
+    -1.1663799080500041
+  ],
+  "predicted_heights_mm_shoulder_aligned": [
+    125.0,
+    196.01087961324652,
+    176.81535541918373
+  ],
+  "height_residuals_measured_minus_predicted_mm": [
+    0.0,
+    -1.0108796132465159,
+    3.1846445808162684
+  ],
+  "measurement_accuracy_mm": null,
+  "mapping_updated": false,
+  "photo_observation": {
+    "photo_provided_in_chat": true,
+    "photo_local_path": null,
+    "scope": "qualitative_axis_identification_and_upward_wrist_branch_only",
+    "wrist_pitch_axis_W": "center_of_low_four_screw_disk_near_cardboard_box_upper_edge",
+    "wrist_roll_axis_R": "output_axis_center_at_upper_end_of_upright_ID5_motor_where_gripper_base_connects_partly_occluded",
+    "precise_angle_or_reference_not_derived_from_photo": true,
+    "box_adjacent_below_wrist": true,
+    "support_force_not_measured": true
+  },
+  "next_required_measurement": {
+    "quantity": "signed_fore_aft_horizontal_projection_R_minus_W_along_shoulder_elbow_motion_plane",
+    "unit": "mm",
+    "positive_direction": "toward_table_work_area_cardboard_box_side",
+    "negative_direction": "toward_elbow_rear_side",
+    "upward_branch_confirmed_qualitatively_by_photo": true,
+    "model_in_plane_axis_spacing_mm": 61.1,
+    "lateral_offset_mm_excluded_from_measurement": 18.1,
+    "gamma_formula": "acos(delta_forward_mm / 61.1) on upward branch, requires same pose and correct axis centers",
+    "q4_formula_deg": "-8.586853033417 - gamma_deg",
+    "value": null
+  },
+  "model_mapping_verified": false,
+  "not_for_motion": true,
+  "source_hashes": {
+    "data/so101_joint_mapping.json": "716caa4a722dc165d870a8122efe68131a045e365e68dda7df05fc08cf24b150",
+    "data/pose_mapping_checks/pose_d_clearance_zzmgs7xr.json": "a7e90274c6d6f9a58b53328798bfbd095ba67792d58d940277e36826e79e7a62",
+    "simulation/so101/scene_grasp.xml": "657b0387a443b26ba225d826e845a380e86773e5342cd7617187ad0ac67fde73",
+    "simulation/so101/so101_new_calib.xml": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02"
+  }
+}
