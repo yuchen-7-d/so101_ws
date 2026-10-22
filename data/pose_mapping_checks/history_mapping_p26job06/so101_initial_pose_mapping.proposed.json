@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "kind": "so101_historical_pose_mapping",
+  "scope": "historical_diagnostics_only",
+  "execution_available": false,
+  "pose_path": "data/so101_initial_pose.json",
+  "pose_sha256": "f91f9601f769ee23a489d7f50abfb00e872d22e82a373a1f8c3709db4aa44148",
+  "source_mapping_path": "data/pose_mapping_checks/id2_mapping_upx7molo/so101_joint_mapping.before.json",
+  "source_mapping_sha256": "716caa4a722dc165d870a8122efe68131a045e365e68dda7df05fc08cf24b150",
+  "migration_record_path": "data/pose_mapping_checks/id2_mapping_upx7molo/migration.completed.json",
+  "migration_record_sha256": "9ddcbf347cadde87b6394c534b19dfff03ee6671951e2022d78c4f529d10edf0",
+  "mapping_canonical_sha256": "e26404332867a91e927dce4deedaaf75ae1ff7078810df79ef991d026b945e6e",
+  "mapping": {
+    "joint_directions": {
+      "1": {
+        "joint_name": "shoulder_pan",
+        "direction": 1,
+        "direction_verified": true
+      },
+      "2": {
+        "joint_name": "shoulder_lift",
+        "direction": 1,
+        "direction_verified": true
+      },
+      "3": {
+        "joint_name": "elbow_flex",
+        "direction": 1,
+        "direction_verified": true,
+        "direction_evidence": {
+          "path": "data/pose_mapping_checks/pose_b_4mfmwcx_.json",
+          "basis": "user_confirmed_manual_elbow_opening_A_to_B_with_decreasing_ID3_count",
+          "scope": "direction_only_reference_angle_not_revalidated"
+        }
+      },
+      "4": {
+        "joint_name": "wrist_flex",
+        "direction": 1,
+        "direction_verified": true
+      },
+      "5": {
+        "joint_name": "wrist_roll",
+        "direction": 1,
+        "direction_verified": true
+      }
+    },
+    "joint_references": {
+      "1": {
+        "position_count": 89,
+        "model_angle_deg": 0.0
+      },
+      "2": {
+        "position_count": 824,
+        "model_angle_deg": -3.8195753302411504
+      },
+      "3": {
+        "position_count": 3092,
+        "model_angle_deg": 4.445734323807031
+      },
+      "4": {
+        "position_count": 2046,
+        "model_angle_deg": -9.41
+      },
+      "5": {
+        "position_count": 3325,
+        "model_angle_deg": 2.79
+      }
+    },
+    "model_mapping_verified": false,
+    "reference_calibration": {
+      "status": "partial_height_estimate",
+      "servo_ids": [
+        2,
+        3
+      ],
+      "evidence": "data/pose_mapping_checks/pose_c_height_check_yk2xcwzq.json",
+      "fit_pose": "B",
+      "independent_check_pose": "C",
+      "measurement_accuracy_mm": null,
+      "scope": "shoulder_and_elbow_reference_estimates_only_no_TCP_or_hardware_execution_acceptance"
+    }
+  },
+  "note": "保存迁移前诊断的解释依据；不改写旧姿态，不证明历史或当前实机映射已标定。"
+}

@@ -1,0 +1,8 @@
+{
+  "status": "prepared",
+  "planner_before_sha256": "a03e536c0331df863a01b8c83d13df62b7c383128df9a3fe5785f06e669f17f0",
+  "planner_after_sha256": "bb6abd9e08a3738fa0d85f78fcdec8da1c3adf84a766338941447ff7223dda58",
+  "history_sha256": "3de2876c111570bd4b852237188cbcb7a1d41ece3a82bd8333a18675f262b70b",
+  "register_writes": 0,
+  "execution_available": false
+}

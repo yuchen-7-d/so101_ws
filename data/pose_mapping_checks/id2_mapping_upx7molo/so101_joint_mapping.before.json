@@ -1,0 +1,69 @@
+{
+  "joint_directions": {
+    "1": {
+      "joint_name": "shoulder_pan",
+      "direction": 1,
+      "direction_verified": true
+    },
+    "2": {
+      "joint_name": "shoulder_lift",
+      "direction": 1,
+      "direction_verified": true
+    },
+    "3": {
+      "joint_name": "elbow_flex",
+      "direction": 1,
+      "direction_verified": true,
+      "direction_evidence": {
+        "path": "data/pose_mapping_checks/pose_b_4mfmwcx_.json",
+        "basis": "user_confirmed_manual_elbow_opening_A_to_B_with_decreasing_ID3_count",
+        "scope": "direction_only_reference_angle_not_revalidated"
+      }
+    },
+    "4": {
+      "joint_name": "wrist_flex",
+      "direction": 1,
+      "direction_verified": true
+    },
+    "5": {
+      "joint_name": "wrist_roll",
+      "direction": 1,
+      "direction_verified": true
+    }
+  },
+  "joint_references": {
+    "1": {
+      "position_count": 89,
+      "model_angle_deg": 0.0
+    },
+    "2": {
+      "position_count": 824,
+      "model_angle_deg": -3.8195753302411504
+    },
+    "3": {
+      "position_count": 3092,
+      "model_angle_deg": 4.445734323807031
+    },
+    "4": {
+      "position_count": 2046,
+      "model_angle_deg": -9.41
+    },
+    "5": {
+      "position_count": 3325,
+      "model_angle_deg": 2.79
+    }
+  },
+  "model_mapping_verified": false,
+  "reference_calibration": {
+    "status": "partial_height_estimate",
+    "servo_ids": [
+      2,
+      3
+    ],
+    "evidence": "data/pose_mapping_checks/pose_c_height_check_yk2xcwzq.json",
+    "fit_pose": "B",
+    "independent_check_pose": "C",
+    "measurement_accuracy_mm": null,
+    "scope": "shoulder_and_elbow_reference_estimates_only_no_TCP_or_hardware_execution_acceptance"
+  }
+}

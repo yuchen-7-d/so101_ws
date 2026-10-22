@@ -1,0 +1,144 @@
+{
+  "schema_version": 2,
+  "kind": "so101_gripper_two_point_fit_with_third_observation",
+  "status": "offline_candidate_not_verified",
+  "execution_available": false,
+  "register_writes": 0,
+  "model_mapping_verified": false,
+  "observations": [
+    {
+      "snapshot_path": "/home/yu/so101_ws/data/pose_mapping_checks/current_start_fwz93sbe.json",
+      "snapshot_sha256": "a027da0c13b029b15485522c1aea6d179561897bff4c5cc49ad84e147e41adf2",
+      "position_counts": 1913,
+      "gap_mm": 25.0,
+      "offset_raw": 3901,
+      "fixed_tip_inward_distance_mm": 10.0,
+      "instrument": "not_reported",
+      "measurement_uncertainty_mm": null,
+      "gap_source": "user report; counts from paired read-only snapshot",
+      "fitted_model_rad": 0.08242984604236259,
+      "fitted_model_deg": 4.722882284140528,
+      "predicted_gap_mm": 25.6328116,
+      "residual_model_minus_measured_mm": 0.6328116000000001,
+      "role": "fit"
+    },
+    {
+      "snapshot_path": "/home/yu/so101_ws/data/pose_mapping_checks/current_start_9a6wqtfh.json",
+      "snapshot_sha256": "03136bfa9d52c14ac903e15f4a04f6144c84b926c17dea3f5c42c46cd9159614",
+      "position_counts": 2047,
+      "gap_mm": 41.0,
+      "offset_raw": 3901,
+      "fixed_tip_inward_distance_mm": 10.0,
+      "instrument": "not_reported",
+      "measurement_uncertainty_mm": null,
+      "gap_source": "user report; counts from paired read-only snapshot",
+      "fitted_model_rad": 0.2879832716190385,
+      "fitted_model_deg": 16.500226034140525,
+      "predicted_gap_mm": 40.3965724,
+      "residual_model_minus_measured_mm": -0.6034276000000034,
+      "role": "fit"
+    },
+    {
+      "role": "holdout",
+      "snapshot_path": "/home/yu/so101_ws/data/pose_mapping_checks/current_start_hc2lrx8k.json",
+      "snapshot_sha256": "ba36a70964a8004cf63a2f3404d5a20e88763d36ce747ad0129cc141550dfcca",
+      "position_counts": 2144,
+      "gap_mm": 52.0,
+      "offset_raw": 3901,
+      "fixed_tip_inward_distance_mm": 10.0,
+      "instrument": "not_reported",
+      "measurement_uncertainty_mm": null,
+      "gap_source": "user report after manual opening; stable read-only snapshot",
+      "predicted_model_rad": 0.4367794080439457,
+      "predicted_model_deg": 25.02561665914053,
+      "predicted_gap_mm": 49.683931,
+      "residual_model_minus_measured_mm": -2.316068999999999
+    }
+  ],
+  "mapping_candidate": {
+    "servo_id": 6,
+    "offset_raw": 3901,
+    "reference_counts": 1913,
+    "reference_model_rad": 0.08242984604236259,
+    "direction": 1,
+    "radians_per_count": 0.0015339807878856412,
+    "measured_count_interval": [
+      1913,
+      2144
+    ]
+  },
+  "model_preview_open_count": 2144,
+  "fit": {
+    "method": "equal-weight least squares of section gaps; one reference angle; fixed scale",
+    "max_abs_residual_mm": 0.6328116000000001,
+    "first_point_prediction_at_second_mm": 39.734408200000004,
+    "second_observation_minus_first_prediction_mm": 1.2655917999999957,
+    "individual_reference_angles_rad": [
+      0.07347311976766376,
+      0.09056097489329315
+    ],
+    "independent_validation": false,
+    "fit_observation_counts": [
+      1913,
+      2047
+    ],
+    "third_point_used_for_refit": false
+  },
+  "section": {
+    "frame": "gripper",
+    "local_y_m": -0.000218121,
+    "local_z_m": -0.09442529334434892,
+    "direction": [
+      1,
+      0,
+      0
+    ],
+    "method": "visual STL cross-section; not minimum collision distance"
+  },
+  "nominal_box_width_mm": 40.0,
+  "nominal_total_clearance_at_second_mm": 1.0,
+  "input_files": {
+    "/home/yu/so101_ws/simulation/so101/so101_new_calib.xml": "a65f2fe17fadfb66710a1e29cf2168c0a726e803d43ae56a6f7c17d0063f6b02",
+    "/home/yu/so101_ws/simulation/so101/assets/wrist_roll_follower_so101_v1.stl": "4b17b410a12d64ec39554abc3e8054d8a97384b2dc4a8d95a5ecb2a93670f5f4",
+    "/home/yu/so101_ws/simulation/so101/assets/moving_jaw_so101_v1.stl": "785a9dded2f474bc1d869e0d3dae398a3dcd9c0c345640040472210d2861fa9d"
+  },
+  "builder_files": {
+    "/tmp/so101_gripper_two_point_JcFkcN/build_candidate.py": "b26215b595e3ecfd96a83481e3217d7018ce6b6a0eb9f2be19ce18051fd4b32c",
+    "/tmp/so101_gripper_gap_fit_RhX2qy/fit_gap.py": "1f896f0e0a4a119ad09ea01e1beefcee8e59a15c5cf711cd5bfa9972017dd5d9"
+  },
+  "limitations": [
+    "Reference angle and encoder scale fitted to first two measurements are unchanged.",
+    "Third measurement is a held-out observation with a reported residual; no accuracy acceptance.",
+    "Ruler accuracy, lateral alignment, backlash and printed geometry differences remain unquantified.",
+    "Observed count interval is only for offline pose analysis; it is not an actuator limit.",
+    "2144 was positioned manually; no powered motion to it has been verified.",
+    "No live target freshness, force, held-object or real grasp acceptance."
+  ],
+  "third_point_check": {
+    "counts": 2144,
+    "predicted_gap_mm": 49.683931,
+    "measured_gap_mm": 52.0,
+    "measured_minus_predicted_mm": 2.316068999999999,
+    "prediction_angle_rad": 0.4367794080439457,
+    "prediction_angle_deg": 25.02561665914053,
+    "status": "residual_reported_no_accuracy_acceptance",
+    "acceptance_threshold_mm": null,
+    "validation_passed": null,
+    "not_used_for_fitting": true
+  },
+  "motor_validation": {
+    "new_point_acquired_manually": true,
+    "motion_to_2144_verified": false,
+    "hardware_commands_generated": false,
+    "controller_limits_changed": false
+  },
+  "parent_candidate": {
+    "path": "/home/yu/so101_ws/data/gripper_gap_candidate_20261022.json",
+    "sha256": "3164cba3abb90860d302d42db2e4cfaa23251a57055a433476b2880a9fde293f"
+  },
+  "third_point_builder_files": {
+    "/tmp/so101_gripper_third_point__wwphcl1/prepare_third_point.py": "4615e62284df8f122e7665315e0f4f6a3bb9f86c62cf6aafb7cfdf87f6c3e37b",
+    "/tmp/so101_gripper_gap_fit_RhX2qy/fit_gap.py": "1f896f0e0a4a119ad09ea01e1beefcee8e59a15c5cf711cd5bfa9972017dd5d9"
+  },
+  "nominal_total_clearance_at_third_mm": 12.0
+}

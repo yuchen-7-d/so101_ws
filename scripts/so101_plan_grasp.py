@@ -105,6 +105,35 @@ def candidate_transform(center, yaw_deg, reference):
     return center_model, rotation
 
 
+def load_historical_pose_mapping(workspace, pose_bytes):
+    """原始姿态只用与它绑定的原映射解释；不得回退到当前映射。"""
+    path = Path(workspace) / 'data/so101_initial_pose_mapping.json'
+    source_bytes = path.read_bytes()
+    record = json.loads(source_bytes)
+    if (record.get('schema_version') != 1
+            or record.get('kind') != 'so101_historical_pose_mapping'
+            or record.get('scope') != 'historical_diagnostics_only'
+            or record.get('execution_available') is not False):
+        raise ValueError('历史姿态映射记录格式或用途不匹配')
+    pose_hash = hashlib.sha256(pose_bytes).hexdigest()
+    if record.get('pose_sha256') != pose_hash:
+        raise ValueError('历史姿态文件已变化，不能沿用旧映射绑定')
+    mapping = record['mapping']
+    canonical = json.dumps(mapping, sort_keys=True, separators=(',', ':'),
+                           ensure_ascii=False, allow_nan=False).encode('utf-8')
+    mapping_hash = hashlib.sha256(canonical).hexdigest()
+    if record.get('mapping_canonical_sha256') != mapping_hash:
+        raise ValueError('历史姿态映射内容与摘要不匹配')
+    return mapping, {
+        'source': str(path),
+        'source_sha256': hashlib.sha256(source_bytes).hexdigest(),
+        'pose_sha256': pose_hash,
+        'mapping_canonical_sha256': mapping_hash,
+        'scope': 'historical_diagnostics_only',
+        'is_live_start': False,
+    }
+
+
 def mapping_diagnostics(mapping, pose, limits):
     diagnostics = []
     for i, name in enumerate(ARM_NAMES, 1):
@@ -257,10 +286,12 @@ def build_report(workspace, target, allow_offline=False, max_age=2.0, now=None):
     pose_path = workspace / 'data/so101_initial_pose.json'
     reference = json.loads(reference_path.read_text())
     mapping = json.loads(mapping_path.read_text())
-    pose = json.loads(pose_path.read_text())
+    pose_bytes = pose_path.read_bytes()
+    pose = json.loads(pose_bytes)
+    historical_mapping, historical_reference = load_historical_pose_mapping(workspace, pose_bytes)
     center_model, rotation = candidate_transform(center, yaw, reference)
     planner = CandidatePlanner(workspace / 'simulation/so101/scene_grasp.xml', mapping)
-    diagnostics = mapping_diagnostics(mapping, pose, planner.limits)
+    diagnostics = mapping_diagnostics(historical_mapping, pose, planner.limits)
     samples = planner.plan(center_model, rotation, size)
     return {'schema_version': 1, 'kind': 'so101_candidate_grasp_plan', 'status': 'not_for_motion',
             'writes_sent': 0, 'execution_available': False, 'generated_at_unix_s': time.time(),
@@ -271,6 +302,7 @@ def build_report(workspace, target, allow_offline=False, max_age=2.0, now=None):
                                       'base_reference_status': reference.get('status'),
                                       'verified': False},
             'historical_pose_diagnostics': diagnostics,
+            'historical_pose_mapping_reference': historical_reference,
             'historical_pose_source': str(pose_path), 'live_start_pose_available': False,
             'ik_seed': 'model_zero_not_live_pose', 'model_gripper_angle_rad': .6,
             'model_ik_complete': len(samples) == 41 and all(s['ik_ok'] for s in samples),
@@ -284,8 +316,9 @@ def build_report(workspace, target, allow_offline=False, max_age=2.0, now=None):
                 '40mm纸盒对应夹爪开口、接触和抬升保夹条件',
                 '从当前起点出发的路径和实际环境碰撞验证',
                 '统一六轴的闭环实机执行器'],
-            'files': {str(p): hashlib.sha256(p.read_bytes()).hexdigest()
-                      for p in (reference_path, mapping_path, pose_path)}}
+            'files': {**{str(p): hashlib.sha256(p.read_bytes()).hexdigest()
+                         for p in (reference_path, mapping_path, pose_path)},
+                      historical_reference['source']: historical_reference['source_sha256']}}
 
 
 def main(argv=None):
@@ -302,7 +335,8 @@ def main(argv=None):
     output_path = args.output or args.workspace / 'data/box_grasp_plan.json'
     protected_sources = [target_path] + [args.workspace / name for name in (
         'data/base_reference_initial.json', 'data/so101_joint_mapping.json',
-        'data/so101_initial_pose.json', 'data/calibration/table_plane_pose.npz',
+        'data/so101_initial_pose.json', 'data/so101_initial_pose_mapping.json',
+        'data/calibration/table_plane_pose.npz',
         'simulation/so101/scene_grasp.xml', 'simulation/so101/so101_new_calib.xml')]
     for source_path in protected_sources:
         if (output_path.resolve() == source_path.resolve()
@@ -343,6 +377,7 @@ def main(argv=None):
                   f"误差={last['position_error_mm']:.3f}mm/{last['orientation_error_deg']:.2f}度, "
                   f"IK={last['ik_ok']}")
     print(f"全部模型IK完成：{record['model_ik_complete']}；采样穿透接触：{record['sampled_open_gripper_contact_count']}")
+    print('历史姿态诊断采用与旧姿态绑定的原映射；它不是当前起点。')
     for joint in record['historical_pose_diagnostics']:
         if not joint['nearest_branch_in_model_range']:
             print(f"历史姿态映射冲突 ID{joint['servo_id']}: "

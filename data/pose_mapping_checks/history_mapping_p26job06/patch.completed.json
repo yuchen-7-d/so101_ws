@@ -1,0 +1,10 @@
+{
+  "status": "historical_mapping_bound",
+  "planner_sha256": "bb6abd9e08a3738fa0d85f78fcdec8da1c3adf84a766338941447ff7223dda58",
+  "history_sha256": "3de2876c111570bd4b852237188cbcb7a1d41ece3a82bd8333a18675f262b70b",
+  "history_pose_unchanged": true,
+  "current_mapping_unchanged": true,
+  "model_mapping_verified": false,
+  "execution_available": false,
+  "register_writes": 0
+}

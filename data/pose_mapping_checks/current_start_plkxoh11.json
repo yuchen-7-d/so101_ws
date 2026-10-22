@@ -1,0 +1,1197 @@
+{
+  "schema_version": 1,
+  "kind": "so101_current_start_with_configuration",
+  "backend": "serial",
+  "operation": "read_state",
+  "success": true,
+  "status": "read_only_start_snapshot",
+  "execution_available": false,
+  "model_mapping_verified": false,
+  "register_writes": 0,
+  "error": "",
+  "started_at_ns": 1792700348016098486,
+  "states": [
+    {
+      "servo_id": 1,
+      "position_counts": 8,
+      "goal_counts": 0,
+      "speed_raw": 0,
+      "output_raw": 0,
+      "torque_enabled": false,
+      "output_limit": 1000,
+      "voltage": 6.8,
+      "temperature_c": 25,
+      "status": 0,
+      "configuration_locked": true,
+      "sampled_at_ns": 1792700348452492846,
+      "raw_hex": "0000000000000000e80300000000000108000000000044190000",
+      "model_angle_nearest_branch_deg": -7.119140625
+    },
+    {
+      "servo_id": 2,
+      "position_counts": 956,
+      "goal_counts": 0,
+      "speed_raw": 0,
+      "output_raw": 0,
+      "torque_enabled": false,
+      "output_limit": 0,
+      "voltage": 6.7,
+      "temperature_c": 26,
+      "status": 0,
+      "configuration_locked": true,
+      "sampled_at_ns": 1792700348453512084,
+      "raw_hex": "00000000000000000000000000000001bc0300000000431a0000",
+      "model_angle_nearest_branch_deg": -96.01684095524115
+    },
+    {
+      "servo_id": 3,
+      "position_counts": 4074,
+      "goal_counts": 0,
+      "speed_raw": 0,
+      "output_raw": 0,
+      "torque_enabled": false,
+      "output_limit": 1000,
+      "voltage": 6.8,
+      "temperature_c": 25,
+      "status": 0,
+      "configuration_locked": true,
+      "sampled_at_ns": 1792700348454531279,
+      "raw_hex": "0000000000000000e803000000000001ea0f0000000044190000",
+      "model_angle_nearest_branch_deg": 90.75432807380703
+    },
+    {
+      "servo_id": 4,
+      "position_counts": 1942,
+      "goal_counts": 0,
+      "speed_raw": 0,
+      "output_raw": 0,
+      "torque_enabled": false,
+      "output_limit": 1000,
+      "voltage": 6.7,
+      "temperature_c": 26,
+      "status": 0,
+      "configuration_locked": true,
+      "sampled_at_ns": 1792700348455467153,
+      "raw_hex": "0000000000000000e803000000000001960700000000431a0000",
+      "model_angle_nearest_branch_deg": -18.550625
+    },
+    {
+      "servo_id": 5,
+      "position_counts": 3282,
+      "goal_counts": 0,
+      "speed_raw": 0,
+      "output_raw": 0,
+      "torque_enabled": false,
+      "output_limit": 1000,
+      "voltage": 6.7,
+      "temperature_c": 25,
+      "status": 0,
+      "configuration_locked": true,
+      "sampled_at_ns": 1792700348456436594,
+      "raw_hex": "0000000000000000e803000000000001d20c0000000043190000",
+      "model_angle_nearest_branch_deg": -0.989296875
+    },
+    {
+      "servo_id": 6,
+      "position_counts": 2047,
+      "goal_counts": 2048,
+      "speed_raw": 0,
+      "output_raw": 0,
+      "torque_enabled": false,
+      "output_limit": 0,
+      "voltage": 6.7,
+      "temperature_c": 26,
+      "status": 0,
+      "configuration_locked": true,
+      "sampled_at_ns": 1792700348457241836,
+      "raw_hex": "00010008000032000000000000000001ff0700000000431a0000"
+    }
+  ],
+  "events": [
+    {
+      "elapsed_s": 0.4270663059942308,
+      "phase": "start_feedback_3",
+      "servo_id": 1,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff010402281ab6",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff011c000000000000000000e8030000000000010800000000004419000091",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4281006389937829,
+      "phase": "start_feedback_3",
+      "servo_id": 2,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff020402281ab5",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff021c0000000000000000000000000000000001bc0300000000431a0000c4",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4291163219968439,
+      "phase": "start_feedback_3",
+      "servo_id": 3,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff030402281ab4",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff031c000000000000000000e803000000000001ea0f00000000441900009e",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.43013395099842455,
+      "phase": "start_feedback_3",
+      "servo_id": 4,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff040402281ab3",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff041c000000000000000000e803000000000001960700000000431a0000f9",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4310701149952365,
+      "phase": "start_feedback_3",
+      "servo_id": 5,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff050402281ab2",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff051c000000000000000000e803000000000001d20c0000000043190000b8",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.43204109999351203,
+      "phase": "start_feedback_3",
+      "servo_id": 6,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff060402281ab1",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff061c0000010008000032000000000000000001ff0700000000431a00003e",
+      "alarm": 0
+    }
+  ],
+  "capture_events": [
+    {
+      "elapsed_s": 6.756999937351793e-06,
+      "phase": "start_config_before",
+      "servo_id": 1,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0104020028d0",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff012a00030a000903010000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c88d",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.002862830995582044,
+      "phase": "start_config_before",
+      "servo_id": 2,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0204020028cf",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff022a00030a000903020000010000ff0f465028e8030c2c2f20200010000101f401019d0c0014c8500ac8c8e2",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.0054660519963363186,
+      "phase": "start_config_before",
+      "servo_id": 3,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0304020028ce",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff032a00030a000903030000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c889",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.008239471993874758,
+      "phase": "start_config_before",
+      "servo_id": 4,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0404020028cd",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff042a00030a000903040000010000ff0f465028e8030c2c2f20200010000101f401011e070014c8500ac8c862",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.010965983994537964,
+      "phase": "start_config_before",
+      "servo_id": 5,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0504020028cc",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff052a00030a000903050000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c885",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.013691419997485355,
+      "phase": "start_config_before",
+      "servo_id": 6,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0604020028cb",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff062a00030a000903060000010000ff0f465028e8030c2c2f20200010000101f401013d0f0014c8500ac8c837",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.01645150299736997,
+      "phase": "start_feedback_1",
+      "servo_id": 1,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff010402281ab6",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff011c000000000000000000e8030000000000010800000000004319000092",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.017087104999518488,
+      "phase": "start_feedback_1",
+      "servo_id": 2,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff020402281ab5",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff021c0000000000000000000000000000000001bc0300000000431a0000c4",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.017732565000187606,
+      "phase": "start_feedback_1",
+      "servo_id": 3,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff030402281ab4",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff031c000000000000000000e803000000000001ea0f00000000441900009e",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.018339616995945107,
+      "phase": "start_feedback_1",
+      "servo_id": 4,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff040402281ab3",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff041c000000000000000000e803000000000001960700000000431a0000f9",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.01895519199752016,
+      "phase": "start_feedback_1",
+      "servo_id": 5,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff050402281ab2",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff051c000000000000000000e803000000000001d20c0000000043190000b8",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.01954189899697667,
+      "phase": "start_feedback_1",
+      "servo_id": 6,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff060402281ab1",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff061c0000010008000032000000000000000001ff0700000000431b00003d",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.22045304399944143,
+      "phase": "start_feedback_2",
+      "servo_id": 1,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff010402281ab6",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff011c000000000000000000e8030000000000010800000000004319000092",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.22161982399848057,
+      "phase": "start_feedback_2",
+      "servo_id": 2,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff020402281ab5",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff021c0000000000000000000000000000000001bc030000000043190000c5",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.22264360699773533,
+      "phase": "start_feedback_2",
+      "servo_id": 3,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff030402281ab4",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff031c000000000000000000e803000000000001ea0f00000000441900009e",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.22367591099464335,
+      "phase": "start_feedback_2",
+      "servo_id": 4,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff040402281ab3",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff041c000000000000000000e803000000000001960700000000431a0000f9",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.2247237720002886,
+      "phase": "start_feedback_2",
+      "servo_id": 5,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff050402281ab2",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff051c000000000000000000e803000000000001d20c0000000043190000b8",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.22573900199495256,
+      "phase": "start_feedback_2",
+      "servo_id": 6,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff060402281ab1",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff061c0000010008000032000000000000000001ff0700000000441b00003c",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4270663059942308,
+      "phase": "start_feedback_3",
+      "servo_id": 1,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff010402281ab6",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff011c000000000000000000e8030000000000010800000000004419000091",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4281006389937829,
+      "phase": "start_feedback_3",
+      "servo_id": 2,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff020402281ab5",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff021c0000000000000000000000000000000001bc0300000000431a0000c4",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4291163219968439,
+      "phase": "start_feedback_3",
+      "servo_id": 3,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff030402281ab4",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff031c000000000000000000e803000000000001ea0f00000000441900009e",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.43013395099842455,
+      "phase": "start_feedback_3",
+      "servo_id": 4,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff040402281ab3",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff041c000000000000000000e803000000000001960700000000431a0000f9",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4310701149952365,
+      "phase": "start_feedback_3",
+      "servo_id": 5,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff050402281ab2",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff051c000000000000000000e803000000000001d20c0000000043190000b8",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.43204109999351203,
+      "phase": "start_feedback_3",
+      "servo_id": 6,
+      "instruction": 2,
+      "parameters_hex": "281a",
+      "request_hex": "ffff060402281ab1",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff061c0000010008000032000000000000000001ff0700000000431a00003e",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.43281857699912507,
+      "phase": "start_config_after",
+      "servo_id": 1,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0104020028d0",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff012a00030a000903010000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c88d",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.435679762995278,
+      "phase": "start_config_after",
+      "servo_id": 2,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0204020028cf",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff022a00030a000903020000010000ff0f465028e8030c2c2f20200010000101f401019d0c0014c8500ac8c8e2",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4384524579945719,
+      "phase": "start_config_after",
+      "servo_id": 3,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0304020028ce",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff032a00030a000903030000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c889",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4413058159989305,
+      "phase": "start_config_after",
+      "servo_id": 4,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0404020028cd",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff042a00030a000903040000010000ff0f465028e8030c2c2f20200010000101f401011e070014c8500ac8c862",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.4440829449958983,
+      "phase": "start_config_after",
+      "servo_id": 5,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0504020028cc",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff052a00030a000903050000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c885",
+      "alarm": 0
+    },
+    {
+      "elapsed_s": 0.446859362993564,
+      "phase": "start_config_after",
+      "servo_id": 6,
+      "instruction": 2,
+      "parameters_hex": "0028",
+      "request_hex": "ffff0604020028cb",
+      "acknowledged": true,
+      "bytes_sent": 8,
+      "response_hex": "ffff062a00030a000903060000010000ff0f465028e8030c2c2f20200010000101f401013d0f0014c8500ac8c837",
+      "alarm": 0
+    }
+  ],
+  "feedback_rounds": [
+    {
+      "index": 1,
+      "states": [
+        {
+          "servo_id": 1,
+          "position_counts": 8,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.7,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348041532934,
+          "raw_hex": "0000000000000000e80300000000000108000000000043190000"
+        },
+        {
+          "servo_id": 2,
+          "position_counts": 956,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 0,
+          "voltage": 6.7,
+          "temperature_c": 26,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348042186432,
+          "raw_hex": "00000000000000000000000000000001bc0300000000431a0000"
+        },
+        {
+          "servo_id": 3,
+          "position_counts": 4074,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.8,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348042808948,
+          "raw_hex": "0000000000000000e803000000000001ea0f0000000044190000"
+        },
+        {
+          "servo_id": 4,
+          "position_counts": 1942,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.7,
+          "temperature_c": 26,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348043410277,
+          "raw_hex": "0000000000000000e803000000000001960700000000431a0000"
+        },
+        {
+          "servo_id": 5,
+          "position_counts": 3282,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.7,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348044012255,
+          "raw_hex": "0000000000000000e803000000000001d20c0000000043190000"
+        },
+        {
+          "servo_id": 6,
+          "position_counts": 2047,
+          "goal_counts": 2048,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 0,
+          "voltage": 6.7,
+          "temperature_c": 27,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348044575664,
+          "raw_hex": "00010008000032000000000000000001ff0700000000431b0000"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "states": [
+        {
+          "servo_id": 1,
+          "position_counts": 8,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.7,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348246008867,
+          "raw_hex": "0000000000000000e80300000000000108000000000043190000"
+        },
+        {
+          "servo_id": 2,
+          "position_counts": 956,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 0,
+          "voltage": 6.7,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348247040016,
+          "raw_hex": "00000000000000000000000000000001bc030000000043190000"
+        },
+        {
+          "servo_id": 3,
+          "position_counts": 4074,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.8,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348248072914,
+          "raw_hex": "0000000000000000e803000000000001ea0f0000000044190000"
+        },
+        {
+          "servo_id": 4,
+          "position_counts": 1942,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.7,
+          "temperature_c": 26,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348249120704,
+          "raw_hex": "0000000000000000e803000000000001960700000000431a0000"
+        },
+        {
+          "servo_id": 5,
+          "position_counts": 3282,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.7,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348250134276,
+          "raw_hex": "0000000000000000e803000000000001d20c0000000043190000"
+        },
+        {
+          "servo_id": 6,
+          "position_counts": 2047,
+          "goal_counts": 2048,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 0,
+          "voltage": 6.8,
+          "temperature_c": 27,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348251126664,
+          "raw_hex": "00010008000032000000000000000001ff0700000000441b0000"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "states": [
+        {
+          "servo_id": 1,
+          "position_counts": 8,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.8,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348452492846,
+          "raw_hex": "0000000000000000e80300000000000108000000000044190000",
+          "model_angle_nearest_branch_deg": -7.119140625
+        },
+        {
+          "servo_id": 2,
+          "position_counts": 956,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 0,
+          "voltage": 6.7,
+          "temperature_c": 26,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348453512084,
+          "raw_hex": "00000000000000000000000000000001bc0300000000431a0000",
+          "model_angle_nearest_branch_deg": -96.01684095524115
+        },
+        {
+          "servo_id": 3,
+          "position_counts": 4074,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.8,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348454531279,
+          "raw_hex": "0000000000000000e803000000000001ea0f0000000044190000",
+          "model_angle_nearest_branch_deg": 90.75432807380703
+        },
+        {
+          "servo_id": 4,
+          "position_counts": 1942,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.7,
+          "temperature_c": 26,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348455467153,
+          "raw_hex": "0000000000000000e803000000000001960700000000431a0000",
+          "model_angle_nearest_branch_deg": -18.550625
+        },
+        {
+          "servo_id": 5,
+          "position_counts": 3282,
+          "goal_counts": 0,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 1000,
+          "voltage": 6.7,
+          "temperature_c": 25,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348456436594,
+          "raw_hex": "0000000000000000e803000000000001d20c0000000043190000",
+          "model_angle_nearest_branch_deg": -0.989296875
+        },
+        {
+          "servo_id": 6,
+          "position_counts": 2047,
+          "goal_counts": 2048,
+          "speed_raw": 0,
+          "output_raw": 0,
+          "torque_enabled": false,
+          "output_limit": 0,
+          "voltage": 6.7,
+          "temperature_c": 26,
+          "status": 0,
+          "configuration_locked": true,
+          "sampled_at_ns": 1792700348457241836,
+          "raw_hex": "00010008000032000000000000000001ff0700000000431a0000"
+        }
+      ]
+    }
+  ],
+  "config_before": {
+    "1": {
+      "raw_hex": "030a000903010000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 1,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 0,
+      "offset_signed": 0,
+      "sampled_at_ns": 1792700348027308963
+    },
+    "2": {
+      "raw_hex": "030a000903020000010000ff0f465028e8030c2c2f20200010000101f401019d0c0014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 2,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 3229,
+      "offset_signed": -1181,
+      "sampled_at_ns": 1792700348029943943
+    },
+    "3": {
+      "raw_hex": "030a000903030000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 3,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 0,
+      "offset_signed": 0,
+      "sampled_at_ns": 1792700348032718262
+    },
+    "4": {
+      "raw_hex": "030a000903040000010000ff0f465028e8030c2c2f20200010000101f401011e070014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 4,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 1822,
+      "offset_signed": 1822,
+      "sampled_at_ns": 1792700348035433459
+    },
+    "5": {
+      "raw_hex": "030a000903050000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 5,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 0,
+      "offset_signed": 0,
+      "sampled_at_ns": 1792700348038158444
+    },
+    "6": {
+      "raw_hex": "030a000903060000010000ff0f465028e8030c2c2f20200010000101f401013d0f0014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 6,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 3901,
+      "offset_signed": -1853,
+      "sampled_at_ns": 1792700348040906423
+    }
+  },
+  "config_after": {
+    "1": {
+      "raw_hex": "030a000903010000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 1,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 0,
+      "offset_signed": 0,
+      "sampled_at_ns": 1792700348460133148
+    },
+    "2": {
+      "raw_hex": "030a000903020000010000ff0f465028e8030c2c2f20200010000101f401019d0c0014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 2,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 3229,
+      "offset_signed": -1181,
+      "sampled_at_ns": 1792700348462900661
+    },
+    "3": {
+      "raw_hex": "030a000903030000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 3,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 0,
+      "offset_signed": 0,
+      "sampled_at_ns": 1792700348465772337
+    },
+    "4": {
+      "raw_hex": "030a000903040000010000ff0f465028e8030c2c2f20200010000101f401011e070014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 4,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 1822,
+      "offset_signed": 1822,
+      "sampled_at_ns": 1792700348468551875
+    },
+    "5": {
+      "raw_hex": "030a000903050000010000ff0f465028e8030c2c2f20200010000101f4010100000014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 5,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 0,
+      "offset_signed": 0,
+      "sampled_at_ns": 1792700348471316967
+    },
+    "6": {
+      "raw_hex": "030a000903060000010000ff0f465028e8030c2c2f20200010000101f401013d0f0014c8500ac8c8",
+      "firmware_version_bytes": [
+        3,
+        10
+      ],
+      "model_version_bytes": [
+        9,
+        3
+      ],
+      "endianness": 0,
+      "id": 6,
+      "reply_level": 1,
+      "mode": 0,
+      "phase": 12,
+      "resolution": 1,
+      "minimum": 0,
+      "maximum": 4095,
+      "offset_raw": 3901,
+      "offset_signed": -1853,
+      "sampled_at_ns": 1792700348474161724
+    }
+  },
+  "events_scope": "events contains the selected final six feedback reads; capture_events contains every request",
+  "scope": "static_read_only_snapshot_not_motion_or_power_cycle_verification",
+  "mapping_path": "/home/yu/so101_ws/data/so101_joint_mapping.json",
+  "mapping_sha256": "dd714b5934ce60d3c8162c64ce31ac72e76bf1c89ad139da81ea56fce92cdeb8",
+  "mapping_snapshot": {
+    "joint_directions": {
+      "1": {
+        "joint_name": "shoulder_pan",
+        "direction": 1,
+        "direction_verified": true
+      },
+      "2": {
+        "joint_name": "shoulder_lift",
+        "direction": 1,
+        "direction_verified": true
+      },
+      "3": {
+        "joint_name": "elbow_flex",
+        "direction": 1,
+        "direction_verified": true,
+        "direction_evidence": {
+          "path": "data/pose_mapping_checks/pose_b_4mfmwcx_.json",
+          "basis": "user_confirmed_manual_elbow_opening_A_to_B_with_decreasing_ID3_count",
+          "scope": "direction_only_reference_angle_not_revalidated"
+        }
+      },
+      "4": {
+        "joint_name": "wrist_flex",
+        "direction": 1,
+        "direction_verified": true
+      },
+      "5": {
+        "joint_name": "wrist_roll",
+        "direction": 1,
+        "direction_verified": true
+      }
+    },
+    "joint_references": {
+      "1": {
+        "position_count": 89,
+        "model_angle_deg": 0.0
+      },
+      "2": {
+        "position_count": 2005,
+        "model_angle_deg": -3.8195753302411504
+      },
+      "3": {
+        "position_count": 3092,
+        "model_angle_deg": 4.445734323807031
+      },
+      "4": {
+        "position_count": 2046,
+        "model_angle_deg": -9.41
+      },
+      "5": {
+        "position_count": 3325,
+        "model_angle_deg": 2.79
+      }
+    },
+    "model_mapping_verified": false,
+    "reference_calibration": {
+      "status": "partial_height_estimate",
+      "servo_ids": [
+        2,
+        3
+      ],
+      "evidence": "data/pose_mapping_checks/pose_c_height_check_yk2xcwzq.json",
+      "fit_pose": "B",
+      "independent_check_pose": "C",
+      "measurement_accuracy_mm": null,
+      "scope": "shoulder_and_elbow_reference_estimates_only_no_TCP_or_hardware_execution_acceptance"
+    }
+  },
+  "expected_offsets_raw": {
+    "1": 0,
+    "2": 3229,
+    "3": 0,
+    "4": 1822,
+    "5": 0,
+    "6": 3901
+  },
+  "mapping_reference_counts": {
+    "1": 89,
+    "2": 2005,
+    "3": 3092,
+    "4": 2046,
+    "5": 3325
+  },
+  "configuration_matches_mapping": true,
+  "position_spread_limit_counts": 4,
+  "finished_at_ns": 1792700348480997304
+}

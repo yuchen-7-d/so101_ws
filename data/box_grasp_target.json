@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "so101_box_grasp_target",
   "source_mode": "live",
-  "session_id": "85e8d4d2-fb00-48a4-9cd9-f459a8123439",
+  "session_id": "6493a37c-8d8b-4823-bb0b-1eb8bd725337",
   "source": {
     "camera_device": "/dev/video0",
     "buffer_size_one_requested": true,
@@ -16,19 +16,19 @@
   },
   "calibration": {
     "path": "/home/yu/so101_ws/data/calibration/table_plane_pose.npz",
-    "sha256": "79b3bc87c32610e7d99d7ec4b416919d50649d3b8cff3f720094e7daf70fcb7e",
+    "sha256": "62f9231f77bc0f21f6911847815d3ed1cdf625c7e188124da4a381785cab3822",
     "image_size": [
       640,
       480
     ],
     "transform_direction": "board_to_camera",
-    "pose_rms_px": 0.24714232981204987
+    "pose_rms_px": 0.30722376704216003
   },
-  "frame_id": 1122,
-  "captured_at_unix_s": 1792528496.5862596,
-  "published_at_unix_s": 1792528496.614195,
+  "frame_id": 33958,
+  "captured_at_unix_s": 1792650197.2189095,
+  "published_at_unix_s": 1792650197.240751,
   "valid": false,
-  "reason": "stopped",
+  "reason": "interrupted",
   "coordinate_system": "table",
   "size_m": [
     0.04,
